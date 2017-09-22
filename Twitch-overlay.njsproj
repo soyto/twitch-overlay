@@ -16,10 +16,24 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Compile Include="overlay\app\app.overlay.js" />
+    <Compile Include="panel\app\app.panel.js" />
+    <Content Include=".bowerrc" />
     <Content Include=".gitignore" />
+    <Content Include="node_app\.gitkeep" />
+    <Content Include="overlay\index.html" />
     <Content Include="package.json" />
     <Compile Include="app.js" />
+    <Content Include="panel\index.html" />
     <Content Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bower\" />
+    <Folder Include="node_app\" />
+    <Folder Include="overlay\" />
+    <Folder Include="overlay\app\" />
+    <Folder Include="panel\" />
+    <Folder Include="panel\app\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->
