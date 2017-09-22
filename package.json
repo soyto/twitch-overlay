@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/soyto/twitch-overlay/issues"
   },
-  "homepage": "https://github.com/soyto/twitch-overlay#readme"
+  "homepage": "https://github.com/soyto/twitch-overlay#readme",
+  "dependencies": {
+    "express": "^4.15.4"
+  }
 }
