@@ -3,6 +3,7 @@ module.exports = new (function () {
   'use strict';
   var $this = this;
 
+  var fs = require('fs');
   var uglify = require('uglify-js');
   var grunt = require('grunt');
   var $log = require('./log');
@@ -44,6 +45,8 @@ module.exports = new (function () {
 
     });
 
+    return $this;
+
   };
 
   //Uglify overlay sources
@@ -79,6 +82,13 @@ module.exports = new (function () {
 
     });
 
+    return $this;
+
+  };
+
+  //Start watchers
+  $this.startWatchers = function () {
+    return $this.panel_watch().overlay_watch();
   };
 
   //Stop watchers

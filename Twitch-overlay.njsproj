@@ -21,12 +21,19 @@
     <Content Include="node_app\.gitkeep" />
     <Content Include="package.json" />
     <Compile Include="node_app\lib\log.js" />
+    <Compile Include="node_app\lib\sass.js" />
     <Compile Include="node_app\lib\uglify.js" />
+    <Compile Include="public\assets\overlayApp\app.js" />
+    <Compile Include="public\assets\overlayApp\controllers\root.controller.js" />
+    <Compile Include="public\assets\overlayApp\services\helper.services.js" />
     <Compile Include="public\assets\panelApp\app.js" />
     <Compile Include="public\assets\panelApp\controllers\root.controller.js" />
     <Compile Include="public\assets\panelApp\router.js" />
     <Compile Include="public\assets\panelApp\services\helper.services.js" />
     <Compile Include="server.js" />
+    <Content Include="public\assets\sass\common\_parameters.scss" />
+    <Content Include="public\assets\sass\overlay\overlay.scss" />
+    <Content Include="public\assets\sass\panel\panel.scss" />
     <Content Include="public\index.html" />
     <Content Include="public\overlay\overlay.html" />
     <Content Include="README.md" />
@@ -36,11 +43,18 @@
     <Folder Include="public\" />
     <Folder Include="node_app\" />
     <Folder Include="public\assets\" />
+    <Folder Include="public\assets\overlayApp\controllers\" />
+    <Folder Include="public\assets\overlayApp\directives\" />
+    <Folder Include="public\assets\overlayApp\services\" />
+    <Folder Include="public\assets\sass\" />
     <Folder Include="public\assets\overlayApp\" />
     <Folder Include="public\assets\panelApp\" />
     <Folder Include="public\assets\panelApp\controllers\" />
     <Folder Include="public\assets\panelApp\directives\" />
     <Folder Include="public\assets\panelApp\services\" />
+    <Folder Include="public\assets\sass\common\" />
+    <Folder Include="public\assets\sass\overlay\" />
+    <Folder Include="public\assets\sass\panel\" />
     <Folder Include="public\overlay\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />

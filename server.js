@@ -10,6 +10,7 @@
 
   var $log = require('./node_app/lib/log');
   var $uglify = require('./node_app/lib/uglify');
+  var $sass = require('./node_app/lib/sass');
 
   app.use('/', express.static('public'));
 
@@ -20,8 +21,19 @@
   });
 
   //Uglify files
-  $uglify.panel().overlay();
+  $uglify.panel().overlay().startWatchers();
 
+  //Sass
+  $sass.panel().overlay().startWatchers();
+
+
+  app.get('/v1/overlay/init', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify({
+      'width': 800,
+      'height': 600
+    }));
+  });
 
  
 

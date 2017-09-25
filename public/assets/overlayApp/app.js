@@ -2,6 +2,6 @@
 (function (ng) {
   'use strict';
 
-  ng.module('panelApp', []);
+  ng.module('overlayApp', []);
 
 })(angular);

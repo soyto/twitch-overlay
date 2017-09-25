@@ -1,13 +1,28 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="es" data-ng-app="overlayApp" data-ng-controller="root.controller">
 <head>
-    <meta charset="utf-8" />
-    <title>Overlay</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title data-ng-bind="rootData.title"></title>
+
+  <link rel="stylesheet" href="/assets/bower/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/dist/overlay.min.css" />
 </head>
 <body>
-    Overlay
 
-    <script type="text/javascript" src="/assets/bower/angular/angular.min.js"></script>
-    <script type="text/javascript" src="/overlay/app/app.overlay.js"></script>
-</body>
+
+  <div class="bgScreen" data-ng-style="{'width': rootData.screen.width + 'px', 'height': rootData.screen.height}">
+
+  </div>
+
+
+  <script type="text/javascript" src="/assets/bower/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="/assets/bower/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/assets/bower/angular/angular.min.js"></script>
+
+  <!-- Panel sources -->
+  <script type="text/javascript" src="/assets/dist/overlayApp.min.js"></script>
+  </body>
 </html>
