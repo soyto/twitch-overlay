@@ -3,3 +3,6 @@ node_modules/*
 
 public/assets/bower/
 public/assets/bower/*
+
+.vs/
+.vs/*
