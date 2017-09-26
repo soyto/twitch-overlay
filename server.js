@@ -17,7 +17,7 @@
   //When user acess overlay
   app.get('/overlay', (req, res) => {
     res.set('Content-type', 'text/html; charset=UTF-8');
-    res.send(grunt.file.read('public/overlay/overlay.html'));
+    res.send(grunt.file.read('public/overlay.html'));
   });
 
   //Uglify files
