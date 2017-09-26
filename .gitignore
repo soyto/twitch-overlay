@@ -4,6 +4,11 @@ node_modules/*
 public/assets/bower/
 public/assets/bower/*
 
+#Data
+data/
+data/*
+
+
 #Remove Visual studio folder
 .vs/
 .vs/*

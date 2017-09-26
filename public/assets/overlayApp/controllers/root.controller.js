@@ -38,9 +38,9 @@
 
       _rootData['title'] = 'Soyto\'s Twitch overlay';
 
-      $http.get('/v1/overlay/init').then(function (data) {
-        _rootData['screen']['width'] = data['data']['width'];
-        _rootData['screen']['height'] = data['data']['height'];
+      $http.get('/v1/panel/window').then(function ($$response) {
+        _rootData['screen']['width'] = $$response['data']['width'];
+        _rootData['screen']['height'] = $$response['data']['height'];
       });
     }
 

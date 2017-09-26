@@ -44,15 +44,36 @@
   <!-- Contents -->
   <div class="container">
     <div class="row">
-      <div class="col-md-12 panel-main">
-        <h1>Hello world</h1>
 
-        <div class="form-group">
-          <label>Elemento uno</label>
-          <input type="text" class="form-control" data-ng-model="data.title.value" />
+      <!-- Overlay dimensions -->
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-header">
+            <h4 class="panel-heading">Ancho y alto del overlay</h4>
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <label>Ancho</label>
+              <input type="number"
+                     class="form-control"
+                     data-ng-keydown="onKeydown_window_width($event)"
+                     data-ng-model="data.window.width.value">
+            </div>
+            <div class="form-group">
+              <label>Alto</label>
+              <input type="number"
+                     class="form-control"
+                     data-ng-keydown="onKeydown_window_height($event)"
+                     data-ng-model="data.window.height.value">
+            </div>
+          </div>
+          <div class="panel-footer">
+            <button class="btn btn-default" data-ng-click="onClick_window_restoreDefaults() ">Restaurar</button>
+            <button class="btn btn-primary" data-ng-click="onClick_window_saveData()">Guardar</button>
+          </div>
         </div>
+      </div><!-- /Overlay dimensions -->
 
-      </div>
     </div>
   </div><!-- /Contents -->
 
