@@ -6,6 +6,8 @@ module.exports = (function() {
   var bodyParser = require('body-parser');
   var router = express.Router();
 
+  var $overlaySocket = require('./../../sockets/overlay.socket');
+
   //panel middleware
   router.use(bodyParser.json());
 

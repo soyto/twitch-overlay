@@ -7,11 +7,15 @@
   var grunt = require('grunt');
   var express = require('express');
   var app = express();
+  var server = require('http').Server(app);
 
   var $log = require('./node_app/lib/log');
   var $uglify = require('./node_app/lib/uglify');
   var $sass = require('./node_app/lib/sass');
   var $storage = require('./node_app/persistence/jsonSorage');
+  var $overlaySocket = require('./node_app/sockets/overlay.socket');
+
+  $overlaySocket.init(server);
 
   app.use('/', express.static('public'));
 
@@ -30,7 +34,7 @@
   //Panel routing
   app.use('/v1/panel', require('./node_app/routing/panel'));
 
-  app.listen(80, function () {
+  server.listen(80, function () {
     $log.debug('Server start in port %s', colors.cyan(80));
   });
 })();

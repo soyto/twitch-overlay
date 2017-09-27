@@ -11,6 +11,7 @@
     var $rs = $hs.$instantiate('$rootScope');
     var $interval = $hs.$instantiate('$interval');
     var $http = $hs.$instantiate('$http');
+    var $socketService = $hs.$instantiate('socket.service');
 
     var _rootData = {
       'title': '',
@@ -42,8 +43,15 @@
         _rootData['screen']['width'] = $$response['data']['width'];
         _rootData['screen']['height'] = $$response['data']['height'];
       });
+
+      $socketService.init();
     }
 
+
+    $sc.$on('socket.window', function($$event, data) {
+      _rootData['screen']['width'] = data['width'];
+      _rootData['screen']['height'] = data['height'];
+    });
 
     /* ----------------------------------- EVENTS HANDLERS ------------------------------------- */
   }
