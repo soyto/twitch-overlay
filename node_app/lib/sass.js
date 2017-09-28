@@ -9,6 +9,8 @@ module.exports = new (function () {
   var sass = require('node-sass');
 
   var $log = require('./log');
+  var $overlaySocket = require('./../sockets/overlay.socket');
+
 
   var _panelWatcher = null;
   var _overlayWathcer = null;
@@ -63,7 +65,8 @@ module.exports = new (function () {
 
       $log.debug('Overlay sass executed');
       grunt.file.write('public/assets/dist/overlay.min.css', result.css);
-      });
+      $overlaySocket.reload();
+    });
 
     return $this;
   };

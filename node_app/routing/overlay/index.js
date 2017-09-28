@@ -5,14 +5,14 @@ module.exports = (function() {
   var express = require('express');
   var bodyParser = require('body-parser');
   var router = express.Router();
-
-  var $overlaySocket = require('./../../sockets/overlay.socket');
+  var $persistence = require('../../persistence/jsonSorage');
 
   //panel middleware
   router.use(bodyParser.json());
 
-  router.use('/window', require('./window'));
-  router.use('/alert', require('./alert'));
+  router.get('/', ($$req, $$res) => {
+    $$res.json($persistence.getProfile());
+  });
 
   return router;
 })();

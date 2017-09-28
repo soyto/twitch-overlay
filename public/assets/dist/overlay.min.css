@@ -2,4 +2,11 @@ body {
   background-color: transparent; }
 
 .bgScreen {
-  background-color: rgba(255, 0, 0, 0.25); }
+  /* background-color: rgba(255, 0, 0, .25); */ }
+
+.sto_alert {
+  font-size: 2em;
+  height: 100px;
+  text-align: center; }
+  .sto_alert strong {
+    font-size: 1.5 em; }

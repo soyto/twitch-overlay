@@ -7,6 +7,7 @@ module.exports = new (function () {
   var uglify = require('uglify-js');
   var grunt = require('grunt');
   var $log = require('./log');
+  var $overlaySocket = require('./../sockets/overlay.socket');
 
   var _panelWatcher = null;
   var _overlayWathcer = null;
@@ -63,6 +64,7 @@ module.exports = new (function () {
 
     $log.debug('overlay files uglified');
 
+    $overlaySocket.reload();
     return $this;
   };
 

@@ -8,17 +8,15 @@
 
   function _fn($sc, $hs) {
 
+    var $log = $hs.$instantiate('$log');
     var $rs = $hs.$instantiate('$rootScope');
     var $interval = $hs.$instantiate('$interval');
     var $http = $hs.$instantiate('$http');
+    var $overlayService = $hs.$instantiate('overlay.service');
     var $socketService = $hs.$instantiate('socket.service');
 
     var _rootData = {
       'title': '',
-      'screen': {
-        'width': null,
-        'height': null
-      }
     };
 
     var _data = {
@@ -39,19 +37,9 @@
 
       _rootData['title'] = 'Soyto\'s Twitch overlay';
 
-      $http.get('/v1/panel/window').then(function ($$response) {
-        _rootData['screen']['width'] = $$response['data']['width'];
-        _rootData['screen']['height'] = $$response['data']['height'];
-      });
-
+      $overlayService.init();
       $socketService.init();
     }
-
-
-    $sc.$on('socket.window', function($$event, data) {
-      _rootData['screen']['width'] = data['width'];
-      _rootData['screen']['height'] = data['height'];
-    });
 
     /* ----------------------------------- EVENTS HANDLERS ------------------------------------- */
   }

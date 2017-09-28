@@ -12,6 +12,7 @@
     var $rs = $hs.$instantiate('$rootScope');
     var $interval = $hs.$instantiate('$interval');
     var $windowService = $hs.$instantiate('window.service');
+    var $alertService = $hs.$instantiate('alert.service');
 
 
     var _rootData = {
@@ -29,6 +30,14 @@
           'value': -1,
           '$$value': -1,
           'pristine': false
+        }
+      },
+      'alert': {
+        'title': {
+          'value': null
+        },
+        'text': {
+          'value': null
         }
       }
     };
@@ -65,6 +74,19 @@
 
       $windowService.set(_data['window']['width']['value'], _data['window']['height']['value']);
     };
+
+
+
+    //Alerts
+    $sc.onClick_alertSend = function() {
+      if(_data['alert']['title']['value'].trim().length === 0) { return; }
+
+      $alertService.send(_data['alert']['title']['value'], _data['alert']['text']['value']);
+
+      _data['alert']['title']['value'] = '';
+      _data['alert']['text']['value'] = '';
+    };
+
 
     /* ----------------------------------- PRIVATE FUNCTIONS ----------------------------------- */
 

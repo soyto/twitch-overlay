@@ -33,6 +33,7 @@
 
   //Panel routing
   app.use('/v1/panel', require('./node_app/routing/panel'));
+  app.use('/v1/overlay', require('./node_app/routing/overlay'));
 
   server.listen(80, function () {
     $log.debug('Server start in port %s', colors.cyan(80));

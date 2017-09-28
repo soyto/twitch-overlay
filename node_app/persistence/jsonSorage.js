@@ -21,6 +21,11 @@ module.exports = new (function() {
     };
   }
 
+  //Returns whole profile
+  $this.getProfile = function() {
+    return _data;
+  };
+
   //Gets window data
   $this.getWindowData = function() {
     return _data['window'];

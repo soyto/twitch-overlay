@@ -25,12 +25,22 @@ module.exports = (function() {
       return _sockets.length;
     };
 
+    //Reloads overlay
+    $this.reload = function() {
+      _io.emit('reload');
+    };
+
     //Sets width to all connected clients
     $this.setWindow = function(width, height) {
       _io.emit('window', {
         'width': width,
         'height': height
       });
+    };
+
+    //Sends an alert to the overlay
+    $this.sendAlert = function(data) {
+      _io.emit('alert', data);
     };
 
     //On client connection
