@@ -1,12 +1,43 @@
+/* Overlay sizes */
+.bgScreen {
+  position: relative;
+  overflow: hidden; }
+  .bgScreen .overlay-right {
+    position: absolute;
+    right: 0;
+    width: 300px;
+    height: 100vh; }
+  .bgScreen .overlay-left {
+    position: absolute;
+    left: 0;
+    width: 300px;
+    height: 100vh; }
+  .bgScreen .overlay-top {
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100px; }
+  .bgScreen .overlay-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
+    height: 75px; }
+
 body {
   background-color: transparent; }
 
-.bgScreen {
-  /* background-color: rgba(255, 0, 0, .25); */ }
-
-.sto_alert {
-  font-size: 2em;
-  height: 100px;
-  text-align: center; }
-  .sto_alert strong {
-    font-size: 1.5 em; }
+.sto-notifications-container {
+  margin-top: 20px;
+  margin-right: 15px; }
+  .sto-notifications-container .sto-notification {
+    color: #fff;
+    background-color: #880000;
+    padding: 0;
+    box-shadow: 4px 4px 9px 0 rgba(0, 0, 0, 0.5); }
+    .sto-notifications-container .sto-notification h4.sto-notification-header {
+      background-color: #ff2222;
+      padding: 10px;
+      text-align: center;
+      margin-bottom: 0; }
+    .sto-notifications-container .sto-notification .sto-notification-body {
+      padding: 10px; }

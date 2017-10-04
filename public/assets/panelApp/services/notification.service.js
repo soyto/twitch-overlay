@@ -13,9 +13,9 @@
 
     //Sets window info
     $this.send = function(title, text) {
-      return $http.post('/v1/panel/alert', {
+      return $http.post('/v1/panel/notification', {
         'title': title,
-        'text': text
+        'body': text
       });
     };
 

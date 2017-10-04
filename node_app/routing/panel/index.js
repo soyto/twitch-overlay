@@ -12,7 +12,7 @@ module.exports = (function() {
   router.use(bodyParser.json());
 
   router.use('/window', require('./window'));
-  router.use('/alert', require('./alert'));
+  router.use('/notification', require('./notification'));
 
   return router;
 })();

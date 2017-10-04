@@ -4,6 +4,7 @@ module.exports = (function() {
 
   var express = require('express');
   var router = express.Router();
+  var $log = require('../../lib/log');
   var $overlaySocket = require('../../sockets/overlay.socket');
 
   //Get window data
@@ -13,10 +14,17 @@ module.exports = (function() {
 
   //Sets data
   router.post('/', (req, res) => {
-    $overlaySocket.sendAlert({
-      'title': req['body']['title'],
-      'text': req['body']['text']
+    var _title = req['body']['title'];
+    var _body = req['body']['body'];
+
+    $log.debug('Sending notification [%s]: %s', _title, _body);
+
+    $overlaySocket.sendNotification({
+      'title': _title,
+      'body': _body
     });
+
+    res.end();
   });
 
   return router;

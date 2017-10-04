@@ -1,0 +1,6 @@
+<div class="sto-notifications-container">
+  <div class="alert sto-notification" data-ng-repeat="notification in data.elements">
+    <h4 class="sto-notification-header">{{ notification.title }}</h4>
+    <div class="sto-notification-body" data-ng-show="notification.body">{{ notification.body }}</div>
+  </div>
+</div>

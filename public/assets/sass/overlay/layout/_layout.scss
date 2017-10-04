@@ -1,0 +1,35 @@
+.bgScreen {
+  position: relative;
+  overflow: hidden;
+
+  .overlay-right {
+    position: absolute;
+    right: 0;
+    width: $overlayRightWidth;
+    height: $overlayRightHeight;
+  }
+
+  .overlay-left {
+    position: absolute;
+    left: 0;
+    width: $overlayLeftWidth;
+    height: $overlayLeftHeight;
+
+  }
+
+  .overlay-top {
+    position: absolute;
+    top: 0;
+    width: $overlayBottomWidth;
+    height: $overlayTopHeight;
+
+  }
+
+  .overlay-bottom {
+    position: absolute;
+    bottom: 0;
+    width: $overlayBottomWidth;
+    height: $overlayBottomHeight;
+  }
+
+}

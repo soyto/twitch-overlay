@@ -18,8 +18,8 @@
     $this.init = function() {
       var _socket = $io.connect('http://localhost/overlay');
 
-      _socket.on('alert', function($$data) {
-        $rs.$broadcast('socket.alert', $$data);
+      _socket.on('notification', function($$data) {
+        $rs.$broadcast('socket.notification', $$data);
       });
 
       _socket.on('reload', function() {

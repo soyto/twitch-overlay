@@ -1,17 +1,15 @@
 @import '../common/_parameters';
 
+@import '_overlay.parameters';
+@import 'layout/_layout';
+
+
+
 body{
     background-color: transparent;
 }
 
-.bgScreen {
-   /* background-color: rgba(255, 0, 0, .25); */
-}
-.sto_alert {
-    font-size: 2em;
-    height: 100px;
-    text-align: center;
-    strong {
-        font-size: 1.5 em;
-    }
-}
+
+//Import directives
+@import 'directives/stoNotifications';
+

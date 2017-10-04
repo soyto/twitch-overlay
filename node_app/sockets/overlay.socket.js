@@ -39,8 +39,8 @@ module.exports = (function() {
     };
 
     //Sends an alert to the overlay
-    $this.sendAlert = function(data) {
-      _io.emit('alert', data);
+    $this.sendNotification = function(data) {
+      _io.emit('notification', data);
     };
 
     //On client connection
