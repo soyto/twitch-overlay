@@ -12,10 +12,11 @@
     var $http = $hs.$instantiate('$http');
 
     //Sets window info
-    $this.send = function(title, text) {
+    $this.send = function(title, text, type) {
       return $http.post('/v1/panel/notification', {
         'title': title,
-        'body': text
+        'body': text,
+        'type': type
       });
     };
 

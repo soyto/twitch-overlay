@@ -22,14 +22,13 @@
       }
     }
 
-    color: #fff;
-    background-color: #880000;
+    color: $stoNotification_default_color;
+    background-color: $stoNotification_default_bgBody;
     padding: 0;
     box-shadow: 4px 4px 9px 0 rgba(0, 0, 0, 0.5);
 
-
     h4.sto-notification-header {
-      background-color: lighten(#880000, 30);
+      background-color: $stoNotification_default_bgHeader;
       padding: 10px;
       text-align: center;
       margin-bottom: 0;
@@ -39,5 +38,13 @@
       padding: 10px;
     }
 
+    &.sto-notification-blue {
+      color: $stoNotification_blue_color;
+      background-color: $stoNotification_blue_bgBody;
+
+      h4.sto-notification-header {
+        background-color: $stoNotification_blue_bgHeader;
+      }
+    }
   }
 }

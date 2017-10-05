@@ -16,12 +16,14 @@ module.exports = (function() {
   router.post('/', (req, res) => {
     var _title = req['body']['title'];
     var _body = req['body']['body'];
+    var _type = req['body']['type'];
 
-    $log.debug('Sending notification [%s]: %s', _title, _body);
+    $log.debug('Sending notification [%s:%s]: %s', _title, _type, _body);
 
     $overlaySocket.sendNotification({
       'title': _title,
-      'body': _body
+      'body': _body,
+      'type': _type
     });
 
     res.end();

@@ -40,6 +40,9 @@
         },
         'text': {
           'value': null
+        },
+        'type': {
+          'value': false
         }
       }
     };
@@ -82,18 +85,17 @@
       $windowService.set(_data['window']['width']['value'], _data['window']['height']['value']);
     };
 
-
-
     //Alerts
     $sc.onClick_alertSend = function() {
 
       var _title = _data['alert']['title']['value'];
       var _body = _data['alert']['text']['value'];
+      var _type = _data['alert']['type']['value'] ? 'sto-notification-blue' : null;
 
       if(_title.trim().length === 0) { return; }
 
       //Send notification
-      $alertService.send(_title, _body);
+      $alertService.send(_title, _body, _type);
 
       _data['alert']['title']['value'] = '';
       _data['alert']['text']['value'] = '';

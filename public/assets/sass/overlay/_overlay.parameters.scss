@@ -1,3 +1,12 @@
+/* Notifications */
+$stoNotification_default_color: #fff;
+$stoNotification_default_bgBody: #880000;
+$stoNotification_default_bgHeader: lighten($stoNotification_default_bgBody, 30);
+
+$stoNotification_blue_color: #fff;
+$stoNotification_blue_bgBody: #0404B4;
+$stoNotification_blue_bgHeader: lighten($stoNotification_blue_bgBody, 30);
+
 
 /* Overlay sizes */
 
