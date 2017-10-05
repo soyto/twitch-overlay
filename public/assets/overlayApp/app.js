@@ -2,7 +2,9 @@
 (function (ng) {
   'use strict';
 
-  ng.module('overlayApp', []);
+  ng.module('overlayApp', [
+    'ngAnimate'
+  ]);
 
 
   ng.module('overlayApp')

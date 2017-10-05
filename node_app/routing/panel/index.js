@@ -13,6 +13,7 @@ module.exports = (function() {
 
   router.use('/window', require('./window'));
   router.use('/notification', require('./notification'));
+  router.use('/reload', require('./reload'));
 
   return router;
 })();

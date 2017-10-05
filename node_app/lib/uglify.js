@@ -63,8 +63,7 @@ module.exports = new (function () {
     grunt.file.write('public/assets/dist/overlayApp.min.js', _uglifyResult.code);
 
     $log.debug('overlay files uglified');
-
-    $overlaySocket.reload();
+    
     return $this;
   };
 

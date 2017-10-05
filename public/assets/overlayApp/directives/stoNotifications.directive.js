@@ -14,7 +14,7 @@
     function _controller($sc, $element) {
 
       var _data = {
-        'elements': [{'title': 'HOLA', 'body': 'Mundo largo. etc...'}],
+        'elements': [],
       };
 
       _init();
@@ -27,8 +27,6 @@
       //Initialize
       function _init() {
         $sc['data'] = _data;
-
-        $log.debug('scope %o', $sc);
       }
 
 

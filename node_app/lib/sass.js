@@ -65,7 +65,6 @@ module.exports = new (function () {
 
       $log.debug('Overlay sass executed');
       grunt.file.write('public/assets/dist/overlay.min.css', result.css);
-      $overlaySocket.reload();
     });
 
     return $this;

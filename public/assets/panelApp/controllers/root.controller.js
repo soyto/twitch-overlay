@@ -13,6 +13,7 @@
     var $interval = $hs.$instantiate('$interval');
     var $windowService = $hs.$instantiate('window.service');
     var $alertService = $hs.$instantiate('alert.service');
+    var $reloadService = $hs.$instantiate('reload.service');
 
 
     var _rootData = {
@@ -45,6 +46,11 @@
     _init();
 
     /* ----------------------------------- SCOPE FUNCTIONS ------------------------------------- */
+
+    //Relaod overlay
+    $sc.onClick_reload = function() {
+      $reloadService.reload();
+    };
 
     //When user wants to restore server values
     $sc.onClick_window_restoreDefaults = function() {
