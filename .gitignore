@@ -1,8 +1,13 @@
 node_modules/
 node_modules/*
 
+#Remove bower files
 public/assets/bower/
 public/assets/bower/*
+
+#Remove dist files
+public/assets/dist/
+public/assets/dist/*
 
 #Data
 data/
