@@ -4,6 +4,24 @@
 
   .sto-notification {
 
+    &.ng-enter {
+      position: relative;
+      right: -500px;
+      transition: all cubic-bezier(0, .75, 0.75, 1.25)  .5s;
+
+      &.ng-enter-active {
+        right: 0;
+      }
+    }
+
+    &.ng-leave {
+      transition: all ease-in .5s;
+
+      &.ng-leave-active {
+        opacity: 0;
+      }
+    }
+
     color: #fff;
     background-color: #880000;
     padding: 0;

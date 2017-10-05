@@ -14,6 +14,7 @@
     var $windowService = $hs.$instantiate('window.service');
     var $alertService = $hs.$instantiate('alert.service');
     var $reloadService = $hs.$instantiate('reload.service');
+    var $timeout = $hs.$instantiate('$timeout');
 
 
     var _rootData = {
@@ -85,9 +86,14 @@
 
     //Alerts
     $sc.onClick_alertSend = function() {
-      if(_data['alert']['title']['value'].trim().length === 0) { return; }
 
-      $alertService.send(_data['alert']['title']['value'], _data['alert']['text']['value']);
+      var _title = _data['alert']['title']['value'];
+      var _body = _data['alert']['text']['value'];
+
+      if(_title.trim().length === 0) { return; }
+
+      //Send notification
+      $alertService.send(_title, _body);
 
       _data['alert']['title']['value'] = '';
       _data['alert']['text']['value'] = '';

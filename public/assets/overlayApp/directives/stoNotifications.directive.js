@@ -10,6 +10,7 @@
   function _fn($hs) {
 
     var $log = $hs.$instantiate('$log');
+    var $timeout = $hs.$instantiate('$timeout');
 
     function _controller($sc, $element) {
 
@@ -35,9 +36,12 @@
       //When we receive a notification
       $sc.$on('socket.notification', function($$event, $$notification) {
         $log.debug('notification recieved %o', $$notification);
-        $sc.$apply(function() {
-          _data['elements'].push($$notification);
-        });
+        _data['elements'].push($$notification);
+
+        $timeout(function() {
+          var _idx = _data['elements'].indexOf($$notification);
+          _data['elements'].splice(_idx, 1);
+        }, 2000);
       });
     }
 

@@ -19,7 +19,9 @@
       var _socket = $io.connect('http://localhost/overlay');
 
       _socket.on('notification', function($$data) {
-        $rs.$broadcast('socket.notification', $$data);
+        $rs.$apply(function() {
+          $rs.$broadcast('socket.notification', $$data);
+        });
       });
 
       _socket.on('reload', function() {
