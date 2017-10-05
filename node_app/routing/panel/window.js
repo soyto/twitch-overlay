@@ -16,7 +16,7 @@ module.exports = (function() {
   router.post('/', (req, res) => {
     $persistence.setWindowData(req['body']['width'], req['body']['height']);
     $overlaySocket.setWindow(req['body']['width'], req['body']['height']);
-    res.send();
+    res.end();
   });
 
   return router;
