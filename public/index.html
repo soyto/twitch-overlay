@@ -47,6 +47,28 @@
 
       <!-- Overlay dimensions -->
       <div class="col-xs-4">
+
+        <div class="panel panel-default">
+          <div class="panel-header">
+            <h4 class="panel-heading">Twitch</h4>
+            <div class="panel-body">
+
+              <div class="media" data-ng-cloak data-ng-show="data.twitch.userData != null">
+                <div class="media-left">
+                  <img class="media-object"
+                       style="max-width: 50px; max-height: 50px"
+                       data-ng-src="{{ data.twitch.userData.profile_image_url }}">
+                </div>
+                <div class="media-body">
+                  <h4>{{ data.twitch.userData.display_name }}</h4>
+                </div>
+              </div>
+
+              <a data-ng-href="{{ data.twitch.loginURI }}">Logearse en twitch</a>
+            </div>
+          </div>
+        </div>
+
         <div class="panel panel-default">
           <div class="panel-header">
             <h4 class="panel-heading">Ancho y alto del overlay</h4>

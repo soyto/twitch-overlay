@@ -5,7 +5,7 @@ module.exports = (function() {
   var express = require('express');
   var router = express.Router();
   var $persistence = require('../../persistence/jsonSorage');
-  var $overlaySocket = require('../../sockets/overlay.socket');
+  var $overlaySocket = require('../../sockets').getOverlaySocket();
 
   //Get window data
   router.post('/', (req, res) => {

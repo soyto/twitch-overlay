@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<title>Redirecting... please wait</title>
+</html>
+<body>
+<h1>Redirecting... please wait</h1>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    var _hash = location.hash.substr(1).split('&').map(function(x) {
+
+      if(x.indexOf('=') < 0) { return null; }
+
+      return {
+        'name': x.split('=')[0],
+        'value': x.split('=')[1]
+      }
+    });
+
+    var _token = null;
+
+    _hash.forEach(function(x) {
+      if(x == null) { return; }
+
+      if(x['name'] == 'access_token') {
+        _token = x['value'];
+      }
+    });
+
+    if(_token != null) {
+      var _xhttp = new XMLHttpRequest();
+      _xhttp.onreadystatechange = function() {
+        if(this['readyState'] != 4 || this['status'] != 200) { return; }
+
+        window.location = '/';
+      };
+      _xhttp.open('GET', '/v1/panel/twitch/login?access_token=' + _token, true);
+      _xhttp.send();
+    }
+
+  });
+</script>
+</body>

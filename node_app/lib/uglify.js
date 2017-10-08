@@ -7,7 +7,6 @@ module.exports = new (function () {
   var uglify = require('uglify-js');
   var grunt = require('grunt');
   var $log = require('./log');
-  var $overlaySocket = require('./../sockets/overlay.socket');
 
   var _panelWatcher = null;
   var _overlayWathcer = null;
@@ -25,7 +24,7 @@ module.exports = new (function () {
     var _uglifyResult = uglify.minify(_uglifyOpts, { 'mangle': false });
     grunt.file.write('public/assets/dist/panelApp.min.js', _uglifyResult.code);
 
-    $log.debug('panel files uglified');
+    $log.debug('Panel files uglified');
 
     return $this;
   };
@@ -62,7 +61,7 @@ module.exports = new (function () {
     var _uglifyResult = uglify.minify(_uglifyOpts, { 'mangle': false });
     grunt.file.write('public/assets/dist/overlayApp.min.js', _uglifyResult.code);
 
-    $log.debug('overlay files uglified');
+    $log.debug('Overlay files uglified');
     
     return $this;
   };
@@ -88,8 +87,12 @@ module.exports = new (function () {
   };
 
   //Start watchers
-  $this.startWatchers = function () {
-    return $this.panel_watch().overlay_watch();
+  $this.start = function () {
+    return $this
+        .panel()
+        .overlay()
+        .panel_watch()
+        .overlay_watch();
   };
 
   //Stop watchers

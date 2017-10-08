@@ -6,19 +6,19 @@ module.exports = new (function() {
 
   var grunt = require('grunt');
 
-  var _data = null;
+  var _data = {
+    'twitch': {
+      'access_token': null,
+    },
+    'window': {
+      'width': 1920,
+      'height': 1080
+    }
+  };
 
 
   if(grunt.file.exists(FILE)) {
-    _data = grunt.file.readJSON(FILE);
-  }
-  else {
-    _data = {
-      'window': {
-        'width': 1920,
-        'height': 1080
-      }
-    };
+    _data = Object.assign(_data, grunt.file.readJSON(FILE));
   }
 
   //Returns whole profile
@@ -35,6 +35,18 @@ module.exports = new (function() {
   $this.setWindowData = function(width, height) {
     _data['window']['width'] = width;
     _data['window']['height'] = height;
+
+    _persist();
+  };
+
+  //Retrieves twitch access token
+  $this.getTwitchAccessToken = function() {
+    return _data['twitch']['access_token'];
+  };
+
+  //Sets wich is twitch access token
+  $this.setTwitchAccessToken = function(token) {
+    _data['twitch']['access_token'] = token;
 
     _persist();
   };

@@ -9,7 +9,6 @@ module.exports = new (function () {
   var sass = require('node-sass');
 
   var $log = require('./log');
-  var $overlaySocket = require('./../sockets/overlay.socket');
 
 
   var _panelWatcher = null;
@@ -70,6 +69,7 @@ module.exports = new (function () {
     return $this;
   };
 
+  //Watch overlay sass changes
   $this.overlay_watch = function () {
     var _panelAppTimeout = null;
 
@@ -88,6 +88,7 @@ module.exports = new (function () {
     return $this;
   };
 
+  //Watch sass common changes
   $this.common_watch = function () {
     var _timeout = null;
 
@@ -107,8 +108,13 @@ module.exports = new (function () {
   };
 
   //Start watchers
-  $this.startWatchers = function () {
-    return $this.panel_watch().overlay_watch().common_watch();
+  $this.start = function () {
+    return $this
+        .panel()
+        .overlay()
+        .panel_watch()
+        .overlay_watch()
+        .common_watch();
   };
 
   //Stop watchers

@@ -9,9 +9,11 @@
   function _fn($sc, $hs) {
 
     var $log = $hs.$instantiate('$log');
+    var $q = $hs.$instantiate('$q');
     var $rs = $hs.$instantiate('$rootScope');
     var $interval = $hs.$instantiate('$interval');
     var $windowService = $hs.$instantiate('window.service');
+    var $twitchService = $hs.$instantiate('twitch.service');
     var $alertService = $hs.$instantiate('alert.service');
     var $reloadService = $hs.$instantiate('reload.service');
     var $timeout = $hs.$instantiate('$timeout');
@@ -33,6 +35,10 @@
           '$$value': -1,
           'pristine': false
         }
+      },
+      'twitch': {
+        'loginURI': null,
+        'userData': null,
       },
       'alert': {
         'title': {
@@ -113,14 +119,35 @@
 
       _rootData['title'] = 'Soyto\'s Twitch overlay panel';
 
+      _loadInitialData();
+    }
 
-      $windowService.get().then(function($$response) {
-        if($$response['status'] != 200) { return; }
+    //Loads initial data
+    function _loadInitialData() {
+      var $$q = $q.resolve();
 
-        _data['window']['width']['value'] = $$response['data']['width'];
-        _data['window']['width']['$$value'] = $$response['data']['width'];
-        _data['window']['height']['value'] = $$response['data']['height'];
-        _data['window']['height']['$$value'] = $$response['data']['height'];
+      //Window data
+      $$q = $$q.then(function() {
+        return $windowService.get().then(function($$response) {
+          if($$response['status'] != 200) { return; }
+
+          _data['window']['width']['value'] = $$response['data']['width'];
+          _data['window']['width']['$$value'] = $$response['data']['width'];
+          _data['window']['height']['value'] = $$response['data']['height'];
+          _data['window']['height']['$$value'] = $$response['data']['height'];
+        });
+      });
+
+
+      //Twitch data
+      $$q = $$q.then(function() {
+        return $twitchService.get().then(function($$response) {
+          if($$response['status'] != 200) { return; }
+
+          _data['twitch']['loginURI'] = $$response['data']['loginURI'];
+          _data['twitch']['userData'] = $$response['data']['user'];
+
+        });
       });
     }
 

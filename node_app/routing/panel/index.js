@@ -11,9 +11,10 @@ module.exports = (function() {
   //panel middleware
   router.use(bodyParser.json());
 
-  router.use('/window', require('./window'));
   router.use('/notification', require('./notification'));
   router.use('/reload', require('./reload'));
+  router.use('/twitch', require('./twitch'));
+  router.use('/window', require('./window'));
 
   return router;
 })();
