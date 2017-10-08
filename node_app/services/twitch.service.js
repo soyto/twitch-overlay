@@ -67,4 +67,26 @@ module.exports = new (function() {
     return request(_requestData);
   };
 
+  //Retrieve followers from the user
+  $this.getFollowers = function(userId) {
+
+    var _clientId = $config['twitch']['clientID'];
+    var _access_token = $persistence.getTwitchAccessToken();
+
+    var _requestData = {
+      'url': util.format('https://api.twitch.tv/helix/users/follows?to_id=%s', userId),
+      'method': 'GET',
+      'headers': {
+        'Client-ID': _clientId,
+        'Accept': 'application/vnd.twitchtv.v5+json'
+      }
+    };
+
+    if(_access_token != null) {
+      _requestData['headers']['Authorization'] = 'OAuth ' + _access_token;
+    }
+
+    return request(_requestData);
+  };
+
 })();

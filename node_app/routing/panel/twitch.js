@@ -15,30 +15,57 @@ module.exports = (function() {
 
     var _accessToken = $persistence.getTwitchAccessToken();
 
+    var _resultData = {
+      'loginURI': $twitchService.getLoginURI(),
+      'user': null,
+    };
+
     //If there is not valid access_token
     if(_accessToken == null) {
-      return res.json({
-        'loginURI': $twitchService.getLoginURI()
-      });
+      return res.json(_resultData);
     }
 
-    $twitchService.getTokenInfo().then(function($$response) {
 
-      var _$$responseData = JSON.parse($$response);
-      var _userId = _$$responseData['token']['user_id'];
+    var $$q = Promise.resolve();
 
-      return $twitchService.getUser(_userId).then(function($$response) {
-        res.json({
-          'user': JSON.parse($$response)['data'][0],
-          'loginURI': $twitchService.getLoginURI()
-        });
-      });
-    }).catch(function($$response) {
-      console.log($$response['message']);
-      res.json({
-        'loginURI': $twitchService.getLoginURI()
+    $$q = $$q.then(() => {
+      return $twitchService.getTokenInfo().then(function($$response) {
+        var _$$responseData = JSON.parse($$response);
+        _resultData['user'] = _$$responseData['token']['user_id'];
       });
     });
+
+    $$q = $$q.then(() => {
+      return $twitchService.getUser(_resultData['user']).then(function($$response) {
+        var _$$responseData = JSON.parse($$response);
+        _resultData['user'] = _$$responseData['data'][0];
+      });
+    });
+
+    $$q.then(() => {
+      res.json(_resultData);
+    });
+
+    $$q.catch(($$rerror) => {
+      console.log($$rerror['message']);
+      res.json(_resultData);
+    });
+  });
+
+  //Retrieve followers
+  router.get('/followers/', (req, res) => {
+    var _userId = req['query']['user_id'];
+
+    $twitchService.getFollowers(_userId).then(($$response) => {
+
+      res.json({
+        'followers': JSON.parse($$response)
+      });
+
+    }).catch(($$error) => {
+      res.end();
+    });
+
   });
 
   //Logins on twitch
