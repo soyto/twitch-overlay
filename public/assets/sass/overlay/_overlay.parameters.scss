@@ -10,15 +10,21 @@ $stoNotification_blue_bgHeader: lighten($stoNotification_blue_bgBody, 30);
 
 /* Overlay sizes */
 
-// - Right
-$overlayRightWidth: 300px;
-$overlayRightHeight: 100vh;
-
-$overlayLeftWidth: 300px;
-$overlayLeftHeight: 100vh;
-
-$overlayTopWidth: 100vw;
+$overlayTopWidth: 100%;
 $overlayTopHeight: 100px;
 
-$overlayBottomWidth: 100vw;
+$overlayBottomWidth: 100%;
 $overlayBottomHeight: 75px;
+
+$overlayRightWidth: 300px;
+$overlayRightHeight: calc(100% - #{$overlayTopHeight} - #{$overlayBottomHeight});
+
+$overlayLeftWidth: 300px;
+$overlayLeftHeight: calc(100% - #{$overlayTopHeight} - #{$overlayBottomHeight});
+
+
+
+
+
+
+

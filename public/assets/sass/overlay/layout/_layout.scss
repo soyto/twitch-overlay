@@ -2,10 +2,13 @@
   position: relative;
   overflow: hidden;
   border: 1px solid red;
+  transform: scale(.25);
+  transform-origin: 0px 0px;
 
   .overlay-right {
     position: absolute;
     right: 0;
+    top: $overlayTopHeight;
     width: $overlayRightWidth;
     height: $overlayRightHeight;
   }
@@ -13,6 +16,7 @@
   .overlay-left {
     position: absolute;
     left: 0;
+    top: $overlayTopHeight;
     width: $overlayLeftWidth;
     height: $overlayLeftHeight;
 
@@ -21,7 +25,7 @@
   .overlay-top {
     position: absolute;
     top: 0;
-    width: $overlayBottomWidth;
+    width: $overlayTopWidth;
     height: $overlayTopHeight;
 
   }
@@ -32,5 +36,4 @@
     width: $overlayBottomWidth;
     height: $overlayBottomHeight;
   }
-
 }
