@@ -43,10 +43,10 @@
           $$notification['isActive'] = true;
         });
 
-        /*$timeout(function() {
+        $timeout(function() {
           var _idx = _data['elements'].indexOf($$notification);
           _data['elements'].splice(_idx, 1);
-        }, 2000);*/
+        }, 2000);
       });
     }
 

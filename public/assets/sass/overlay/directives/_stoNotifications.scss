@@ -24,6 +24,7 @@
     }
 
     &.ng-leave {
+      transition: all ease-out .5s;
       &.ng-leave-active {
         opacity: 0;
       }
