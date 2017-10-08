@@ -1,5 +1,7 @@
 <div class="sto-notifications-container">
-  <div class="alert sto-notification" data-ng-class="notification.type" data-ng-repeat="notification in data.elements">
+  <div class="sto-notification"
+       data-ng-repeat="notification in data.elements"
+       data-ng-class="[notification.type , {'active': notification.isActive }]">
     <h4 class="sto-notification-header">{{ notification.title }}</h4>
     <div class="sto-notification-body" data-ng-show="notification.body">{{ notification.body }}</div>
   </div>

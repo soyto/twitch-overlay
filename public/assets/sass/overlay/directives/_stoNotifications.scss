@@ -1,33 +1,36 @@
 .sto-notifications-container {
+
   margin-top: 20px;
   margin-right: 15px;
 
   .sto-notification {
 
+    border: 1px solid #000;
+    border-radius: 4px;
+    color: $stoNotification_default_color;
+    background-color: $stoNotification_default_bgBody;
+    padding: 0;
+    box-shadow: 4px 4px 9px 0 rgba(0, 0, 0, 0.5);
+    margin-bottom: 5px;
+
+    /* Animation throuhgt ng-animate */
     &.ng-enter {
       position: relative;
       right: -500px;
       transition: all cubic-bezier(0, .75, 0.75, 1.25)  .5s;
-
-      &.ng-enter-active {
+      &.ng-enter-active{
         right: 0;
       }
     }
 
     &.ng-leave {
-      transition: all ease-in .5s;
-
       &.ng-leave-active {
         opacity: 0;
       }
     }
 
-    color: $stoNotification_default_color;
-    background-color: $stoNotification_default_bgBody;
-    padding: 0;
-    box-shadow: 4px 4px 9px 0 rgba(0, 0, 0, 0.5);
-
-    h4.sto-notification-header {
+    .sto-notification-header {
+      margin-top: 0;
       background-color: $stoNotification_default_bgHeader;
       padding: 10px;
       text-align: center;
@@ -36,6 +39,15 @@
 
     .sto-notification-body {
       padding: 10px;
+      transition: all ease-out .25s;
+      transition-delay: .6s;
+      margin-bottom: -50px;
+    }
+
+    &.active {
+      .sto-notification-body {
+        margin-bottom: 0;
+      }
     }
 
     &.sto-notification-blue {

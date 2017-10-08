@@ -38,10 +38,15 @@
         $log.debug('notification recieved %o', $$notification);
         _data['elements'].push($$notification);
 
+        //HACK to activate animations on notification body
         $timeout(function() {
+          $$notification['isActive'] = true;
+        });
+
+        /*$timeout(function() {
           var _idx = _data['elements'].indexOf($$notification);
           _data['elements'].splice(_idx, 1);
-        }, 2000);
+        }, 2000);*/
       });
     }
 
