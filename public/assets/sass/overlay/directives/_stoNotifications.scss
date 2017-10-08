@@ -40,7 +40,7 @@
     .sto-notification-body {
       padding: 10px;
       transition: all ease-out .25s;
-      transition-delay: .6s;
+      transition-delay: .6s; //IMPORTANT, that delay must be done when animation on notification ends...
       margin-bottom: -50px;
     }
 
