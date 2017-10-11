@@ -9,6 +9,7 @@ module.exports = new (function() {
   var _data = {
     'twitch': {
       'access_token': null,
+      'currentUserId': null,
     },
     'window': {
       'width': 1920,
@@ -47,6 +48,16 @@ module.exports = new (function() {
   //Sets wich is twitch access token
   $this.setTwitchAccessToken = function(token) {
     _data['twitch']['access_token'] = token;
+
+    _persist();
+  };
+
+  $this.getTwitchCurrentUserId = function() {
+    return _data['twitch']['currentUserId'];
+  };
+
+  $this.setTwitchCurrentUserId = function(currentUserId) {
+    _data['twitch']['currentUserId'] = currentUserId;
 
     _persist();
   };

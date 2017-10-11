@@ -24,6 +24,12 @@
         });
       });
 
+      _socket.on('twitch.follower.new', function($$data) {
+        $rs.$apply(function() {
+          $rs.$broadcast('socket.twitch.follower.new', $$data);
+        });
+      });
+
       _socket.on('reload', function() {
         $log.debug('reloading...');
         $window.location.reload();

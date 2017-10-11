@@ -28,12 +28,22 @@ module.exports = (function() {
 
     var $$q = Promise.resolve();
 
-    $$q = $$q.then(() => {
-      return $twitchService.getTokenInfo().then(function($$response) {
-        var _$$responseData = JSON.parse($$response);
-        _resultData['user'] = _$$responseData['token']['user_id'];
+    if($persistence.getTwitchCurrentUserId() != null) {
+      _resultData['user'] = $persistence.getTwitchCurrentUserId();
+    }
+    else {
+      $$q = $$q.then(() => {
+        return $twitchService.getTokenInfo().then(function($$response) {
+          var _$$responseData = JSON.parse($$response);
+          _resultData['user'] = _$$responseData['token']['user_id'];
+          $persistence.setTwitchCurrentUserId(_$$responseData['token']['user_id']);
+
+          $twitchService.watchFollowers(_$$responseData['token']['user_id']);
+        });
       });
-    });
+    }
+
+
 
     $$q = $$q.then(() => {
       return $twitchService.getUser(_resultData['user']).then(function($$response) {
@@ -57,12 +67,11 @@ module.exports = (function() {
     var _userId = req['query']['user_id'];
 
     $twitchService.getFollowers(_userId).then(($$response) => {
-
       res.json({
         'followers': JSON.parse($$response)
       });
-
     }).catch(($$error) => {
+      console.error($$error);
       res.end();
     });
 

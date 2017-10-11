@@ -43,6 +43,11 @@ module.exports = (function() {
       _io.emit('notification', data);
     };
 
+    //Sends an alert to the overlay that there is a new follower
+    $this.twitch_newFollower = function(followerData) {
+      _io.emit('twitch.follower.new', followerData);
+    };
+
     //On client connection
     function _onConnection(socket) {
       _sockets.push(socket);
