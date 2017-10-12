@@ -7,6 +7,7 @@ module.exports = (function() {
   var $log = require('../../lib/log');
   var $persistence = require('../../persistence/jsonSorage');
   var $services = require('./../../services');
+  var $overlaySocket = require('../../sockets/').getOverlaySocket();
 
   var $twitchService = $services.getTwitchService();
 
@@ -34,11 +35,9 @@ module.exports = (function() {
     else {
       $$q = $$q.then(() => {
         return $twitchService.getTokenInfo().then(function($$response) {
-          var _$$responseData = JSON.parse($$response);
-          _resultData['user'] = _$$responseData['token']['user_id'];
-          $persistence.setTwitchCurrentUserId(_$$responseData['token']['user_id']);
-
-          $twitchService.watchFollowers(_$$responseData['token']['user_id']);
+          _resultData['user'] = $$response['token']['user_id'];
+          $persistence.setTwitchCurrentUserId($$response['token']['user_id']);
+          $twitchService.watchFollowers($$response['token']['user_id']);
         });
       });
     }
@@ -47,8 +46,7 @@ module.exports = (function() {
 
     $$q = $$q.then(() => {
       return $twitchService.getUser(_resultData['user']).then(function($$response) {
-        var _$$responseData = JSON.parse($$response);
-        _resultData['user'] = _$$responseData['data'][0];
+        _resultData['user'] = $$response['data'][0];
       });
     });
 
@@ -68,7 +66,7 @@ module.exports = (function() {
 
     $twitchService.getFollowers(_userId).then(($$response) => {
       res.json({
-        'followers': JSON.parse($$response)
+        'followers': $$response
       });
     }).catch(($$error) => {
       console.error($$error);
@@ -80,6 +78,12 @@ module.exports = (function() {
   //Logins on twitch
   router.get('/login', (req, res) => {
     $persistence.setTwitchAccessToken(req['query']['access_token']);
+    res.end();
+  });
+
+
+  router.post('/simulate/newFollower', (req, res) => {
+    $overlaySocket.twitch_newFollower(req['body']);
     res.end();
   });
 

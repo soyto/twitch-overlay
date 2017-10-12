@@ -38,6 +38,18 @@
       margin-bottom: 0;
     }
 
+    .sto-notification-header-media {
+      margin-top: 0;
+      background-color: $stoNotification_default_bgHeader;
+      padding: 10px;
+      text-align: center;
+      margin-bottom: 0;
+
+      .media-left .media-object{
+        max-width:75px;
+      }
+    }
+
     .sto-notification-body {
       padding: 10px;
       transition: all ease-out .25s;
@@ -59,5 +71,15 @@
         background-color: $stoNotification_blue_bgHeader;
       }
     }
+
+    &.sto-twitch-new-follower-notification {
+      color: $stoNotification_twitch_new_follower_color;
+      background-color: $stoNotification_twitch_new_follower_bgBody;
+
+      .sto-notification-header, .sto-notification-header-media {
+        background-color: $stoNotification_twitch_new_follower_bgHeader;
+      }
+    }
+
   }
 }

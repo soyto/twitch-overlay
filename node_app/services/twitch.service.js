@@ -49,52 +49,18 @@ module.exports = new (function() {
       }
     };
 
-    return request(_requestData);
+    return request(_requestData).then(($$response) => JSON.parse($$response));
   };
 
   //Retrieves current profile
   $this.getUser = function(userId) {
-
-    var _clientId = $config['twitch']['clientID'];
-    var _access_token = $persistence.getTwitchAccessToken();
-
-    var _requestData = {
-      'url': util.format('https://api.twitch.tv/helix/users/?id=%s', userId),
-      'method': 'GET',
-      'headers': {
-        'Client-ID': _clientId,
-        'Accept': 'application/vnd.twitchtv.v5+json'
-      }
-    };
-
-    if(_access_token != null) {
-      _requestData['headers']['Authorization'] = 'OAuth ' + _access_token;
-     }
-
-    return request(_requestData);
+    return _v6ApiRequest(util.format('https://api.twitch.tv/helix/users/?id=' + userId));
   };
 
   //Retrieve users info from an array
   $this.getUsers = function(usersId) {
     var _idsString = usersId.join('&id=');
-
-    var _clientId = $config['twitch']['clientID'];
-    var _access_token = $persistence.getTwitchAccessToken();
-
-    var _requestData = {
-      'url': util.format('https://api.twitch.tv/helix/users/?id=' + _idsString),
-      'method': 'GET',
-      'headers': {
-        'Client-ID': _clientId,
-        'Accept': 'application/vnd.twitchtv.v5+json'
-      }
-    };
-
-    if(_access_token != null) {
-      _requestData['headers']['Authorization'] = 'OAuth ' + _access_token;
-    }
-
-    return request(_requestData);
+    return _v6ApiRequest(util.format('https://api.twitch.tv/helix/users/?id=' + _idsString));
   };
 
   //Retrieve followers from the user
@@ -135,23 +101,18 @@ module.exports = new (function() {
     clearInterval(_$$interval);
   }
 
+  //Check if there are new followers
   function _checkNewFollowers() {
-
-    $log.debug('Twitch: Checking if there are new followers');
-
     _getFollowers(_currentUserId).then(function($$responseData) {
-      var _response = JSON.parse($$responseData);
 
       if(_firstCallFollowers == null) {
-        _firstCallFollowers = _response['data'];
+        _firstCallFollowers = $$responseData['data'];
         return;
       }
 
-      console.log('Retrieved %s followers', _response['data'].length);
-
       var _newFollowers = [];
 
-      _response['data'].forEach(function($$nFollower) {
+      $$responseData['data'].forEach(function($$nFollower) {
         var _exists = false;
         _firstCallFollowers.forEach(function($$oFollower) {
           if(_exists) { return; }
@@ -168,19 +129,16 @@ module.exports = new (function() {
 
       //No new followers, dont do nothing
       if(_newFollowers.length === 0) { return; }
-      else {
-        console.log('Found new followers with ID %s', _newFollowers.map((x) => x['from_id']).join(', '));
-      }
 
       //Append new followers
-      //_newFollowers.forEach(function($$follower){
-        //_firstCallFollowers.push($$follower);
-      //});
+      _newFollowers.forEach(function($$follower){
+        _firstCallFollowers.push($$follower);
+      });
 
       //New users
       return $this.getUsers(_newFollowers.map((x) => x['from_id'])).then(function($$responseData) {
-        var _response = JSON.parse($$responseData);
-        _response['data'].forEach(function($$newFollower) {
+        $$responseData['data'].forEach(function($$newFollower) {
+          $log.debug('Twitch API: new follower %s', $$newFollower['display_name']);
           $overlaySocket.twitch_newFollower($$newFollower);
         });
 
@@ -188,25 +146,45 @@ module.exports = new (function() {
     });
   }
 
+  //Retrieve twittch followers from user
   function _getFollowers(userId) {
+    return _v6ApiRequest(util.format('https://api.twitch.tv/helix/users/follows?to_id=%s', userId));
+  }
+
+  //Twitch api V6 Request
+  function _v6ApiRequest(uri) {
     var _clientId = $config['twitch']['clientID'];
     var _access_token = $persistence.getTwitchAccessToken();
 
     var _requestData = {
-      'url': util.format('https://api.twitch.tv/helix/users/follows?to_id=%s', userId),
+      'url':uri,
       'method': 'GET',
       'headers': {
         'Client-ID': _clientId,
-        'Accept': 'application/vnd.twitchtv.v5+json',
+        'Accept': 'application/json',
         'Cache-Control': 'no-cache'
-      }
+      },
+      'resolveWithFullResponse': true
     };
 
     if(_access_token != null) {
       _requestData['headers']['Authorization'] = 'OAuth ' + _access_token;
     }
 
-    return request(_requestData);
+    return request(_requestData).then(($$response) => {
+
+      //Extract info about twith api limits
+      var _limit = $$response['headers']['ratelimit-limit'];
+      var _currentLimit = $$response['headers']['ratelimit-remaining'];
+      var _expiration = new Date($$response['headers']['ratelimit-reset'] * 1000);
+      var _remainingTime = Math.floor((_expiration.getTime() - (new Date()).getTime()) / 1000);
+
+
+      //$log.debug('%s messages remaining in %s seconds remaining', _currentLimit, _remainingTime);
+
+
+      return JSON.parse($$response['body']);
+    });
   }
 
 })();

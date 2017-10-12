@@ -16,6 +16,20 @@
       return $http.get('/v1/panel/twitch');
     };
 
+
+    $this.simulate = new (function() {
+      var $$this = this;
+
+      $$this.newFollower = function(followerData) {
+        return $http({
+          'url': '/v1/panel/twitch/simulate/newFollower',
+          'method': 'POST',
+          'data': followerData
+        });
+      };
+
+    })();
+
   }
 
 })(angular);
