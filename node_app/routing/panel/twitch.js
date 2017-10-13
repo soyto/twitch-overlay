@@ -42,6 +42,8 @@ module.exports = (function() {
       _resultData['user'] = await $twitchService.getUser(_userId);
       _resultData['stream'] = await $twitchService.getStream(_userId);
 
+
+
       res.json(_resultData);
     } catch($error) {
       console.error($error['message']);

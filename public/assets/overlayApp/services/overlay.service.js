@@ -19,7 +19,7 @@
       $http.get('/v1/overlay').then(function ($$response) {
 
         if($$response['status'] != 200) {
-          $location.reload();
+          // $location.reload();
           return;
         }
 
@@ -27,6 +27,7 @@
 
         //Broaddcast window data
         $rs.$broadcast('socket.window', _data['window']);
+        $rs.$broadcast('twitch.lastFollower', _data['twitch']['last_follower']);
       });
     };
   }
