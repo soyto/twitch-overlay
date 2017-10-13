@@ -16,7 +16,7 @@
 
     //Initialize socket
     $this.init = function() {
-      var _socket = $io.connect('http://localhost/overlay');
+      var _socket = $io.connect('/overlay');
 
       _socket.on('notification', function($$data) {
         $rs.$apply(function() {

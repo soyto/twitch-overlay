@@ -14,12 +14,17 @@
     var $http = $hs.$instantiate('$http');
     var $overlayService = $hs.$instantiate('overlay.service');
     var $socketService = $hs.$instantiate('socket.service');
+    var $location = $hs.$instantiate('$location');
 
     var _rootData = {
       'title': '',
+      '$$state': {
+        'scaled': false
+      }
     };
 
     var _data = {
+
     };
 
     _init();
@@ -39,6 +44,11 @@
 
       $overlayService.init();
       $socketService.init();
+
+      if($location.hash() == 'scaled') {
+        _rootData['$$state']['scaled'] = true;
+      }
+
     }
 
     /* ----------------------------------- EVENTS HANDLERS ------------------------------------- */

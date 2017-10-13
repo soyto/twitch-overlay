@@ -3,7 +3,7 @@
   'use strict';
 
   var DIRECTIVE_NAME = 'stoNotifications';
-  var AUTO_CLOSE_NOTIFICATIONS = false;
+  var AUTO_CLOSE_NOTIFICATIONS = true;
 
   ng.module('overlayApp').directive(DIRECTIVE_NAME, ['$hs', _fn]);
 

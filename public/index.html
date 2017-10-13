@@ -1,142 +1,428 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es" data-ng-app="panelApp" data-ng-controller="root.controller">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdminLTE 2 | Dashboard</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-  <title data-ng-bind="rootData.title"></title>
-
+  <!-- Bower sources -->
   <link rel="stylesheet" href="/assets/bower/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/bower/font-awesome/css/font-awesome.min.css" />
+
+  <!-- Panel sources -->
   <link rel="stylesheet" href="/assets/dist/panel.min.css" />
+
 </head>
-<body>
+<body class="hold-transition skin-purple sidebar-mini" data-ng-class="{'sidebar-collapse': data.$$state.sidebarCollapse}">
 
-  <!-- Navigation menu-->
-  <div class="nav navbar-fixed-top navbar-default">
-    <div class="container">
-      <div class="navbar-header">
+  <!-- Main Wrapper -->
+  <div class="wrapper">
 
-        <!-- Collapsed buttons -->
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+    <!-- Header -->
+    <header class="main-header">
+
+      <!-- Logo -->
+      <a href="" class="logo">
+        <span class="logo-mini">STO</span>
+        <span class="logo-lg">Soyto's Twitch Overlay</span>
+      </a><!-- /Logo -->
+
+      <!-- Header Navbar: style can be found in header.less -->
+      <nav class="navbar navbar-static-top">
+
+        <!-- Sidebar toggle button-->
+        <a href="" class="sidebar-toggle" data-toggle="push-menu" role="button">
           <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button><!-- /Collapsed buttons -->
+        </a><!-- /Sidebar toggle button-->
 
-        <!-- Menu -->
-        <a class="navbar-brand" href="">Soyto's twitch overlay panel</a><!-- /Menu-->
-      </div>
+        <!-- Navbar -->
+        <div class="navbar-custom-menu">
+          <ul class="nav navbar-nav">
+            <!-- Control Sidebar Toggle Button -->
+            <li>
+              <a href="" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+            </li>
+          </ul>
+        </div><!-- /Navbar -->
 
-      <!-- Menu elements -->
-      <div id="navbar" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="">Home</a></li>
-          <li><a href="">About</a></li>
-          <li><a href="">Contact</a></li>
+      </nav>
+    </header>
+
+    <!-- Left sidebar -->
+    <aside class="main-sidebar">
+      <section class="sidebar">
+
+        <!-- Sidebar user panel -->
+        <div class="user-panel" data-ng-cloak>
+          <div class="pull-left image" data-ng-show="data.twitch.userData != null">
+            <img data-ng-src="{{ data.twitch.userData.profile_image_url }}" class="img-circle" alt="User Image">
+          </div>
+          <div class="pull-left info">
+            <p>{{ data.twitch.userData.display_name }}</p>
+            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+          </div>
+        </div>
+
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" data-widget="tree">
+          <li class="header">MAIN NAVIGATION</li>
+          <li>
+            <a href="/">
+              <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            </a>
+          </li>
         </ul>
-      </div><!--/Menu elements -->
 
-    </div>
-  </div><!-- /Navigation menu-->
+      </section>
+    </aside><!-- /Left sidebar -->
 
-  <!-- Contents -->
-  <div class="container">
-    <div class="row">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
 
-      <!-- Overlay dimensions -->
-      <div class="col-xs-4">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <h1>
+          Dashboard
+          <small>Control panel</small>
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li class="active">Dashboard</li>
+        </ol>
+      </section><!-- /Content Header (Page header) -->
 
-        <div class="panel panel-default">
-          <div class="panel-header">
-            <h4 class="panel-heading">Twitch</h4>
-            <div class="panel-body">
+      <!-- Main content -->
+      <section class="content">
 
-              <div class="media" data-ng-cloak data-ng-show="data.twitch.userData != null">
-                <div class="media-left">
-                  <img class="media-object"
-                       style="max-width: 50px; max-height: 50px"
-                       data-ng-src="{{ data.twitch.userData.profile_image_url }}">
+        <div class="row">
+
+          <div class="col-md-4">
+
+            <!-- Twitch login -->
+            <div class="box box-primary">
+
+              <div class="box-header">
+                <h3 class="box-title">Twitch</h3>
+              </div>
+
+              <div class="box-body">
+
+                <div class="media" data-ng-cloak data-ng-show="data.twitch.userData != null">
+                  <div class="media-left">
+                    <img class="media-object"
+                         style="max-width: 50px; max-height: 50px"
+                         data-ng-src="{{ data.twitch.userData.profile_image_url }}">
+                  </div>
+                  <div class="media-body">
+                    <h4>{{ data.twitch.userData.display_name }}</h4>
+                  </div>
                 </div>
-                <div class="media-body">
-                  <h4>{{ data.twitch.userData.display_name }}</h4>
+
+                <a data-ng-href="{{ data.twitch.loginURI }}">Logearse en twitch</a>
+              </div>
+
+              <div class="box-footer">
+                <button class="btn btn-default" data-ng-click="onClick_twitchNewFollower()">Simular nuevo seguidor en twitch</button>
+              </div>
+
+            </div><!-- /Twitch Login -->
+
+            <!-- Width and height -->
+            <div class="box box-primary">
+
+              <div class="box-header">
+                <h3 class="box-title">Ancho y alto del overlay</h3>
+              </div>
+
+              <div class="box-body">
+                <div class="form-group">
+                  <label>Ancho</label>
+                  <input type="number"
+                         class="form-control"
+                         data-ng-keydown="onKeydown_window_width($event)"
+                         data-ng-model="data.window.width.value">
+                </div>
+                <div class="form-group">
+                  <label>Alto</label>
+                  <input type="number"
+                         class="form-control"
+                         data-ng-keydown="onKeydown_window_height($event)"
+                         data-ng-model="data.window.height.value">
                 </div>
               </div>
 
-              <a data-ng-href="{{ data.twitch.loginURI }}">Logearse en twitch</a>
-            </div>
+              <div class="box-footer">
+                <button class="btn btn-default" data-ng-click="onClick_window_restoreDefaults()">Restaurar</button>
+                <button class="btn btn-primary" data-ng-click="onClick_window_saveData()">Guardar</button>
+              </div>
+
+            </div><!-- /Width and height -->
+
+            <!-- Notify -->
+            <div class="box box-primary">
+
+              <div class="box-header">
+                <h3 class="box-title">Alertas</h3>
+              </div>
+
+              <div class="box-body">
+                <div class="form-group">
+                  <label>Titulo</label>
+                  <input type="text" class="form-control" data-ng-model="data.alert.title.value">
+                </div>
+                <div class="form-group">
+                  <label>Mensaje</label>
+                  <textarea class="form-control" data-ng-model="data.alert.text.value"></textarea>
+                </div>
+              </div>
+
+              <div class="box-footer">
+                <button class="btn btn-primary" data-ng-click="onClick_alertSend()">Enviar</button>
+              </div>
+
+            </div><!-- /Notify -->
+
           </div>
+
+          <!-- Iframe box -->
+          <div class="col-md-8">
+            <div class="box box-primary">
+
+              <div class="box-header">
+                <h3 class="box-title">Overlay</h3>
+              </div>
+
+              <div class="box-body">
+                <iframe style="width: 100%; height: 400px;" frameborder="0" scrolling="no" src="/overlay#scaled"></iframe>
+              </div>
+
+              <div class="box-footer">
+                <button class="btn btn-default" data-ng-click="onClick_reload()">Recargar</button>
+              </div>
+
+            </div>
+          </div><!-- /Iframe box -->
+
         </div>
 
-        <div class="well">
-          <button class="btn btn-default" data-ng-click="onClick_twitchNewFollower()">Simular nuevo seguidor en twitch</button>
-        </div>
+      </section><!-- /Main content -->
 
-        <div class="panel panel-default">
-          <div class="panel-header">
-            <h4 class="panel-heading">Ancho y alto del overlay</h4>
-          </div>
-          <div class="panel-body">
-            <div class="form-group">
-              <label>Ancho</label>
-              <input type="number"
-                     class="form-control"
-                     data-ng-keydown="onKeydown_window_width($event)"
-                     data-ng-model="data.window.width.value">
-            </div>
-            <div class="form-group">
-              <label>Alto</label>
-              <input type="number"
-                     class="form-control"
-                     data-ng-keydown="onKeydown_window_height($event)"
-                     data-ng-model="data.window.height.value">
-            </div>
-          </div>
-          <div class="panel-footer">
-            <button class="btn btn-default" data-ng-click="onClick_window_restoreDefaults()">Restaurar</button>
-            <button class="btn btn-primary" data-ng-click="onClick_window_saveData()">Guardar</button>
-          </div>
-        </div>
-      </div><!-- /Overlay dimensions -->
+    </div><!-- /.content-wrapper -->
 
-      <!-- Notify -->
-      <div class="col-xs-4">
-        <div class="panel panel-default">
-          <div class="panel-header">
-            <h4 class="panel-heading">Alertas</h4>
-          </div>
-          <div class="panel-body">
-            <div class="form-group">
-              <label>Titulo</label>
-              <input type="text" class="form-control" data-ng-model="data.alert.title.value">
-            </div>
-            <div class="form-group">
-              <label>Mensaje</label>
-              <textarea class="form-control" data-ng-model="data.alert.text.value"></textarea>
-            </div>
-            <div class="form-group">
-              <label>Azul?</label>
-              <input type="checkbox" data-ng-model="data.alert.type.value">
-            </div>
-          </div>
-          <div class="panel-footer">
-            <button class="btn btn-primary" data-ng-click="onClick_alertSend()">Enviar</button>
-          </div>
+    <!-- Footer -->
+    <footer class="main-footer">
+
+      <strong class="pull-right">Soyto's Twitch Overlay</strong>
+      <strong>Template: Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights reserved.
+    </footer><!-- /Footer -->
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Create the tabs -->
+      <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+        <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+        <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <!-- Home tab content -->
+        <div class="tab-pane" id="control-sidebar-home-tab">
+          <h3 class="control-sidebar-heading">Recent Activity</h3>
+          <ul class="control-sidebar-menu">
+            <li>
+              <a href="javascript:void(0)">
+                <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+
+                <div class="menu-info">
+                  <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+
+                  <p>Will be 23 on April 24th</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <i class="menu-icon fa fa-user bg-yellow"></i>
+
+                <div class="menu-info">
+                  <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
+
+                  <p>New phone +1(800)555-1234</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
+
+                <div class="menu-info">
+                  <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
+
+                  <p>nora@example.com</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <i class="menu-icon fa fa-file-code-o bg-green"></i>
+
+                <div class="menu-info">
+                  <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
+
+                  <p>Execution time 5 seconds</p>
+                </div>
+              </a>
+            </li>
+          </ul>
+          <!-- /.control-sidebar-menu -->
+
+          <h3 class="control-sidebar-heading">Tasks Progress</h3>
+          <ul class="control-sidebar-menu">
+            <li>
+              <a href="javascript:void(0)">
+                <h4 class="control-sidebar-subheading">
+                  Custom Template Design
+                  <span class="label label-danger pull-right">70%</span>
+                </h4>
+
+                <div class="progress progress-xxs">
+                  <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <h4 class="control-sidebar-subheading">
+                  Update Resume
+                  <span class="label label-success pull-right">95%</span>
+                </h4>
+
+                <div class="progress progress-xxs">
+                  <div class="progress-bar progress-bar-success" style="width: 95%"></div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <h4 class="control-sidebar-subheading">
+                  Laravel Integration
+                  <span class="label label-warning pull-right">50%</span>
+                </h4>
+
+                <div class="progress progress-xxs">
+                  <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <h4 class="control-sidebar-subheading">
+                  Back End Framework
+                  <span class="label label-primary pull-right">68%</span>
+                </h4>
+
+                <div class="progress progress-xxs">
+                  <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
+                </div>
+              </a>
+            </li>
+          </ul>
+          <!-- /.control-sidebar-menu -->
+
         </div>
+        <!-- /.tab-pane -->
+        <!-- Stats tab content -->
+        <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+        <!-- /.tab-pane -->
+        <!-- Settings tab content -->
+        <div class="tab-pane active" id="control-sidebar-settings-tab">
+          <form method="post">
+            <h3 class="control-sidebar-heading">General Settings</h3>
+
+            <div class="form-group">
+              <label class="control-sidebar-subheading">
+                Report panel usage
+                <input type="checkbox" class="pull-right" checked>
+              </label>
+
+              <p>
+                Some information about this general settings option
+              </p>
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+              <label class="control-sidebar-subheading">
+                Allow mail redirect
+                <input type="checkbox" class="pull-right" checked>
+              </label>
+
+              <p>
+                Other sets of options are available
+              </p>
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+              <label class="control-sidebar-subheading">
+                Expose author name in posts
+                <input type="checkbox" class="pull-right" checked>
+              </label>
+
+              <p>
+                Allow the user to show his name in blog posts
+              </p>
+            </div>
+            <!-- /.form-group -->
+
+            <h3 class="control-sidebar-heading">Chat Settings</h3>
+
+            <div class="form-group">
+              <label class="control-sidebar-subheading">
+                Show me as online
+                <input type="checkbox" class="pull-right" checked>
+              </label>
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+              <label class="control-sidebar-subheading">
+                Turn off notifications
+                <input type="checkbox" class="pull-right">
+              </label>
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+              <label class="control-sidebar-subheading">
+                Delete chat history
+                <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+              </label>
+            </div>
+            <!-- /.form-group -->
+          </form>
+        </div>
+        <!-- /.tab-pane -->
       </div>
+    </aside><!-- /.control-sidebar -->
+    <div class="control-sidebar-bg"></div>
 
-      <div class="col-xs-4">
-        <button class="btn btn-default" data-ng-click="onClick_reload()">Recargar</button>
-      </div>
+  </div><!-- /Main Wrapper -->
 
-    </div>
-  </div><!-- /Contents -->
-
-
+  <!-- External sources -->
   <script type="text/javascript" src="/assets/bower/jquery/dist/jquery.min.js"></script>
+  <!--<script type="text/javascript" src="/assets/bower/jquery-ui/jquery-ui.min.js"></script>-->
   <script type="text/javascript" src="/assets/bower/bootstrap/dist/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="/assets/bower/angular/angular.min.js"></script>
+
+  <!-- Template Scripts -->
+  <script type="text/javascript" src="/assets/js/Tree.js"></script>
+  <script type="text/javascript" src="/assets/js/ControlSidebar.js"></script>
+  <script type="text/javascript" src="/assets/js/PushMenu.js"></script>
+  <script type="text/javascript" src="/assets/js/Layout.js"></script>
+  <script type="text/javascript" src="/assets/js/demo.js"></script>
 
   <!-- Panel sources -->
   <script type="text/javascript" src="/assets/dist/panelApp.min.js"></script>

@@ -6,7 +6,19 @@
 
 
 body{
-    background-color: transparent;
+  background-color: transparent;
+
+  &.overlay-scaled {
+
+    transform: scale(.5);
+    transform-origin: 0 0;
+
+    .bgScreen {
+      width: 200vw !important;
+      height: 200vh !important;
+      background-color: rgba(0, 255, 0, .5);
+    }
+  }
 }
 
 

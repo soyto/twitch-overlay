@@ -50,7 +50,7 @@
         'type': {
           'value': false
         }
-      }
+      },
     };
 
     _init();
