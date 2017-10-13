@@ -97,53 +97,61 @@ module.exports = new (function() {
     _$$interval = setInterval(_checkNewFollowers, 5000);
   }
 
+  //Stop watcher
   function _stopWatchFollowers() {
     clearInterval(_$$interval);
   }
 
   //Check if there are new followers
-  function _checkNewFollowers() {
-    _getFollowers(_currentUserId).then(function($$responseData) {
+  async function _checkNewFollowers() {
+    let _newFollowers = [];
 
-      if(_firstCallFollowers == null) {
-        _firstCallFollowers = $$responseData['data'];
+    try {
+      let _followersData = (await _getFollowers(_currentUserId))['data'];
+
+      if (_firstCallFollowers == null) {
+        _firstCallFollowers = _followersData;
         return;
       }
 
-      var _newFollowers = [];
 
-      $$responseData['data'].forEach(function($$nFollower) {
+      _followersData.forEach(function ($$nFollower) {
         var _exists = false;
-        _firstCallFollowers.forEach(function($$oFollower) {
-          if(_exists) { return; }
+        _firstCallFollowers.forEach(function ($$oFollower) {
+          if (_exists) {
+            return;
+          }
 
-          if($$nFollower['from_id'] == $$oFollower['from_id']) {
+          if ($$nFollower['from_id'] == $$oFollower['from_id']) {
             _exists = true;
           }
         });
 
-        if(!_exists) {
+        if (!_exists) {
           _newFollowers.push($$nFollower);
         }
       });
 
       //No new followers, dont do nothing
-      if(_newFollowers.length === 0) { return; }
+      if (_newFollowers.length === 0) {
+        return;
+      }
 
       //Append new followers
-      _newFollowers.forEach(function($$follower){
+      _newFollowers.forEach(function ($$follower) {
         _firstCallFollowers.push($$follower);
       });
 
-      //New users
-      return $this.getUsers(_newFollowers.map((x) => x['from_id'])).then(function($$responseData) {
-        $$responseData['data'].forEach(function($$newFollower) {
-          $log.debug('Twitch API: new follower %s', $$newFollower['display_name']);
-          $overlaySocket.twitch_newFollower($$newFollower);
-        });
+      let _users = await $this.getUsers(_newFollowers.map((x) => x['from_id']));
 
+      _users['data'].forEach(function ($$newFollower) {
+        $log.debug('Twitch API: new follower %s', $$newFollower['display_name']);
+        $overlaySocket.twitch_newFollower($$newFollower);
       });
-    });
+    } catch($$error) {
+      console.log($$error);
+    }
+
   }
 
   //Retrieve twittch followers from user
@@ -152,11 +160,11 @@ module.exports = new (function() {
   }
 
   //Twitch api V6 Request
-  function _v6ApiRequest(uri) {
-    var _clientId = $config['twitch']['clientID'];
-    var _access_token = $persistence.getTwitchAccessToken();
+  async function _v6ApiRequest(uri) {
+    let _clientId = $config['twitch']['clientID'];
+    let _access_token = $persistence.getTwitchAccessToken();
 
-    var _requestData = {
+    let _requestData = {
       'url':uri,
       'method': 'GET',
       'headers': {
@@ -171,20 +179,15 @@ module.exports = new (function() {
       _requestData['headers']['Authorization'] = 'OAuth ' + _access_token;
     }
 
-    return request(_requestData).then(($$response) => {
+    let $$response = await request(_requestData);
 
-      //Extract info about twith api limits
-      var _limit = $$response['headers']['ratelimit-limit'];
-      var _currentLimit = $$response['headers']['ratelimit-remaining'];
-      var _expiration = new Date($$response['headers']['ratelimit-reset'] * 1000);
-      var _remainingTime = Math.floor((_expiration.getTime() - (new Date()).getTime()) / 1000);
+    //Extract info about twith api limits
+    var _limit = $$response['headers']['ratelimit-limit'];
+    var _currentLimit = $$response['headers']['ratelimit-remaining'];
+    var _expiration = new Date($$response['headers']['ratelimit-reset'] * 1000);
+    var _remainingTime = Math.floor((_expiration.getTime() - (new Date()).getTime()) / 1000);
 
-
-      //$log.debug('%s messages remaining in %s seconds remaining', _currentLimit, _remainingTime);
-
-
-      return JSON.parse($$response['body']);
-    });
+    return JSON.parse($$response['body']);
   }
 
 })();

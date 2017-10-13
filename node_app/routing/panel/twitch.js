@@ -12,11 +12,11 @@ module.exports = (function() {
   var $twitchService = $services.getTwitchService();
 
   //Get window data
-  router.get('/', (req, res) => {
+  router.get('/', async (req, res) => {
 
-    var _accessToken = $persistence.getTwitchAccessToken();
+    let _accessToken = $persistence.getTwitchAccessToken();
 
-    var _resultData = {
+    let _resultData = {
       'loginURI': $twitchService.getLoginURI(),
       'user': null,
     };
@@ -26,53 +26,25 @@ module.exports = (function() {
       return res.json(_resultData);
     }
 
+    try {
 
-    var $$q = Promise.resolve();
+      if($persistence.getTwitchCurrentUserId() != null) {
+        _resultData['user'] = $persistence.getTwitchCurrentUserId();
+      }
+      else {
+        let _tokenInfo = await $twitchService.getTokenInfo();
+        _resultData['user'] = $$response['token']['user_id'];
+        $persistence.setTwitchCurrentUserId(_tokenInfo['token']['user_id']);
+        $twitchService.watchFollowers(_tokenInfo['token']['user_id']);
+      }
 
-    if($persistence.getTwitchCurrentUserId() != null) {
-      _resultData['user'] = $persistence.getTwitchCurrentUserId();
-    }
-    else {
-      $$q = $$q.then(() => {
-        return $twitchService.getTokenInfo().then(function($$response) {
-          _resultData['user'] = $$response['token']['user_id'];
-          $persistence.setTwitchCurrentUserId($$response['token']['user_id']);
-          $twitchService.watchFollowers($$response['token']['user_id']);
-        });
-      });
-    }
+      _resultData['user'] = (await $twitchService.getUser(_resultData['user']))['data'][0];
 
-
-
-    $$q = $$q.then(() => {
-      return $twitchService.getUser(_resultData['user']).then(function($$response) {
-        _resultData['user'] = $$response['data'][0];
-      });
-    });
-
-    $$q.then(() => {
       res.json(_resultData);
-    });
-
-    $$q.catch(($$rerror) => {
-      console.log($$rerror['message']);
+    } catch($error) {
+      console.error($error['message']);
       res.json(_resultData);
-    });
-  });
-
-  //Retrieve followers
-  router.get('/followers/', (req, res) => {
-    var _userId = req['query']['user_id'];
-
-    $twitchService.getFollowers(_userId).then(($$response) => {
-      res.json({
-        'followers': $$response
-      });
-    }).catch(($$error) => {
-      console.error($$error);
-      res.end();
-    });
-
+    }
   });
 
   //Logins on twitch
