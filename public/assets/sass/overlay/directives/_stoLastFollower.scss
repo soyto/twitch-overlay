@@ -2,6 +2,10 @@
 
 .container-alert-last-follower {
 
+  &.active {
+    animation: pulse 1s infinite;
+  }
+
   font-family: 'Luckiest Guy', cursive;
   margin: 0;
   padding: 5px 10px;
@@ -10,5 +14,19 @@
 
   em{
     font-size: 1.4em;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }
