@@ -28,17 +28,19 @@ module.exports = (function() {
 
     try {
 
+      let _userId = null;
+
       if($persistence.getTwitchCurrentUserId() != null) {
-        _resultData['user'] = $persistence.getTwitchCurrentUserId();
+        _userId = $persistence.getTwitchCurrentUserId();
       }
       else {
-        let _tokenInfo = await $twitchService.getTokenInfo();
-        _resultData['user'] = $$response['token']['user_id'];
-        $persistence.setTwitchCurrentUserId(_tokenInfo['token']['user_id']);
-        $twitchService.watchFollowers(_tokenInfo['token']['user_id']);
+        _userId = (await $twitchService.getTokenInfo())['token']['user_id'];
+        $persistence.setTwitchCurrentUserId(_userId);
+        $twitchService.watchFollowers(_userId);
       }
 
-      _resultData['user'] = (await $twitchService.getUser(_resultData['user']))['data'][0];
+      _resultData['user'] = await $twitchService.getUser(_userId);
+      _resultData['stream'] = await $twitchService.getStream(_userId);
 
       res.json(_resultData);
     } catch($error) {

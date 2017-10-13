@@ -158,11 +158,6 @@
 
           _data['twitch']['loginURI'] = $$response['data']['loginURI'];
           _data['twitch']['userData'] = $$response['data']['user'];
-
-          $hs.$instantiate('$http').get('/v1/panel/twitch/followers/?user_id=' + _data['twitch']['userData']['id'])
-              .then(function($$responseData) {
-                $log.debug($$responseData);
-          });
         });
       });
     }

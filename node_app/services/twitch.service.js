@@ -11,6 +11,8 @@ module.exports = new (function() {
 
   var util = require('util');
   var request = require('request-promise-native');
+  var colors = require('colors');
+  var $moment = require('moment');
 
   var $log = require('../lib/log');
   var $config = require('./../config');
@@ -53,8 +55,13 @@ module.exports = new (function() {
   };
 
   //Retrieves current profile
-  $this.getUser = function(userId) {
-    return _v6ApiRequest(util.format('https://api.twitch.tv/helix/users/?id=' + userId));
+  $this.getUser = async function(userId) {
+    return (await _v6ApiRequest(util.format('https://api.twitch.tv/helix/users/?id=' + userId)))['data'][0];
+  };
+
+  //Gets stream info
+  $this.getStream = function(userId) {
+    return _getStream(userId);
   };
 
   //Retrieve users info from an array
@@ -78,7 +85,7 @@ module.exports = new (function() {
     _stopWatchFollowers();
   };
 
-  //Initilization function
+  //Initialization function
   function _init() {
     if($persistence.getTwitchCurrentUserId() != null) {
       _watchFollowers($persistence.getTwitchCurrentUserId());
@@ -159,6 +166,18 @@ module.exports = new (function() {
     return _v6ApiRequest(util.format('https://api.twitch.tv/helix/users/follows?to_id=%s', userId));
   }
 
+  //Get stream data
+  async function _getStream(userId) {
+    let _streamInfo = await _v6ApiRequest(util.format('https://api.twitch.tv/helix/streams?user_id=%s', userId));
+
+    if(_streamInfo['data'].length > 0) {
+      return _streamInfo['data'][0];
+    }
+    else {
+      return null;
+    }
+  }
+
   //Twitch api V6 Request
   async function _v6ApiRequest(uri) {
     let _clientId = $config['twitch']['clientID'];
@@ -184,8 +203,11 @@ module.exports = new (function() {
     //Extract info about twith api limits
     var _limit = $$response['headers']['ratelimit-limit'];
     var _currentLimit = $$response['headers']['ratelimit-remaining'];
-    var _expiration = new Date($$response['headers']['ratelimit-reset'] * 1000);
-    var _remainingTime = Math.floor((_expiration.getTime() - (new Date()).getTime()) / 1000);
+    var _expiration = $moment($$response['headers']['ratelimit-reset'] * 1000);
+
+    $log.debug('Remaining %s queries until %s',
+        colors.cyan(_currentLimit),
+        colors.green(_expiration.format('HH:mm:SS')));
 
     return JSON.parse($$response['body']);
   }
