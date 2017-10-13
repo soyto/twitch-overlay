@@ -109,8 +109,11 @@
 
     //Simulate new twitch user
     $sc.onClick_twitchNewFollower = function() {
+
+      var _logins = ["dallas", 'usuario1', 'usuario2'];
+
       var _user = {
-        "login":"dallas",
+        "login": _logins[Math.floor(Math.random() * 3)],
         "display_name":"dallas",
         "description":"Just a gamer playing games and chatting. :)",
         "profile_image_url":"https://static-cdn.jtvnw.net/jtv_user_pictures/dallas-profile_image-1a2c906ee2c35f12-300x300.png",

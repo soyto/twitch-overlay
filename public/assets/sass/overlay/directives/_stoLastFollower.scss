@@ -3,7 +3,9 @@
 .container-alert-last-follower {
 
   &.active {
-    animation: pulse 1s infinite;
+    em {
+      animation: pulse 1s infinite;
+    }
   }
 
   font-family: 'Luckiest Guy', cursive;
@@ -11,6 +13,7 @@
   padding: 5px 10px;
   background-color: rgba(0, 0, 0, .5);
   color: white;
+  border-radius: 20px;
 
   em{
     font-size: 1.4em;
