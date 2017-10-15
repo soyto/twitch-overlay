@@ -7,18 +7,20 @@ module.exports = (function() {
   var $log = require('../../lib/log');
   var $persistence = require('../../persistence/jsonSorage');
   var $services = require('./../../services');
-  var $overlaySocket = require('../../sockets/').getOverlaySocket();
+  var $overlaySocket = require('../../sockets/')['overlay'];
 
   var $twitchService = $services.getTwitchService();
 
   //Get window data
   router.get('/', async (req, res) => {
 
-    let _accessToken = $persistence.getTwitchAccessToken();
+    var _accessToken = $persistence.getTwitchAccessToken();
 
-    let _resultData = {
+    var _resultData = {
       'loginURI': $twitchService.getLoginURI(),
       'user': null,
+      'channel': null,
+      'stream': null
     };
 
     //If there is not valid access_token
@@ -28,21 +30,9 @@ module.exports = (function() {
 
     try {
 
-      let _userId = null;
-
-      if($persistence.getTwitchCurrentUserId() != null) {
-        _userId = $persistence.getTwitchCurrentUserId();
-      }
-      else {
-        _userId = (await $twitchService.getTokenInfo())['token']['user_id'];
-        $persistence.setTwitchCurrentUserId(_userId);
-        $twitchService.watchFollowers(_userId);
-      }
-
-      _resultData['user'] = await $twitchService.getUser(_userId);
-      _resultData['stream'] = await $twitchService.getStream(_userId);
-
-
+      _resultData['user'] = await $twitchService.getCurrentUser();
+      _resultData['channel'] = await $twitchService.getChannel(_resultData['user']['login']);
+      _resultData['stream'] = await $twitchService.getStream(_resultData['user']['id']);
 
       res.json(_resultData);
     } catch($error) {
@@ -52,8 +42,11 @@ module.exports = (function() {
   });
 
   //Logins on twitch
-  router.get('/login', (req, res) => {
+  router.get('/login', async (req, res) => {
     $persistence.setTwitchAccessToken(req['query']['access_token']);
+    let _user = await $twitchService.getCurrentUser();
+    $persistence.setTwitchCurrentUserId(_user['id']);
+    $twitchService.startWatch();
     res.end();
   });
 

@@ -3,15 +3,14 @@ module.exports = new (function() {
   'use strict';
   var $this = this;
 
-  var $overlaySocket = require('./overlay.socket');
+  $this['panel'] = require('./panel.socket');
+  $this['overlay'] = require('./overlay.socket');
 
-  //Return overlay socket
-  $this.getOverlaySocket = function() {
-    return $overlaySocket;
-  };
-
+  //Starts server
   $this.start = function(server) {
-    $overlaySocket.init(server);
+    var _ioSocketServer = require('socket.io')(server);
+    $this['panel'].init(_ioSocketServer);
+    $this['overlay'].init(_ioSocketServer);
   };
 
 })();

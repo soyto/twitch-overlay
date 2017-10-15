@@ -5,7 +5,7 @@ module.exports = (function() {
   var express = require('express');
   var router = express.Router();
   var $log = require('../../lib/log');
-  var $overlaySocket = require('../../sockets').getOverlaySocket();
+  var $overlaySocket = require('../../sockets')['overlay'];
 
   //Get window data
   router.get('/', (req, res) => {

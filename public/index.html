@@ -61,7 +61,8 @@
           </div>
           <div class="pull-left info">
             <p>{{ data.twitch.userData.display_name }}</p>
-            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            <a href="" data-ng-show="data.twitch.stream != null"><i class="fa fa-circle text-success"></i> Online</a>
+            <a href="" data-ng-show="data.twitch.stream == null"><i class="fa fa-circle text-gray"></i> Offline</a>
           </div>
         </div>
 
@@ -417,6 +418,7 @@
   <!--<script type="text/javascript" src="/assets/bower/jquery-ui/jquery-ui.min.js"></script>-->
   <script type="text/javascript" src="/assets/bower/bootstrap/dist/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="/assets/bower/angular/angular.min.js"></script>
+  <script type="text/javascript" src="/assets/bower/socket.io-client/dist/socket.io.slim.js"></script>
 
   <!-- Template Scripts -->
   <script type="text/javascript" src="/assets/js/Tree.js"></script>

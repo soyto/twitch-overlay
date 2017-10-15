@@ -17,6 +17,7 @@
     var $alertService = $hs.$instantiate('alert.service');
     var $reloadService = $hs.$instantiate('reload.service');
     var $timeout = $hs.$instantiate('$timeout');
+    var $socket = $hs.$instantiate('socket.service');
 
 
     var _rootData = {
@@ -39,6 +40,8 @@
       'twitch': {
         'loginURI': null,
         'userData': null,
+        'stream': null,
+        'channelInfo': null,
       },
       'alert': {
         'title': {
@@ -134,7 +137,9 @@
 
       _rootData['title'] = 'Soyto\'s Twitch overlay panel';
 
-      _loadInitialData();
+      _loadInitialData().then(function(){
+        $socket.init();
+      });
     }
 
     //Loads initial data
@@ -161,12 +166,26 @@
 
           _data['twitch']['loginURI'] = $$response['data']['loginURI'];
           _data['twitch']['userData'] = $$response['data']['user'];
+          _data['twitch']['channelInfo'] = $$response['data']['channelInfo'];
+          _data['twitch']['stream'] = $$response['data']['stream'];
         });
       });
+
+      return $$q;
     }
 
 
     /* ----------------------------------- EVENTS HANDLERS ------------------------------------- */
+
+    $sc.$on('socket.twitch.streamStatus', function($event, $$data) {
+      console.log($$data);
+      _data['twitch']['stream'] = $$data;
+    });
+
+    $sc.$on('socket.twitch.channelInfo', function($event, $$data) {
+      //console.log($$data);
+      _data['twitch']['channelInfo'] = $$data;
+    });
   }
 
 })(angular);

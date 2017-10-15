@@ -12,9 +12,6 @@
   var $log = require('./node_app/lib/log');
   var $services = require('./node_app/services');
 
-
-
-
   //Set routing
   app.use('/', require('./node_app/routing'));
 
@@ -26,6 +23,9 @@
 
   //Start sass
   require('./node_app/lib/sass').start();
+
+  //Start twitch service watcher
+  $services['twitch'].startWatch();
 
   server.listen(80, function () {
     $log.debug('Server start in port %s', colors.cyan(80));

@@ -15,7 +15,7 @@ module.exports = (function() {
     //Initializes socket
     $this.init = function(server) {
       _server = server;
-      _io = server.of('/overlay');
+      _io = server.of('/panel');
       _io.on('connection', _onConnection);
     };
 
@@ -24,27 +24,15 @@ module.exports = (function() {
       return _sockets.length;
     };
 
-    //Reloads overlay
-    $this.reload = function() {
-      _io.emit('reload');
+
+    //Pushes channel info
+    $this.pushTwitchChannelInfo = function(channelInfo) {
+      _io.emit('twitch.channelInfo', channelInfo);
     };
 
-    //Sets width to all connected clients
-    $this.setWindow = function(width, height) {
-      _io.emit('window', {
-        'width': width,
-        'height': height
-      });
-    };
-
-    //Sends an alert to the overlay
-    $this.sendNotification = function(data) {
-      _io.emit('notification', data);
-    };
-
-    //Sends an alert to the overlay that there is a new follower
-    $this.twitch_newFollower = function(followerData) {
-      _io.emit('twitch.follower.new', followerData);
+    //Pushes stream status
+    $this.pushTwitchStreamStatus = function(streamData) {
+      _io.emit('twitch.streamStatus', streamData);
     };
 
     //On client connection
