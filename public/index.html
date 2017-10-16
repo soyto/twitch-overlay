@@ -94,22 +94,7 @@
 
           <!-- Online time -->
           <div class="col-md-3 col-xs-6">
-            <div class="small-box bg-teal-gradient">
-
-              <div class="inner">
-                <h3><time-since date="data.twitch.stream.started_at"></time-since></h3>
-                <p>Online Time</p>
-              </div>
-
-              <div class="icon">
-                <i class="fa fa-clock-o"></i>
-              </div>
-
-              <a href="" class="small-box-footer">
-
-              </a>
-
-            </div>
+            <sto-dashboard-online-time-box data="data.twitch.stream.started_at"></sto-dashboard-online-time-box>
           </div><!-- /Online time -->
 
           <!-- Viewers -->
@@ -119,22 +104,7 @@
 
           <!-- Followers -->
           <div class="col-md-3 col-xs-6">
-            <div class="small-box bg-green-gradient">
-
-              <div class="inner">
-                <h3>{{ data.twitch.channelInfo.followers }}</h3>
-                <p>Followers</p>
-              </div>
-
-              <div class="icon">
-                <i class="fa fa-users"></i>
-              </div>
-
-              <a href="" class="small-box-footer">
-
-              </a>
-
-            </div>
+            <sto-dashboard-followers-box data="data.twitch.channelInfo.followers"></sto-dashboard-followers-box>
           </div><!-- /Followers -->
 
           <div class="col-md-3 col-xs-6">

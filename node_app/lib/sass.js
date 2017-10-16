@@ -3,13 +3,16 @@ module.exports = new (function () {
 
   var $this = this;
 
-  var fs = require('fs');
+  var chockidar = require('chokidar');
   var colors = require('colors');
   var grunt = require('grunt');
   var sass = require('node-sass');
 
   var $log = require('./log');
 
+  const COMMON_FOLDER = 'public/assets/sass/common';
+  const PANEL_FOLDER = 'public/assets/sass/panel';
+  const OVERLAY_FOLDER = 'public/assets/sass/overlay';
 
   var _panelWatcher = null;
   var _overlayWathcer = null;
@@ -33,24 +36,6 @@ module.exports = new (function () {
     return $this;
   };
 
-  $this.panel_watch = function () {
-    var _panelAppTimeout = null;
-
-    //Watch changes on panel
-    _panelWatcher = fs.watch('public/assets/sass/panel', () => {
-
-      if (_panelAppTimeout != null) { return; }
-
-      _panelAppTimeout = setTimeout(() => {
-        $this.panel();
-        _panelAppTimeout = null;
-      }, 500);
-
-    });
-
-    return $this;
-  };
-
   //Sass overlay
   $this.overlay = function () {
     sass.render({
@@ -69,52 +54,18 @@ module.exports = new (function () {
     return $this;
   };
 
-  //Watch overlay sass changes
-  $this.overlay_watch = function () {
-    var _panelAppTimeout = null;
-
-    //Watch changes on panel
-    _panelWatcher = fs.watch('public/assets/sass/overlay', () => {
-
-      if (_panelAppTimeout != null) { return; }
-
-      _panelAppTimeout = setTimeout(() => {
-        $this.overlay();
-        _panelAppTimeout = null;
-      }, 500);
-
-    });
-
-    return $this;
-  };
-
-  //Watch sass common changes
-  $this.common_watch = function () {
-    var _timeout = null;
-
-    //Watch changes on panel
-    _commonWatcher = fs.watch('public/assets/sass/common', () => {
-
-      if (_timeout != null) { return; }
-
-      _timeout = setTimeout(() => {
-        $this.panel().overlay();
-        _timeout = null;
-      }, 500);
-
-    });
-
-    return $this;
-  };
-
   //Start watchers
-  $this.start = function () {
-    return $this
-        .panel()
-        .overlay()
-        .panel_watch()
-        .overlay_watch()
-        .common_watch();
+  $this.start = function() {
+
+    _commonWatcher = chockidar.watch(COMMON_FOLDER);
+    _panelWatcher = chockidar.watch(PANEL_FOLDER);
+    _overlayWathcer = chockidar.watch(OVERLAY_FOLDER);
+
+    _commonWatcher.on('change', () => $this.panel().overlay());
+    _panelWatcher.on('change', () => $this.panel());
+    _overlayWathcer.on('change', () => $this.overlay());
+
+    return $this.panel().overlay();
   };
 
   //Stop watchers

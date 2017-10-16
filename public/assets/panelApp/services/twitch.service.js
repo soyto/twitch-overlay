@@ -16,6 +16,10 @@
       return $http.get('/v1/panel/twitch');
     };
 
+    //Gets who is the last follower
+    $this.getLastFollower = function() {
+      return $http.get('/v1/panel/twitch/last-follower');
+    };
 
 
 

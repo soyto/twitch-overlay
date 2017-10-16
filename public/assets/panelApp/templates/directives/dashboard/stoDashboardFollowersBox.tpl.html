@@ -1,0 +1,19 @@
+<div class="small-box bg-green-gradient">
+
+  <div class="inner">
+    <h3 data-ng-show="data.value == null"> -- </h3>
+    <h3 data-ng-class="{'blink-effect': data.active}" data-ng-show="data.value != null">{{ data.value }}</h3>
+    <p>Followers</p>
+  </div>
+
+  <div class="icon">
+    <i class="fa fa-users"></i>
+  </div>
+
+  <a href="" target="_blank" class="small-box-footer"
+     data-ng-href="https://www.twitch.tv/{{ data.lastFollower.login }}"
+     data-ng-show="data.lastFollower != null">
+    Last @{{data.lastFollower.login}}
+  </a>
+
+</div>

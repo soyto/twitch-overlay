@@ -3,10 +3,13 @@ module.exports = new (function () {
   'use strict';
   var $this = this;
 
-  var fs = require('fs');
+  var chockidar = require('chokidar');
   var uglify = require('uglify-js');
   var grunt = require('grunt');
   var $log = require('./log');
+
+  const PANEL_FOLDER = 'public/assets/panelApp';
+  const OVERLAY_FOLDER = 'public/assets/overlayApp';
 
   var _panelWatcher = null;
   var _overlayWathcer = null;
@@ -29,26 +32,6 @@ module.exports = new (function () {
     return $this;
   };
 
-  //Watch changes on panel and uglify
-  $this.panel_watch = function () {
-    var _panelAppTimeout = null;
-
-    //Watch changes on panel
-    _panelWatcher = fs.watch('public/assets/panelApp', () => {
-
-      if (_panelAppTimeout != null) { return; }
-
-      _panelAppTimeout = setTimeout(() => {
-        $this.panel();
-        _panelAppTimeout = null;
-      }, 500);
-
-    });
-
-    return $this;
-
-  };
-
   //Uglify overlay sources
   $this.overlay = function () {
 
@@ -66,33 +49,16 @@ module.exports = new (function () {
     return $this;
   };
 
-  //Watch changes on panel and uglify
-  $this.overlay_watch = function () {
-    var _panelAppTimeout = null;
-
-    //Watch changes on panel
-    _overlayWathcer = fs.watch('public/assets/overlayApp', () => {
-
-      if (_panelAppTimeout != null) { return; }
-
-      _panelAppTimeout = setTimeout(() => {
-        $this.overlay();
-        _panelAppTimeout = null;
-      }, 500);
-
-    });
-
-    return $this;
-
-  };
-
   //Start watchers
   $this.start = function () {
-    return $this
-        .panel()
-        .overlay()
-        .panel_watch()
-        .overlay_watch();
+
+    _panelWatcher = chockidar.watch(PANEL_FOLDER);
+    _overlayWathcer = chockidar.watch(OVERLAY_FOLDER);
+
+    _panelWatcher.on('change', () => $this.panel());
+    _overlayWathcer.on('change', () => $this.overlay());
+
+    return $this.panel().overlay();
   };
 
   //Stop watchers

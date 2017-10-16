@@ -50,6 +50,35 @@ module.exports = (function() {
     res.end();
   });
 
+  //Gets last follower
+  router.get('/last-follower', async(req, res) => {
+
+    var _currentUser = await $twitchService.getCurrentUser();
+
+    if(_currentUser == null) {
+      res.json(null);
+      return;
+    }
+
+    var _followers = (await $twitchService.getFollowers(_currentUser['id']))['data'];
+
+    if(_followers.length === 0) {
+      res.json(null);
+      return;
+    }
+
+    _followers.sort((a, b) => {
+      var da = new Date(a['followed_at']);
+      var db = new Date(b['followed_at']);
+
+      return db.getTime() - da.getTime();
+    });
+
+    let _lastFollower = _followers[0];
+    res.json(await $twitchService.getUser(_lastFollower['from_id']));
+
+  });
+
 
   router.post('/simulate/newFollower', (req, res) => {
     $overlaySocket.twitch_newFollower(req['body']);

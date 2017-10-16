@@ -54,7 +54,7 @@
       'link': _linkFn,
       'scope': {},
       'controller': ['$scope', '$element', _controllerFn],
-      'templateUrl': '/assets/panelApp/templates/directives/layout/stoDashboardViewersBox.tpl.html'
+      'templateUrl': '/assets/panelApp/templates/directives/dashboard/stoDashboardViewersBox.tpl.html'
     };
   }
 
