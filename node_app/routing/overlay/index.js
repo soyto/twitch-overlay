@@ -6,27 +6,27 @@ module.exports = (function() {
   var bodyParser = require('body-parser');
   var router = express.Router();
   var $persistence = require('../../persistence/jsonSorage');
-  var $services = require('../../services');
-
-  var $twitchService = $services.getTwitchService();
+  var $twitchService = require('../../services')['twitch'];
 
   //panel middleware
   router.use(bodyParser.json());
 
   router.get('/', async ($$req, $$res) => {
 
-    let _responseData = {
+    var _responseData = {
       'window': $persistence.getProfile()['window'],
       'twitch': {
-        'last_follower': null
+        'last_follower': null,
+        'user': null
       }
     };
 
-    let _twitchUserId = $persistence.getTwitchCurrentUserId();
+    _responseData['twitch']['user'] = await $twitchService.getCurrentUser();
+
 
     //If twitch user id isnt null
-    if(_twitchUserId != null) {
-      let _followers = (await $twitchService.getFollowers(_twitchUserId))['data'];
+    if(_responseData['twitch']['user'] != null) {
+      let _followers = (await $twitchService.getFollowers(_responseData['twitch']['user']['id']))['data'];
 
       if(_followers.length > 0) {
 

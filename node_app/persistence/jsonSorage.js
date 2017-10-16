@@ -52,16 +52,6 @@ module.exports = new (function() {
     _persist();
   };
 
-  $this.getTwitchCurrentUserId = function() {
-    return _data['twitch']['currentUserId'];
-  };
-
-  $this.setTwitchCurrentUserId = function(currentUserId) {
-    _data['twitch']['currentUserId'] = currentUserId;
-
-    _persist();
-  };
-
 
   //Persists data on storage
   function _persist() {
