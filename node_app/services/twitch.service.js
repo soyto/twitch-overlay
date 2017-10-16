@@ -117,7 +117,7 @@ module.exports = new (function() {
 
   //Start watcher
   async function _startWatch() {
-    const _ITERATION_TIMEOUT = 500;
+    const _ITERATION_TIMEOUT = 5000;
 
     //If watcher was already started
     if(_data['watcher']['started']) {

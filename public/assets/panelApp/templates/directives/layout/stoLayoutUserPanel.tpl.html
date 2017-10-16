@@ -1,0 +1,36 @@
+<div class="user-panel" data-ng-cloak>
+
+  <!-- Image -->
+  <div class="pull-left image">
+
+    <!-- Profile image when is available -->
+    <img class="img-circle"
+         alt="User Image"
+         data-ng-src="{{ twitch.userData.profile_image_url }}"
+         data-ng-if="twitch.userData.profile_image_url != null"><!-- /Profile image when is available -->
+
+    <!-- Profile image when is not available -->
+    <img class="img-circle"
+         alt="User Image"
+         src="/assets/img/panel/default-user-image.png"
+         data-ng-if="twitch.userData.profile_image_url == null"><!-- /Profile image when is not available -->
+
+  </div><!-- /Image -->
+
+  <!-- Profile info when is available -->
+  <div class="pull-left info">
+
+    <p data-ng-if="twitch.userData != null">
+      {{ twitch.userData.display_name }} [<a href="" class="text-sm" data-ng-click="onClick_logOut()">Log out</a>]
+    </p>
+
+    <p data-ng-if="twitch.userData == null">
+      <a href="" class="btn btn-link" data-ng-href="{{ twitch.loginURI }}">Please Log in</a>
+    </p>
+
+    <a href="" data-ng-if="twitch.userData != null && twitch.stream != null"><i class="fa fa-circle text-success"></i> Online</a>
+    <a href="" data-ng-if="twitch.userData != null && twitch.stream == null"><i class="fa fa-circle text-gray"></i> Offline</a>
+
+  </div><!-- /Profile info -->
+
+</div>
