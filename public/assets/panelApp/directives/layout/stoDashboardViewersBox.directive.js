@@ -42,7 +42,7 @@
 
           _timeoutCb = $timeout(function(){
             _data['active'] = false;
-          }, 2000);
+          }, 1000);
         }
 
       });
