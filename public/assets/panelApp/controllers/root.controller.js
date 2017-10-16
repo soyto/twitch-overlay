@@ -178,12 +178,10 @@
     /* ----------------------------------- EVENTS HANDLERS ------------------------------------- */
 
     $sc.$on('socket.twitch.streamStatus', function($event, $$data) {
-      console.log($$data);
       _data['twitch']['stream'] = $$data;
     });
 
     $sc.$on('socket.twitch.channelInfo', function($event, $$data) {
-      //console.log($$data);
       _data['twitch']['channelInfo'] = $$data;
     });
   }

@@ -88,7 +88,88 @@
       <!-- Main content -->
       <section class="content">
 
+        <h3 class="text-center">{{ data.twitch.channelInfo.status }}</h3>
+
         <div class="row">
+
+          <!-- Online time -->
+          <div class="col-md-3 col-xs-6">
+            <div class="small-box bg-teal-gradient">
+
+              <div class="inner">
+                <h3><time-since date="data.twitch.stream.started_at"></time-since></h3>
+                <p>Online Time</p>
+              </div>
+
+              <div class="icon">
+                <i class="fa fa-clock-o"></i>
+              </div>
+
+              <a href="" class="small-box-footer">
+
+              </a>
+
+            </div>
+          </div><!-- /Online time -->
+
+          <!-- Viewers -->
+          <div class="col-md-3 col-xs-6">
+            <div class="small-box bg-purple-gradient">
+
+              <div class="inner">
+                <h3>{{ data.twitch.stream.viewer_count }}</h3>
+                <p>Viewers</p>
+              </div>
+
+              <div class="icon">
+                <i class="fa fa-eye"></i>
+              </div>
+
+              <a href="" class="small-box-footer">
+
+              </a>
+
+            </div>
+          </div><!-- /Viewers -->
+
+          <!-- Followers -->
+          <div class="col-md-3 col-xs-6">
+            <div class="small-box bg-green-gradient">
+
+              <div class="inner">
+                <h3>{{ data.twitch.channelInfo.followers }}</h3>
+                <p>Followers</p>
+              </div>
+
+              <div class="icon">
+                <i class="fa fa-users"></i>
+              </div>
+
+              <a href="" class="small-box-footer">
+
+              </a>
+
+            </div>
+          </div><!-- /Followers -->
+
+          <div class="col-md-3 col-xs-6">
+            <div class="small-box bg-red-gradient">
+
+              <div class="inner">
+                <h3>{{ data.twitch.channelInfo.views }}</h3>
+                <p>Subscribers</p>
+              </div>
+
+              <div class="icon">
+                <i class="fa fa-shopping-cart"></i>
+              </div>
+
+              <a href="" class="small-box-footer">
+
+              </a>
+
+            </div>
+          </div>
 
           <div class="col-md-4">
 
@@ -376,8 +457,8 @@
   </div><!-- /Main Wrapper -->
 
   <!-- External sources -->
+  <script type="text/javascript" src="/assets/bower/moment/min/moment-with-locales.min.js"></script>
   <script type="text/javascript" src="/assets/bower/jquery/dist/jquery.min.js"></script>
-  <!--<script type="text/javascript" src="/assets/bower/jquery-ui/jquery-ui.min.js"></script>-->
   <script type="text/javascript" src="/assets/bower/bootstrap/dist/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="/assets/bower/angular/angular.min.js"></script>
   <script type="text/javascript" src="/assets/bower/socket.io-client/dist/socket.io.slim.js"></script>

@@ -5,6 +5,7 @@
   ng.module('panelApp', []);
 
   ng.module('panelApp')
-      .constant('$io', io);
+    .constant('$moment', moment)
+    .constant('$io', io);
 
 })(angular);

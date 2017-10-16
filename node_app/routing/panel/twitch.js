@@ -31,7 +31,7 @@ module.exports = (function() {
     try {
 
       _resultData['user'] = await $twitchService.getCurrentUser();
-      _resultData['channel'] = await $twitchService.getChannel(_resultData['user']['login']);
+      _resultData['channelInfo'] = await $twitchService.getChannel(_resultData['user']['login']);
       _resultData['stream'] = await $twitchService.getStream(_resultData['user']['id']);
 
       res.json(_resultData);
