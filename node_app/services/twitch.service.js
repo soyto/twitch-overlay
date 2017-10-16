@@ -111,10 +111,6 @@ module.exports = new (function() {
     _stopWatch();
   };
 
-  //Stop watching followers
-  $this.stopWatchFollowers = function() {
-    _stopWatchFollowers();
-  };
 
   //Initialization function
   function _init() {}

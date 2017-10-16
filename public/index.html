@@ -56,15 +56,36 @@
 
         <!-- Sidebar user panel -->
         <div class="user-panel" data-ng-cloak>
-          <div class="pull-left image" data-ng-show="data.twitch.userData != null">
-            <img data-ng-src="{{ data.twitch.userData.profile_image_url }}" class="img-circle" alt="User Image">
-          </div>
+
+          <!-- Image -->
+          <div class="pull-left image">
+
+            <!-- Profile image when is available -->
+            <img class="img-circle"
+                 alt="User Image"
+                 data-ng-src="{{ data.twitch.userData.profile_image_url }}"
+                 data-ng-if="data.twitch.userData.profile_image_url != null"><!-- /Profile image when is available -->
+
+            <!-- Profile image when is not available -->
+            <img class="img-circle"
+                 alt="User Image"
+                 src="/assets/img/panel/default-user-image.png"
+                 data-ng-if="data.twitch.userData.profile_image_url == null"><!-- /Profile image when is not available -->
+
+          </div><!-- /Image -->
+
+          <!-- Profile info when is available -->
           <div class="pull-left info">
-            <p>{{ data.twitch.userData.display_name }}</p>
-            <a href="" data-ng-show="data.twitch.stream != null"><i class="fa fa-circle text-success"></i> Online</a>
-            <a href="" data-ng-show="data.twitch.stream == null"><i class="fa fa-circle text-gray"></i> Offline</a>
-          </div>
-        </div>
+
+            <p data-ng-if="data.twitch.userData != null">{{ data.twitch.userData.display_name }}</p>
+            <p data-ng-if="data.twitch.userData == null"><a href="" class="btn btn-link">Twitch Log in</a></p>
+
+            <a href="" data-ng-if="data.twitch.stream != null"><i class="fa fa-circle text-success"></i> Online</a>
+            <a href="" data-ng-if="data.twitch.stream == null"><i class="fa fa-circle text-gray"></i> Offline</a>
+
+          </div><!-- /Profile info -->
+
+        </div><!-- /Sidebar user panel -->
 
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
