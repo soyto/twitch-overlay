@@ -66,6 +66,9 @@
       //When we receive a notification
       $sc.$on('socket.notification', function($$event, $$notification) {
         $log.debug('notification recieved %o', $$notification);
+
+        $sc['audio'].play('dixie-horn_daniel-simion');
+
         _newNotification($$notification);
       });
     }
