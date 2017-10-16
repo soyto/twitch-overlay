@@ -21,13 +21,13 @@ module.exports = new (function () {
       'file': 'public/assets/sass/panel/panel.scss'
     }, (err, result) => {
 
-      if (err != null) {
-        $log.error(err);
-        return;
-      } 
+        if (err != null) {
+          $log.error(err);
+          return;
+        }
 
-      $log.debug('Panel sass executed');
-      grunt.file.write('public/assets/dist/panel.min.css', result.css);
+        $log.debug('Panel sass executed');
+        grunt.file.write('public/assets/dist/panel.min.css', result.css);
       });
 
     return $this;
