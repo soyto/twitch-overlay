@@ -50,15 +50,21 @@ module.exports = new (function() {
     var _cacheEntry = $cache.get(CACHE_ENTRY);
 
     if(_cacheEntry == null) {
+
+      //If there is no access token never can be a "current user"
+      if($persistence.getTwitchAccessToken() == null) {
+        return null;
+      }
+
       let _value = (await _v6ApiRequest('https://api.twitch.tv/helix/users/'))['data'][0];
 
       $cache.add(CACHE_ENTRY, _value, 5000);
       _data['currentUser'] = _value;
 
-      return Promise.resolve(_value);
+      return _value;
     }
     else {
-      return Promise.resolve(_cacheEntry);
+      return _cacheEntry;
     }
   };
 

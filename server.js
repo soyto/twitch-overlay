@@ -27,7 +27,7 @@
   //Start twitch service watcher
   $services['twitch'].startWatch();
 
-  server.listen(80, function () {
-    $log.debug('Server start in port %s', colors.cyan(80));
+  server.listen($config['server']['port'], function () {
+    $log.debug('Server start in port %s', colors.cyan($config['server']['port']));
   });
 })();
