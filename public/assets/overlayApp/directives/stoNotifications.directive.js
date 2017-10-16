@@ -54,6 +54,9 @@
       //When we receive that we have a new follower
       $sc.$on('socket.twitch.follower.new', function($event, $$eventData) {
         $log.debug('new twitch follower %o', $$eventData);
+
+        $sc['audio'].play('sms-alert-4-daniel_simon');
+
         _newNotification({
           'type': 'twitch-new-follower',
           'data': $$eventData
@@ -67,9 +70,14 @@
       });
     }
 
-
     //Link function
     function _linkFn($sc, $element, $attr) {
+
+      $sc['audio'] = {};
+
+      $sc['audio'].play = function(fileName) {
+        $element.find('.audio-controls').find('#' + fileName).get(0).play();
+      };
     }
 
     return {

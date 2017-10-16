@@ -39,7 +39,7 @@ module.exports = new (function() {
         $config['twitch']['clientID'],
         encodeURIComponent($config['twitch']['redirectURI']),
         encodeURIComponent('token'),
-        ['user:read:email', 'chat_login'].join('+')
+        ['user:read:email', 'chat_login', 'channel_subscriptions'].join('+')
     );
   };
 
