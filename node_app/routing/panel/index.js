@@ -15,6 +15,7 @@ module.exports = (function() {
   router.use('/reload', require('./reload'));
   router.use('/twitch', require('./twitch'));
   router.use('/window', require('./window'));
+  router.use('/twitter', require('./twitter'));
 
 
   router.use('/logout', async (req, res) => {

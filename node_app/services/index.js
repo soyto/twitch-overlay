@@ -5,6 +5,7 @@ module.exports = new (function() {
   var $twitchService = require('./twitch.service');
 
   $this['twitch'] = require('./twitch.service');
+  $this['twitter'] = require('./twitter.service');
 
 
   //Gets twitch service

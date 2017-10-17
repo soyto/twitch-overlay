@@ -15,6 +15,7 @@
     var $windowService = $hs.$instantiate('window.service');
     var $twitchService = $hs.$instantiate('twitch.service');
     var $alertService = $hs.$instantiate('alert.service');
+    var $twitterService = $hs.$instantiate('twitter.service');
     var $reloadService = $hs.$instantiate('reload.service');
     var $timeout = $hs.$instantiate('$timeout');
     var $socket = $hs.$instantiate('socket.service');
@@ -125,6 +126,9 @@
       $twitchService.simulate.newFollower(_user);
     };
 
+    $sc.onClick_twitterLogin = function() {
+      $twitterService.getRequestUrl();
+    };
 
     /* ----------------------------------- PRIVATE FUNCTIONS ----------------------------------- */
 

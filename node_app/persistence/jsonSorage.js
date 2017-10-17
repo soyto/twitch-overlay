@@ -11,6 +11,12 @@ module.exports = new (function() {
       'access_token': null,
       'currentUserId': null,
     },
+    'twitter': {
+      'request_token': {
+        'token': null,
+        'secret': null
+      }
+    },
     'window': {
       'width': 1920,
       'height': 1080
@@ -48,6 +54,19 @@ module.exports = new (function() {
   //Sets wich is twitch access token
   $this.setTwitchAccessToken = function(token) {
     _data['twitch']['access_token'] = token;
+
+    _persist();
+  };
+
+  //Gets oauth request token
+  $this.getOAuthRequestToken = function() {
+    return _data['twitter']['request_token'];
+  };
+
+  //Stores OAuthr Request token
+  $this.storeOAuthRequestToken = function(token) {
+    _data['twitter']['request_token']['token'] = token['token'];
+    _data['twitter']['request_token']['secret'] = token['secret'];
 
     _persist();
   };
