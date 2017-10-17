@@ -44,8 +44,6 @@ module.exports = (function() {
   //Logins on twitch
   router.get('/login', async (req, res) => {
     $persistence.setTwitchAccessToken(req['query']['access_token']);
-    let _user = await $twitchService.getCurrentUser();
-    $persistence.setTwitchCurrentUserId(_user['id']);
     $twitchService.startWatch();
     res.end();
   });
