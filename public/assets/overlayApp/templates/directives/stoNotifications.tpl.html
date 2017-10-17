@@ -3,16 +3,14 @@
   <div data-ng-repeat="notification in data.elements" data-ng-animate-children="true">
 
     <!-- Red basic notifications -->
-    <div class="sto-notification" data-ng-class="{'active': notification.isActive }" data-ng-if="notification.type == null">
+    <div class="sto-notification" data-ng-if="notification.type == null">
       <h4 class="sto-notification-header">{{ notification.title }}</h4>
       <div class="sto-notification-body" data-ng-show="notification.body">{{ notification.body }}</div>
     </div><!-- /Red basic notifications -->
 
 
     <!-- Twitch new follower notification -->
-    <div class="sto-notification sto-twitch-new-follower-notification"
-         data-ng-class="{'active': notification.isActive }"
-         data-ng-if="notification.type == 'twitch-new-follower'">
+    <div class="sto-notification sto-twitch-new-follower-notification" data-ng-if="notification.type == 'twitch-new-follower'">
       <div class="sto-notification-header-media media">
         <div class="media-left" data-ng-show="notification.data.profile_image_url.length > 0">
           <img  class="img img-thumbnail media-object" data-ng-src="{{notification.data.profile_image_url }}">

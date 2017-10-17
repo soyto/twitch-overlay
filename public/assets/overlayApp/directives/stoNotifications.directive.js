@@ -35,11 +35,6 @@
 
         _data['elements'].push(notification);
 
-        //HACK to activate animations on notification body
-        $timeout(function() {
-          notification['isActive'] = true;
-        });
-
         if(AUTO_CLOSE_NOTIFICATIONS) {
           $timeout(function () {
             var _idx = _data['elements'].indexOf(notification);

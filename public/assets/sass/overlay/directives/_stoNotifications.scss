@@ -2,6 +2,7 @@
 
   margin-top: 20px;
   margin-right: 15px;
+  overflow: visible;
 
   .sto-notification {
 
@@ -13,21 +14,8 @@
     box-shadow: 4px 4px 9px 0 rgba(0, 0, 0, 0.5);
     margin-bottom: 5px;
 
-    /* Animation throuhgt ng-animate */
     &.ng-enter {
-      position: relative;
-      right: -500px;
-      transition: all cubic-bezier(0, .75, 0.75, 1.25)  .5s;
-      &.ng-enter-active{
-        right: 0;
-      }
-    }
-
-    &.ng-leave {
-      transition: all ease-out .5s;
-      &.ng-leave-active {
-        opacity: 0;
-      }
+      animation: notification-enter .7s;
     }
 
     .sto-notification-header {
@@ -52,15 +40,6 @@
 
     .sto-notification-body {
       padding: 10px;
-      transition: all ease-out .25s;
-      transition-delay: .6s; //IMPORTANT, that delay must be done when animation on notification ends...
-      margin-bottom: -50px;
-    }
-
-    &.active {
-      .sto-notification-body {
-        margin-bottom: 0;
-      }
     }
 
     &.sto-notification-blue {
@@ -81,5 +60,18 @@
       }
     }
 
+  }
+}
+
+@keyframes notification-enter {
+  0% {
+
+    transform: skewX(-20deg) translate(400px);
+  }
+  90% {
+    transform: skewX(-20deg) translate(-50px);
+  }
+  100% {
+    transform: skewX(0deg) translate(0);
   }
 }
