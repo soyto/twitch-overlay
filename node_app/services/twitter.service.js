@@ -6,7 +6,7 @@ module.exports = new (function() {
   const REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token';
   const ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token';
 
-  var OAuth = require('OAuth')['OAuth'];
+  var OAuth = require('oauth')['OAuth'];
   var util = require('util');
 
   var $config = require('../config');
