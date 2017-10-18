@@ -15,6 +15,10 @@ module.exports = new (function() {
       'request_token': {
         'token': null,
         'secret': null
+      },
+      'access_token': {
+        'token': null,
+        'secret': null
       }
     },
     'window': {
@@ -26,6 +30,14 @@ module.exports = new (function() {
 
   if(grunt.file.exists(FILE)) {
     _data = Object.assign(_data, grunt.file.readJSON(FILE));
+  }
+
+  //Entrust that twitter.access_token is present
+  if(_data['twitter']['access_token'] == null) {
+    _data['twitter']['access_token'] = {
+      'token': null,
+      'secret': null
+    };
   }
 
   //Returns whole profile
@@ -59,14 +71,36 @@ module.exports = new (function() {
   };
 
   //Gets oauth request token
-  $this.getOAuthRequestToken = function() {
+  $this.getOAuthTwitterRequestToken = function() {
     return _data['twitter']['request_token'];
   };
 
   //Stores OAuthr Request token
-  $this.storeOAuthRequestToken = function(token) {
-    _data['twitter']['request_token']['token'] = token['token'];
-    _data['twitter']['request_token']['secret'] = token['secret'];
+  $this.storeOAuthTwitterRequestToken = function(token) {
+
+    if(token == null) {
+      _data['twitter']['request_token']['token'] = null;
+      _data['twitter']['request_token']['secret'] = null;
+    }
+    else {
+      _data['twitter']['request_token']['token'] = token['token'];
+      _data['twitter']['request_token']['secret'] = token['secret'];
+    }
+
+
+
+    _persist();
+  };
+
+  //Gets oauth twitter token
+  $this.getOauthTwitterToken = function() {
+    return _data['twitter']['access_token'];
+  };
+
+  //Stores oauth twitter token
+  $this.storeOauthTwitterToken = function(token) {
+    _data['twitter']['access_token']['token'] = token['token'];
+    _data['twitter']['access_token']['secret'] = token['secret'];
 
     _persist();
   };

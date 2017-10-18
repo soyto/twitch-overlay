@@ -12,6 +12,7 @@
     var $q = $hs.$instantiate('$q');
     var $rs = $hs.$instantiate('$rootScope');
     var $interval = $hs.$instantiate('$interval');
+    var $http = $hs.$instantiate('$http');
     var $windowService = $hs.$instantiate('window.service');
     var $twitchService = $hs.$instantiate('twitch.service');
     var $alertService = $hs.$instantiate('alert.service');
@@ -162,7 +163,6 @@
         });
       });
 
-
       //Twitch data
       $$q = $$q.then(function() {
         return $twitchService.get().then(function($$response) {
@@ -172,6 +172,13 @@
           _data['twitch']['userData'] = $$response['data']['user'];
           _data['twitch']['channelInfo'] = $$response['data']['channelInfo'];
           _data['twitch']['stream'] = $$response['data']['stream'];
+        });
+      });
+
+      //Twitter data
+      $$q = $$q.then(function() {
+        $http.get('/v1/panel/twitter/verify').then(function($$response) {
+          console.log($$response);
         });
       });
 
