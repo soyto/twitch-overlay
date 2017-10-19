@@ -25,8 +25,8 @@ module.exports = (function() {
     };
 
     //Push new follower
-    $this.pushTwitchNewFollower = function(followerData) {
-      _io.emit('twitch.newFollower', followerData);
+    $this.pushTwitchLastFollower = function(followerData) {
+      _io.emit('twitch.lastFollower', followerData);
     };
 
 

@@ -35,7 +35,6 @@
         if(_data['value'] == null) {
 
           _data['value'] = $$newValue;
-
           return $twitchService.getLastFollower().then(function($$response) {
             if($$response['status'] != 200) { return; }
             _data['lastFollower'] = $$response['data'];
@@ -52,6 +51,11 @@
             _data['active'] = false;
           }, 1000);
         }
+      });
+
+      //On last follower...
+      $sc.$on('socket.twitch.lastFollower', function($$event, $$lastFollower) {
+        _data['lastFollower'] = $$lastFollower;
       });
     }
 

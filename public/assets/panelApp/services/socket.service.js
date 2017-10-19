@@ -19,9 +19,9 @@
       var _socket = $io.connect('/panel');
 
       //On new follower
-      _socket.on('twitch.newFollower', function($$data) {
+      _socket.on('twitch.lastFollower', function($$data) {
         $rs.$apply(function() {
-          $rs.$broadcast('socket.twitch.newFollower', $$data);
+          $rs.$broadcast('socket.twitch.lastFollower', $$data);
         });
       });
 

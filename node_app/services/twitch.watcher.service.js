@@ -15,16 +15,17 @@ module.exports = new (function() {
     'iteration': {
       'count': 0,
       'fns': [
+        _iteration_overlay_newFollowers,
         _iteration_panel_streamInfo,
         _iteration_panel_channelInfo,
-        _iteration_overlay_newFollowers
+        _iteration_panel_lastFollower,
       ],
     },
     'last_followers_date': null,
     '$$state': {
       'timeout_handle': null,
       'started': false,
-      'timeout': 5000,
+      'timeout': 2000,
     }
   };
 
@@ -131,7 +132,6 @@ module.exports = new (function() {
     _users['data'].forEach(($$newFollower) => {
       $log.debug('Twitch API: new follower %s', $$newFollower['display_name']);
       $overlaySocket.twitch_newFollower($$newFollower);
-      $panelSocket.pushTwitchNewFollower($$newFollower);
     });
   }
 
@@ -139,6 +139,19 @@ module.exports = new (function() {
   async function _iteration_panel_channelInfo() {
     var _channelInfo = await $twitchService.getChannel(_data['user']['login']);
     $panelSocket.pushTwitchChannelInfo(_channelInfo);
+  }
+
+  //Panel last follower
+  async function _iteration_panel_lastFollower() {
+
+    //Retrieve followers data
+    var _followers = await $twitchService.getFollowers(_data['user']['id']);
+
+    if(!_followers['data'].length) { return; }
+
+    var _user = await $twitchService.getUser(_followers['data'][0]['from_id']);
+
+    $panelSocket.pushTwitchLastFollower(_user);
   }
 
   //Stream info iteration
