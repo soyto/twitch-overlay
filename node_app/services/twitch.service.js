@@ -38,6 +38,10 @@ module.exports = new (function() {
 
   //Set access token
   $this.setAccessToken = function(access_token) {
+
+    //Clear cache...
+    $cache.clear();
+
     $persistence.setTwitchAccessToken(access_token);
     _data['access_token'] = access_token;
   };

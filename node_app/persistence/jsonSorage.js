@@ -9,7 +9,6 @@ module.exports = new (function() {
   var _data = {
     'twitch': {
       'access_token': null,
-      'currentUserId': null,
     },
     'twitter': {
       'request_token': {
@@ -30,14 +29,6 @@ module.exports = new (function() {
 
   if(grunt.file.exists(FILE)) {
     _data = Object.assign(_data, grunt.file.readJSON(FILE));
-  }
-
-  //Entrust that twitter.access_token is present
-  if(_data['twitter']['access_token'] == null) {
-    _data['twitter']['access_token'] = {
-      'token': null,
-      'secret': null
-    };
   }
 
   //Returns whole profile
