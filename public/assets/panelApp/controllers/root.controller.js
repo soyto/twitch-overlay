@@ -122,7 +122,7 @@
         "display_name":"dallas",
         "description":"Just a gamer playing games and chatting. :)",
         "profile_image_url":"https://static-cdn.jtvnw.net/jtv_user_pictures/dallas-profile_image-1a2c906ee2c35f12-300x300.png",
-      }
+      };
 
       $twitchService.simulate.newFollower(_user);
     };
@@ -143,7 +143,7 @@
       _rootData['title'] = 'Soyto\'s Twitch overlay panel';
 
       _loadInitialData().then(function(){
-        $socket.init();
+        //$socket.init();
       });
     }
 

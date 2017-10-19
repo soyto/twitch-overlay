@@ -6,7 +6,7 @@ module.exports = (function() {
   var bodyParser = require('body-parser');
   var router = express.Router();
   var $persistence = require('../../persistence/jsonSorage');
-  var $twitchService = require('../../services')['twitch'];
+  var $twitchWatcherService = require('../../services')['twitch.watcher'];
 
   //panel middleware
   router.use(bodyParser.json());
@@ -20,7 +20,7 @@ module.exports = (function() {
 
   router.use('/logout', async (req, res) => {
     $persistence.setTwitchAccessToken(null);
-    $twitchService.stopWatch();
+    $twitchWatcherService.stop();
     res.end();
   });
 

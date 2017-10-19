@@ -10,8 +10,13 @@ module.exports = (function() {
 
 
   router.get('/verify', async(req, res) => {
-    var _verify = await $twitterService.verifyCredentials();
-    res.json(_verify);
+    try {
+      var _verify = await $twitterService.verifyCredentials();
+      res.json(_verify);
+    } catch($$error) {
+      console.log($$error);
+      res.end();
+    }
   });
 
   //Get access token

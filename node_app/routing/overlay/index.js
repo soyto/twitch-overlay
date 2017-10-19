@@ -11,7 +11,7 @@ module.exports = (function() {
   //panel middleware
   router.use(bodyParser.json());
 
-  router.get('/', async ($$req, $$res) => {
+  router.get('/', async (req, res) => {
 
     var _responseData = {
       'window': $persistence.getProfile()['window'],
@@ -21,28 +21,34 @@ module.exports = (function() {
       }
     };
 
-    _responseData['twitch']['user'] = await $twitchService.getCurrentUser();
+    try {
 
+      _responseData['twitch']['user'] = await $twitchService.getCurrentUser();
 
-    //If twitch user id isnt null
-    if(_responseData['twitch']['user'] != null) {
-      let _followers = (await $twitchService.getFollowers(_responseData['twitch']['user']['id']))['data'];
+      //If twitch user isnt null
+      if (_responseData['twitch']['user'] != null) {
+        let _followers = (await $twitchService.getFollowers(_responseData['twitch']['user']['id']))['data'];
 
-      if(_followers.length > 0) {
+        if (_followers.length > 0) {
 
-        _followers.sort((a, b) => {
-          var da = new Date(a['followed_at']);
-          var db = new Date(b['followed_at']);
+          _followers.sort((a, b) => {
+            var da = new Date(a['followed_at']);
+            var db = new Date(b['followed_at']);
 
-          return db.getTime() - da.getTime();
-        });
+            return db.getTime() - da.getTime();
+          });
 
-        let _lastFollower = _followers[0];
-        _responseData['twitch']['last_follower'] = await $twitchService.getUser(_lastFollower['from_id']);
+          let _lastFollower = _followers[0];
+          _responseData['twitch']['last_follower'] = await $twitchService.getUser(_lastFollower['from_id']);
+        }
       }
-    }
 
-    $$res.json(_responseData);
+      res.json(_responseData);
+
+    }catch($$error) {
+      console.error($$error['message']);
+      res.json(_responseData);
+    }
   });
 
   return router;

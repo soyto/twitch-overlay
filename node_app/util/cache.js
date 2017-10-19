@@ -38,7 +38,11 @@
       return _entry['value'];
     };
 
+    //Clear whole cache
+    $this.clear = function() {
+      _entries = {};
+    };
   }
 
-  module.exports = new Cache();
+  module.exports = Cache;
 })();

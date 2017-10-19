@@ -25,7 +25,7 @@
   require('./node_app/lib/sass').start();
 
   //Start twitch service watcher
-  $services['twitch'].startWatch();
+  $services['twitch.watcher'].start();
 
   server.listen($config['server']['port'], function () {
     $log.debug('Server start in port %s', colors.cyan($config['server']['port']));

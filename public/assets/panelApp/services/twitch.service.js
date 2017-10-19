@@ -21,8 +21,6 @@
       return $http.get('/v1/panel/twitch/last-follower');
     };
 
-
-
     $this.simulate = new (function() {
       var $$this = this;
 
