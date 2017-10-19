@@ -143,7 +143,7 @@
       _rootData['title'] = 'Soyto\'s Twitch overlay panel';
 
       _loadInitialData().then(function(){
-        //$socket.init();
+        $socket.init();
       });
     }
 
