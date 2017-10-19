@@ -31,14 +31,18 @@
 
       $sc['$parent'].$watch($attr['data'], function($$newValue) {
 
+        //First iteration...
         if(_data['value'] == null) {
+
           _data['value'] = $$newValue;
-          _retrieveLastFollower();
-          return;
+
+          return $twitchService.getLastFollower().then(function($$response) {
+            if($$response['status'] != 200) { return; }
+            _data['lastFollower'] = $$response['data'];
+          });
         }
 
         if(_data['value'] != $$newValue) {
-          _retrieveLastFollower();
           _data['value'] = $$newValue;
           _data['active'] = true;
 
@@ -48,16 +52,7 @@
             _data['active'] = false;
           }, 1000);
         }
-
       });
-
-      function _retrieveLastFollower() {
-        $twitchService.getLastFollower().then(function($$response) {
-          if($$response['status'] != 200) { return; }
-          _data['lastFollower'] = $$response['data'];
-        });
-      }
-
     }
 
     return {

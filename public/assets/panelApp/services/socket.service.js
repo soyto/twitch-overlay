@@ -18,6 +18,13 @@
     $this.init = function() {
       var _socket = $io.connect('/panel');
 
+      //On new follower
+      _socket.on('twitch.newFollower', function($$data) {
+        $rs.$apply(function() {
+          $rs.$broadcast('socket.twitch.newFollower', $$data);
+        });
+      });
+
       _socket.on('twitch.channelInfo', function($$data) {
         $rs.$apply(function() {
           $rs.$broadcast('socket.twitch.channelInfo', $$data);

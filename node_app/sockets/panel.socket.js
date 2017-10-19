@@ -24,6 +24,11 @@ module.exports = (function() {
       return _sockets.length;
     };
 
+    //Push new follower
+    $this.pushTwitchNewFollower = function(followerData) {
+      _io.emit('twitch.newFollower', followerData);
+    };
+
 
     //Pushes channel info
     $this.pushTwitchChannelInfo = function(channelInfo) {

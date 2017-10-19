@@ -2,6 +2,9 @@
 module.exports = new (function() {
   var $this = this;
 
+
+  var $moment = require('moment');
+
   var $log = require('../lib/log');
   var $overlaySocket = require('../sockets/')['overlay'];
   var $panelSocket = require('../sockets/')['panel'];
@@ -17,7 +20,7 @@ module.exports = new (function() {
         _iteration_overlay_newFollowers
       ],
     },
-    'followers': [],
+    'last_followers_date': null,
     '$$state': {
       'timeout_handle': null,
       'started': false,
@@ -96,7 +99,7 @@ module.exports = new (function() {
     _data['user'] = null;
     _data['iteration']['count'] = 0;
 
-    _data['followers'] = [];
+    _data['last_followers_date'] = null;
 
     _data['$$state']['timeout_handle'] = null;
   }
@@ -105,36 +108,30 @@ module.exports = new (function() {
   async function _iteration_overlay_newFollowers() {
 
     //Retrieve followers data
-    var _followers = (await $twitchService.getFollowers(_data['user']['id']))['data'];
+    var _followers = await $twitchService.getFollowers(_data['user']['id']);
 
-    //First iteration?
-    if(!_data['followers'] || !_data['followers'].length) {
-      _data['followers'] = _followers;
+    if(!_data['last_followers_date'] && _followers['data'].length) {
+      _data['last_followers_date'] = $moment(_followers['data'][0]['followed_at']);
+      return;
+    }
+    else if(!_followers['data'].length) {
       return;
     }
 
-    var _newFollowers = [];
-
-    _followers.forEach(($$nFollower) => {
-      let _exists = !_data['followers'].every(($$oFollower) => $$nFollower['from_id'] != $$oFollower['from_id']);
-
-      if(!_exists) {
-        _newFollowers.push($$nFollower);
-      }
-    });
-
+    var _newFollowers = _followers['data'].filter(($$follower) => _data['last_followers_date'].diff($moment($$follower['followed_at'])) < 0);
 
     //No new followers, no party
     if(!_newFollowers || !_newFollowers.length) { return; }
 
-    //Push new followers
-    _newFollowers.forEach(($$follower) => _data['followers'].push($$follower));
+    //Update last folloers_date
+    _data['last_followers_date'] = $moment(_newFollowers[0]['followed_at']);
 
     var _users = await $twitchService.getUsers(_newFollowers.map((x) => x['from_id']));
 
     _users['data'].forEach(($$newFollower) => {
       $log.debug('Twitch API: new follower %s', $$newFollower['display_name']);
       $overlaySocket.twitch_newFollower($$newFollower);
+      $panelSocket.pushTwitchNewFollower($$newFollower);
     });
   }
 
