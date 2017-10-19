@@ -11,6 +11,7 @@ module.exports = new (function() {
 
   var $config = require('../config');
   var $persistence = require('../persistence/jsonSorage');
+  var $cache = new (require('../util')['cache']);
 
   var _data = {
     'token': {
@@ -18,27 +19,25 @@ module.exports = new (function() {
       'secret': null
     }
   };
+  var _oa = null;
 
-  if($persistence.getOauthTwitterToken() != null) {
-    let _token = $persistence.getOauthTwitterToken();
-    _data['token']['token'] = _token['token'];
-    _data['token']['secret'] = _token['secret'];
-  }
+  _init();
 
-  var _oa = new OAuth(
-      REQUEST_TOKEN_URL,
-      ACCESS_TOKEN_URL,
-      $config['twitter']['CONSUMER_KEY'],
-      $config['twitter']['CONSUMER_SECRET'],
-      '1.0A',
-      null,
-      'HMAC-SHA1'
-  );
+  /* ------------------------------------------- PUBLIC FUNCTIONS --------------------------------------------------- */
+
+  //Get followers
+  $this.getFollowers = function() {
+    return _oauth_get('https://api.twitter.com/1.1/followers/list.json');
+  };
 
   //verify user credentials
   $this.verifyCredentials = function() {
     return _oauth_get('https://api.twitter.com/1.1/account/verify_credentials.json');
   };
+
+  //
+  // AUTHORIZATION
+  // ----------------------
 
   //Generates request token
   $this.generateRequestToken = function() {
@@ -74,20 +73,52 @@ module.exports = new (function() {
     });
   };
 
-  function _oauth_get(url, fullResponse = false) {
+  /* ------------------------------------------- PRIVATE FUNCTIONS -------------------------------------------------- */
+
+  //nit function
+  function _init() {
+
+    if($persistence.getOauthTwitterToken() != null) {
+      let _token = $persistence.getOauthTwitterToken();
+      _data['token']['token'] = _token['token'];
+      _data['token']['secret'] = _token['secret'];
+    }
+
+    _oa = new OAuth(
+        REQUEST_TOKEN_URL,
+        ACCESS_TOKEN_URL,
+        $config['twitter']['CONSUMER_KEY'],
+        $config['twitter']['CONSUMER_SECRET'],
+        '1.0A',
+        null,
+        'HMAC-SHA1'
+    );
+  }
+
+  //GET from Oauth
+  async function _oauth_get(url) {
+
+    var _entry = $cache.get(url);
+
+    //If we have cache
+    if(_entry) { return _entry; }
+
     return new Promise((resolve, reject) => {
       _oa.get(url, _data['token']['token'], _data['token']['secret'], function(error, data, response) {
 
-        if(error != null) {
-          return reject(error);
-        }
+        if(error) { return reject(error); }
 
-        if(fullResponse) {
-          return resolve(response);
-        } else {
-          return resolve(JSON.parse(data));
-        }
 
+        var _limitRemaining = response['headers']['x-rate-limit-remaining'];
+        var _limitReset = response['headers']['x-rate-limit-reset'];
+
+        console.log('%s in %s', _limitRemaining,_limitReset);
+
+        var _entry = JSON.parse(data);
+
+        //Add to cache (15 min for each request)
+        $cache.add(url, _entry, 1000 * 60);
+        resolve(_entry);
       });
     });
   }

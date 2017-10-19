@@ -7,5 +7,6 @@ module.exports = new (function() {
   $this['twitch'] = require('./twitch.service');
   $this['twitch.watcher'] = require('./twitch.watcher.service');
   $this['twitter'] = require('./twitter.service');
+  $this['twitter.watcher'] = require('./twitter.watcher.service');
 
 })();
