@@ -135,10 +135,10 @@ module.exports = new (function() {
         var _limitReset = response['headers']['x-rate-limit-reset'];
         var _limitResetDate = $moment(_limitReset * 1000);
 
-        $log.debug('Twitter API: Endpoint [%s]: %s until %s',
+        /*$log.debug('Twitter API: Endpoint [%s]: %s until %s',
           colors.cyan(url),
           colors.red(_limitRemaining),
-          colors.magenta(_limitResetDate.format('HH:mm:SS')));
+          colors.magenta(_limitResetDate.format('HH:mm:SS')));*/
 
         var _entry = JSON.parse(data);
 

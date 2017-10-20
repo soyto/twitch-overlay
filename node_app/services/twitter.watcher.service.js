@@ -161,6 +161,8 @@ module.exports = new (function() {
         $overlaySocket.twitter.newMention($$newMention);
       });
     }
+
+    _data['mentions'] = _mentions;
   }
 
 
