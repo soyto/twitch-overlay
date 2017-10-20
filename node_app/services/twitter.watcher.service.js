@@ -2,15 +2,19 @@ module.exports = new (function() {
   'use strict';
   var $this = this;
 
+  var $log = require('../lib/log');
   var $twitterService = require('./twitter.service');
+  var $overlaySocket = require('../sockets')['overlay'];
 
   var _data = {
     'user': null,
     'followers': null,
+    'mentions': null,
     'iteration': {
       'count': 0,
       'fns': [
-        _iteration_alertNewFollower
+        _iteration_alertNewFollower,
+        _iteration_alertMention,
       ]
     },
     '$$state': {
@@ -91,6 +95,8 @@ module.exports = new (function() {
 
     _data['user'] = null;
     _data['followers'] = null;
+    _data['mentions'] = null;
+
     _data['iteration']['count'] = 0;
 
     _data['$$state']['timeout_handle'] = null;
@@ -113,16 +119,47 @@ module.exports = new (function() {
 
     var _idxFirstId = _followersIds.indexOf(_dataFollowersIds[0]);
 
-    //There are no new followers if is still first
-    if(_idxFirstId === 0) { return; }
     //Only if first follower is later on list
-    else if(_idxFirstId > 0) {
-      _followers['users'].slice(0, _idxFirstId).forEach(($$newFollower) => {
+    if(_idxFirstId > 0) {
 
-        //GOTTCHA new follower on twitter
-        console.log($$newFollower);
+      //For each new follower, send an alert to overlay
+      _followers['users'].slice(0, _idxFirstId).forEach(($$newFollower) => {
+        $log.debug('new follower @[%s]', $$newFollower['screen_name']);
+        $overlaySocket.twitter.newFollower($$newFollower);
       });
-      _data['followers'] = _followers['users'];
+    }
+
+    //Followers now are as new followers
+    _data['followers'] = _followers['users'];
+  }
+
+  //Mention alert
+  async function _iteration_alertMention() {
+    var _mentions = await $twitterService.getMentions();
+
+
+    //First iteration
+    if(!_data['mentions'] || !_data['mentions'].length) {
+      _data['mentions'] = _mentions;
+      return;
+    }
+
+    //If there are no mentions...
+    if(!_mentions.length) { return; }
+
+    var _dataMentionsId = _data['mentions'].map((x) => x['id']);
+    var _mentionsIds = _mentions.map((x) => x['id']);
+
+    var _idxFirstId = _mentionsIds.indexOf(_dataMentionsId[0]);
+
+    //Only if first follower is later on list
+    if(_idxFirstId > 0) {
+
+      //For each new follower, send an alert to overlay
+      _mentions.slice(0, _idxFirstId).forEach(($$newMention) => {
+        $log.debug('new mention from @%s -> %s', $$newMention['user']['screen_name'], $$newMention['text']);
+        $overlaySocket.twitter.newMention($$newMention);
+      });
     }
   }
 

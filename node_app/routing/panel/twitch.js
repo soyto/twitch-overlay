@@ -74,7 +74,7 @@ module.exports = (function() {
 
   //Simulate that we have a new follower
   router.post('/simulate/newFollower', (req, res) => {
-    $overlaySocket.twitch_newFollower(req['body']);
+    $overlaySocket.twitch.newFollower(req['body']);
     res.end();
   });
 

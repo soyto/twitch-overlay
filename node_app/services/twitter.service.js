@@ -6,9 +6,12 @@ module.exports = new (function() {
   const REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token';
   const ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token';
 
+  var colors = require('colors');
   var OAuth = require('oauth')['OAuth'];
   var util = require('util');
+  var $moment = require('moment');
 
+  var $log = require('../lib/log');
   var $config = require('../config');
   var $persistence = require('../persistence/jsonSorage');
   var $cache = new (require('../util')['cache']);
@@ -27,12 +30,25 @@ module.exports = new (function() {
 
   //Get followers
   $this.getFollowers = function() {
-    return _oauth_get('https://api.twitter.com/1.1/followers/list.json');
+    //Followers cache: 15 each 15 min
+    return _oauth_get('https://api.twitter.com/1.1/followers/list.json', 1000 * 60);
+  };
+
+  //Get mentions
+  $this.getMentions = function() {
+    //Mentions cache: 75 each 15 min
+    return _oauth_get('https://api.twitter.com/1.1/statuses/mentions_timeline.json', 1000 * 12);
   };
 
   //verify user credentials
-  $this.verifyCredentials = function() {
-    return _oauth_get('https://api.twitter.com/1.1/account/verify_credentials.json');
+  $this.verifyCredentials = async function() {
+
+    try {
+      return await _oauth_get('https://api.twitter.com/1.1/account/verify_credentials.json');
+    } catch($$error) {
+      console.error($$error);
+      return null;
+    }
   };
 
   //
@@ -96,28 +112,37 @@ module.exports = new (function() {
   }
 
   //GET from Oauth
-  async function _oauth_get(url) {
+  async function _oauth_get(url, cacheTime = 60000) {
+
 
     var _entry = $cache.get(url);
 
     //If we have cache
     if(_entry) { return _entry; }
 
+    //No token.. return null
+    if(!_data['token']['token'] || !_data['token']['secret']) { return null; }
+
     return new Promise((resolve, reject) => {
-      _oa.get(url, _data['token']['token'], _data['token']['secret'], function(error, data, response) {
+      _oa.get(url, _data['token']['token'], _data['token']['secret'], (error, data, response) => {
 
-        if(error) { return reject(error); }
-
+        if(error) {
+          reject(error);
+          return null;
+        }
 
         var _limitRemaining = response['headers']['x-rate-limit-remaining'];
         var _limitReset = response['headers']['x-rate-limit-reset'];
+        var _limitResetDate = $moment(_limitReset * 1000);
 
-        console.log('%s in %s', _limitRemaining,_limitReset);
+        $log.debug('Twitter API: Endpoint [%s]: %s until %s',
+          colors.cyan(url),
+          colors.red(_limitRemaining),
+          colors.magenta(_limitResetDate.format('HH:mm:SS')));
 
         var _entry = JSON.parse(data);
 
-        //Add to cache (15 min for each request)
-        $cache.add(url, _entry, 1000 * 60);
+        $cache.add(url, _entry, cacheTime);
         resolve(_entry);
       });
     });

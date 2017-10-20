@@ -19,10 +19,7 @@ module.exports = (function() {
       _io.on('connection', _onConnection);
     };
 
-    //Returns the number of connected clients
-    $this.getNumberOfConnectedClients = function() {
-      return _sockets.length;
-    };
+
 
     //Reloads overlay
     $this.reload = function() {
@@ -42,10 +39,33 @@ module.exports = (function() {
       _io.emit('notification', data);
     };
 
-    //Sends an alert to the overlay that there is a new follower
-    $this.twitch_newFollower = function(followerData) {
-      _io.emit('twitch.follower.new', followerData);
-    };
+
+    //Twitter
+    $this.twitter = new (function() {
+      var $$this = this;
+
+      //Sends a message with the new follower
+      $$this.newFollower = function(followerData) {
+        _io.emit('twitter.follower.new', followerData);
+      };
+
+      //Sends an alart to the overlay that there is a new mention
+      $$this.newMention = function(mentionData) {
+        _io.emit('twitch.mention.new', mentionData);
+      };
+
+    })();
+
+    //Twitch
+    $this.twitch = new (function() {
+      var $$this = this;
+
+      //Sends an alert to the overlay that there is a new follower
+      $$this.newFollower = function(followerData) {
+        _io.emit('twitch.follower.new', followerData);
+      };
+
+    })();
 
     //On client connection
     function _onConnection(socket) {

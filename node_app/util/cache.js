@@ -13,6 +13,7 @@
       if(expirationTime == null) { expirationTime = 1000; }
 
       var _expiration = $moment().add({'milliseconds': expirationTime});
+
       var _entry = {
         'value': value,
         'expiration': _expiration
