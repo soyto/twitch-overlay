@@ -5,6 +5,7 @@ module.exports = new (function() {
 
   const REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token';
   const ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token';
+  const PRINT_TWITTER_LIMITS = true;
 
   var colors = require('colors');
   var OAuth = require('oauth')['OAuth'];
@@ -27,6 +28,13 @@ module.exports = new (function() {
   _init();
 
   /* ------------------------------------------- PUBLIC FUNCTIONS --------------------------------------------------- */
+  //Gets an user
+  $this.getUser = function(userId) {
+    var _url = 'https://api.twitter.com/1.1/users/show.json?user_id=' + userId;
+
+    //store items in cache about 1 min
+    return _oauth_get(_url, 1000 * 60);
+  };
 
   //Get followers
   $this.getFollowers = function() {
@@ -38,6 +46,26 @@ module.exports = new (function() {
   $this.getMentions = function() {
     //Mentions cache: 75 each 15 min
     return _oauth_get('https://api.twitter.com/1.1/statuses/mentions_timeline.json', 1000 * 12);
+  };
+
+  //Get retweets
+  $this.getRetweets = function(num) {
+    var _url = 'https://api.twitter.com/1.1/statuses/retweets_of_me.json';
+
+    if(num) {
+      _url += '?count=' + num;
+    }
+
+    //Retweets cache: 75 each 15 min
+    return _oauth_get(_url, 1000 * 12);
+  };
+
+  //Get tweet retweets from the specified retweet
+  $this.getTweetRetweeters = function(tweetId) {
+    var _url = util.format('https://api.twitter.com/1.1/statuses/retweeters/ids.json?id=', tweetId);
+
+    //Retweets cache: 75 each 15 min
+    return _oauth_get(_url, 1000 * 12);
   };
 
   //verify user credentials
@@ -114,7 +142,6 @@ module.exports = new (function() {
   //GET from Oauth
   async function _oauth_get(url, cacheTime = 60000) {
 
-
     var _entry = $cache.get(url);
 
     //If we have cache
@@ -135,10 +162,12 @@ module.exports = new (function() {
         var _limitReset = response['headers']['x-rate-limit-reset'];
         var _limitResetDate = $moment(_limitReset * 1000);
 
-        /*$log.debug('Twitter API: Endpoint [%s]: %s until %s',
-          colors.cyan(url),
-          colors.red(_limitRemaining),
-          colors.magenta(_limitResetDate.format('HH:mm:SS')));*/
+        if(PRINT_TWITTER_LIMITS) {
+          $log.debug('Twitter API: Endpoint [%s]: %s until %s',
+              colors.cyan(url),
+              colors.red(_limitRemaining),
+              colors.magenta(_limitResetDate.format('HH:mm:SS')));
+        }
 
         var _entry = JSON.parse(data);
 

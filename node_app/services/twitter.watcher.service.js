@@ -10,11 +10,13 @@ module.exports = new (function() {
     'user': null,
     'followers': null,
     'mentions': null,
+    'retweets': null,
     'iteration': {
       'count': 0,
       'fns': [
+        _iteration_alertRetweets,
         _iteration_alertNewFollower,
-        _iteration_alertMention,
+        _iteration_alertMention
       ]
     },
     '$$state': {
@@ -96,6 +98,7 @@ module.exports = new (function() {
     _data['user'] = null;
     _data['followers'] = null;
     _data['mentions'] = null;
+    _data['retweets'] = null;
 
     _data['iteration']['count'] = 0;
 
@@ -165,8 +168,55 @@ module.exports = new (function() {
     _data['mentions'] = _mentions;
   }
 
+  //Retweets alert
+  async function _iteration_alertRetweets() {
+    var _retweets = await $twitterService.getRetweets(5);
+
+    //First iteration
+    if(!_data['retweets']) {
+      _data['retweets'] = [];
 
 
+      for(let $$retweet of _retweets) {
+        let _retweeters = await $twitterService.getTweetRetweeters($$retweet['id_str']);
 
+        _data['retweets'].push({
+          'id': $$retweet['id_str'],
+          'retweet_count': $$retweet['retweet_count'],
+          'tweet': $$retweet,
+          'retweeters': _retweeters['ids'].map((x) => { return {'id': x, 'user': null}; })
+        });
+      }
+
+      return;
+    }
+
+    //Next iterations
+    for(let $$retweet of _retweets) {
+
+      //If retweet is new
+      if(_data['retweets'].map((x) => x['id']).indexOf($$retweet['id_str']) < 0) {
+
+        //get retweet retweeters
+        let _retweeters = await $twitterService.getTweetRetweeters($$retweet['id_str']);
+        let _entry = {
+          'id': $$retweet['id_str'],
+          'retweet_count': $$retweet['retweet_count'],
+          'tweet': $$retweet,
+          'retweeters': _retweeters['ids'].map((x) => { return {'id': x, 'user': null}; })
+        };
+
+        //Push retweet to the array
+        _data['retweets'].push(_entry);
+
+        //Retrieve who are those users
+        for(let $$retweeter of _entry['retweeters']['ids']) {
+          $$retweeter['user'] = await $twitterService.getUser($$retweeter['id']);
+        }
+      }
+
+    }
+
+  }
 
 })();
