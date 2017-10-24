@@ -12,6 +12,16 @@ $stoNotification_twitch_new_follower_color: #dad8de;
 $stoNotification_twitch_new_follower_bgBody: #0e2b20;
 $stoNotification_twitch_new_follower_bgHeader: #392e5c;
 
+// Twitter new follower
+$stoNotification_twitter_new_follower_color: #fff;
+$stoNotification_twitter_new_follower_bgBody: darken(#1da1f2, 20);
+$stoNotification_twitter_new_follower_bgHeader: #1da1f2;
+
+// Twitter new mention
+$stoNotification_twitter_new_mention_color: #fff;
+$stoNotification_twitter_new_mention_bgBody: darken(#1da1f2, 20);
+$stoNotification_twitter_new_mention_bgHeader: #1da1f2;
+
 
 /* Overlay sizes */
 

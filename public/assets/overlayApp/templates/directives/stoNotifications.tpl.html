@@ -10,10 +10,12 @@
 
 
     <!-- Twitch new follower notification -->
-    <div class="sto-notification sto-twitch-new-follower-notification" data-ng-if="notification.type == 'twitch-new-follower'">
+    <div class="sto-notification sto-twitch-new-follower-notification"
+         data-ng-if="notification.type == 'twitch-new-follower'">
       <div class="sto-notification-header-media media">
         <div class="media-left" data-ng-show="notification.data.profile_image_url.length > 0">
-          <img  class="img img-thumbnail media-object" data-ng-src="{{notification.data.profile_image_url }}">
+          <img  class="img img-thumbnail media-object"
+                data-ng-src="{{notification.data.profile_image_url }}">
         </div>
         <div class="media-body">
           <h4>@{{ notification.data.login }} nos sigue ahora</h4>
@@ -24,6 +26,37 @@
       </div>
     </div><!-- /Twitch new follower notification -->
 
+    <!-- Twitter new follower notification -->
+    <div class="sto-notification sto-twitter-new-follower-notification"
+         data-ng-if="notification.type == 'twitter-new-follower'">
+      <div class="sto-notification-header-media media">
+        <div class="media-left" data-ng-show="notification.data.profile_image_url_https.length > 0">
+          <img class="img img-thumbnail media-object"
+               data-ng-src="{{ notification.data.profile_image_url_https }}">
+        </div>
+        <div class="media-body">
+          <h4>Nuevo seguidor @{{ notification.data.screen_name}}</h4>
+        </div>
+      </div>
+    </div><!-- /Twitter new follower notification -->
+
+    <!-- Twitter new mention notification -->
+    <div class="sto-notification sto-twitter-new-mention-notification"
+         data-ng-if="notification.type == 'twitter-new-mention'">
+      <div class="sto-notification-header-media media">
+        <div class="media-left" data-ng-show="notification.data.user.profile_image_url_https.length > 0">
+          <img class="img img-thumbnail media-object"
+               data-ng-src="{{ notification.data.user.profile_image_url_https }}">
+        </div>
+        <div class="media-body">
+          <h4>Nueva mención de @{{ notification.data.user.screen_name}}</h4>
+        </div>
+      </div>
+      <div class="sto-notification-body">
+        {{ notification.data.text}}
+      </div>
+    </div><!-- /Twitter new follower notification -->
+
 
   </div>
 
@@ -31,6 +64,7 @@
   <div class="audio-controls">
     <audio id="sms-alert-4-daniel_simon"><source src="/assets/sounds/sms-alert-4-daniel_simon.mp3" type="audio/mpeg"></audio>
     <audio id="dixie-horn_daniel-simion"><source src="/assets/sounds/dixie-horn_daniel-simion.mp3" type="audio/mpeg"></audio>
+    <audio id="twitter"><source src="/assets/sounds/twitter.mp3" type="audio/mpeg"></audio>
   </div><!-- /Audio controls -->
 
 </div>

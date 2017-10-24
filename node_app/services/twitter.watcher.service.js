@@ -14,7 +14,7 @@ module.exports = new (function() {
     'iteration': {
       'count': 0,
       'fns': [
-        _iteration_alertRetweets,
+        //_iteration_alertRetweets,
         _iteration_alertNewFollower,
         _iteration_alertMention
       ]

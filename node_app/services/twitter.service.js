@@ -5,7 +5,7 @@ module.exports = new (function() {
 
   const REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token';
   const ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token';
-  const PRINT_TWITTER_LIMITS = true;
+  const PRINT_TWITTER_LIMITS = false;
 
   var colors = require('colors');
   var OAuth = require('oauth')['OAuth'];
@@ -166,7 +166,7 @@ module.exports = new (function() {
           $log.debug('Twitter API: Endpoint [%s]: %s until %s',
               colors.cyan(url),
               colors.red(_limitRemaining),
-              colors.magenta(_limitResetDate.format('HH:mm:SS')));
+              colors.cyan(_limitResetDate.format('HH:mm:SS')));
         }
 
         var _entry = JSON.parse(data);

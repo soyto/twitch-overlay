@@ -51,7 +51,7 @@ module.exports = (function() {
 
       //Sends an alart to the overlay that there is a new mention
       $$this.newMention = function(mentionData) {
-        _io.emit('twitch.mention.new', mentionData);
+        _io.emit('twitter.mention.new', mentionData);
       };
 
     })();

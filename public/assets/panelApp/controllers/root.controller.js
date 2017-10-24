@@ -112,6 +112,15 @@
       _data['alert']['text']['value'] = '';
     };
 
+    //Twitter login
+    $sc.onClick_twitterLogin = function() {
+      $twitterService.getRequestUrl();
+    };
+
+    //
+    // SIMULATION
+    // ----------------------
+
     //Simulate new twitch user
     $sc.onClick_twitchNewFollower = function() {
 
@@ -127,8 +136,12 @@
       $twitchService.simulate.newFollower(_user);
     };
 
-    $sc.onClick_twitterLogin = function() {
-      $twitterService.getRequestUrl();
+    $sc.onClick_twitterNewFollower = function() {
+      $twitterService.simulate.newFollower();
+    };
+
+    $sc.onClick_twitterNewMention = function() {
+      $twitterService.simulate.newMention();
     };
 
     /* ----------------------------------- PRIVATE FUNCTIONS ----------------------------------- */

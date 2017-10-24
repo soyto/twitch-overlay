@@ -30,6 +30,18 @@
         });
       });
 
+      _socket.on('twitter.follower.new', function($$data) {
+        $rs.$apply(function() {
+          $rs.$broadcast('socket.twitter.follower.new', $$data);
+        });
+      });
+
+      _socket.on('twitter.mention.new', function($$data) {
+        $rs.$apply(function() {
+          $rs.$broadcast('socket.twitter.mention.new', $$data);
+        });
+      });
+
       _socket.on('reload', function() {
         $log.debug('reloading...');
         $window.location.reload();

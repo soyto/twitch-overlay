@@ -19,6 +19,19 @@
       });
     };
 
+
+    $this.simulate = new (function() {
+      var $$this = this;
+
+      $$this.newFollower = function() {
+        return $http.post('/v1/panel/twitter/simulate/newFollower');
+      };
+
+      $$this.newMention = function() {
+        return $http.post('/v1/panel/twitter/simulate/newMention');
+      };
+    })();
+
   }
 
 })(angular);
