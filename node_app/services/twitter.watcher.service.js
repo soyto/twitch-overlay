@@ -14,7 +14,7 @@ module.exports = new (function() {
     'iteration': {
       'count': 0,
       'fns': [
-        //_iteration_alertRetweets,
+        _iteration_alertRetweets,
         _iteration_alertNewFollower,
         _iteration_alertMention
       ]
@@ -81,7 +81,7 @@ module.exports = new (function() {
       await _fn();
       _nextIteration();
     } catch($$error) {
-      console.error($$error['data']);
+      $log.error('twitter.watcher.service.loop %o', $$error['data'] ? $$error['data'] : $$error);
       _nextIteration();
     }
 
@@ -117,8 +117,8 @@ module.exports = new (function() {
 
     if(!_followers['users'].length) { return; }
 
-    var _dataFollowersIds = _data['followers'].map((x) => x['id']);
-    var _followersIds = _followers['users'].map((x) => x['id']);
+    var _dataFollowersIds = _data['followers'].map(x => x['id']);
+    var _followersIds = _followers['users'].map(x => x['id']);
 
     var _idxFirstId = _followersIds.indexOf(_dataFollowersIds[0]);
 
@@ -128,7 +128,7 @@ module.exports = new (function() {
       //For each new follower, send an alert to overlay
       _followers['users'].slice(0, _idxFirstId).forEach(($$newFollower) => {
         $log.debug('new follower @[%s]', $$newFollower['screen_name']);
-        $overlaySocket.twitter.newFollower($$newFollower);
+        $overlaySocket.twitter.push_newFollower($$newFollower);
       });
     }
 
@@ -150,8 +150,8 @@ module.exports = new (function() {
     //If there are no mentions...
     if(!_mentions.length) { return; }
 
-    var _dataMentionsId = _data['mentions'].map((x) => x['id']);
-    var _mentionsIds = _mentions.map((x) => x['id']);
+    var _dataMentionsId = _data['mentions'].map(x => x['id']);
+    var _mentionsIds = _mentions.map(x => x['id']);
 
     var _idxFirstId = _mentionsIds.indexOf(_dataMentionsId[0]);
 
@@ -161,7 +161,7 @@ module.exports = new (function() {
       //For each new follower, send an alert to overlay
       _mentions.slice(0, _idxFirstId).forEach(($$newMention) => {
         $log.debug('new mention from @%s -> %s', $$newMention['user']['screen_name'], $$newMention['text']);
-        $overlaySocket.twitter.newMention($$newMention);
+        $overlaySocket.twitter.push_newMention($$newMention);
       });
     }
 
@@ -184,7 +184,7 @@ module.exports = new (function() {
           'id': $$retweet['id_str'],
           'retweet_count': $$retweet['retweet_count'],
           'tweet': $$retweet,
-          'retweeters': _retweeters['ids'].map((x) => { return {'id': x, 'user': null}; })
+          'retweeters': _retweeters['ids'].map(x => { return {'id': x, 'user': null}; })
         });
       }
 
@@ -195,7 +195,7 @@ module.exports = new (function() {
     for(let $$retweet of _retweets) {
 
       //If retweet is new
-      if(_data['retweets'].map((x) => x['id']).indexOf($$retweet['id_str']) < 0) {
+      if(_data['retweets'].map(x => x['id']).indexOf($$retweet['id_str']) < 0) {
 
         //get retweet retweeters
         let _retweeters = await $twitterService.getTweetRetweeters($$retweet['id_str']);
@@ -203,19 +203,64 @@ module.exports = new (function() {
           'id': $$retweet['id_str'],
           'retweet_count': $$retweet['retweet_count'],
           'tweet': $$retweet,
-          'retweeters': _retweeters['ids'].map((x) => { return {'id': x, 'user': null}; })
+          'retweeters': _retweeters['ids'].map(x => { return {'id': x, 'user': null}; })
         };
 
         //Push retweet to the array
         _data['retweets'].push(_entry);
 
         //Retrieve who are those users
-        for(let $$retweeter of _entry['retweeters']['ids']) {
+        for(let $$retweeter of _entry['retweeters']) {
           $$retweeter['user'] = await $twitterService.getUser($$retweeter['id']);
+
+          //Print that there is a new retweet
+          $log.debug('New retweet from @%s -> %s', $$retweeter['user']['screen_name'], _entry['tweet']['text']);
+
+          $overlaySocket.twitter.push_newRetweet({
+            'user': $$retweeter['user'],
+            'tweet': _entry['tweet']
+          });
+        }
+
+      }
+      //If we had previous retweet
+      else {
+        let _storedTweet  = _data['retweets'].filter(x => x['id'] == $$retweet['id_str'])[0];
+
+        //Same retweet count, dont do nothing
+        if(_storedTweet['retweet_count'] == $$retweet['retweet_count']) { continue; }
+
+        //Get retweeters
+        let _retweeters = await $twitterService.getTweetRetweeters($$retweet['id_str']);
+        let _retweetersIds = _storedTweet['retweeters'].map(x => x['id']);
+
+        //Loop retweeters
+        for(let $$retweeterId of _retweeters['ids']) {
+
+          //If we had that retweet, dont do nothing
+          if(_retweetersIds.indexOf($$retweeterId) >= 0) { continue; }
+
+          //Get that user
+          let _user = await $twitterService.getUser($$retweeterId);
+
+          //Store entry
+          _storedTweet['retweeters'].push({
+            'id': $$retweeterId,
+            'user': _user
+          });
+
+          //Print that there is a new retweet
+          $log.debug('New retweet from @%s -> %s', _user['screen_name'], _storedTweet['tweet']['text']);
+
+          $overlaySocket.twitter.push_newRetweet({
+            'user': _user,
+            'tweet': _storedTweet['tweet']
+          });
+
         }
       }
-
     }
+
 
   }
 

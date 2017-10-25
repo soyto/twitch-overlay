@@ -45,13 +45,18 @@ module.exports = (function() {
       var $$this = this;
 
       //Sends a message with the new follower
-      $$this.newFollower = function(followerData) {
+      $$this.push_newFollower = function(followerData) {
         _io.emit('twitter.follower.new', followerData);
       };
 
       //Sends an alart to the overlay that there is a new mention
-      $$this.newMention = function(mentionData) {
+      $$this.push_newMention = function(mentionData) {
         _io.emit('twitter.mention.new', mentionData);
+      };
+
+      //On a new retweet
+      $$this.push_newRetweet = function(retweetData) {
+        _io.emit('twitter.retweet.new', retweetData);
       };
 
     })();

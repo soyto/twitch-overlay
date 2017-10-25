@@ -15,7 +15,7 @@ module.exports = new (function () {
     }
 
     console.log.apply(console.log, [colors.green('>>') + ' ' + msg].concat(args));
-  }
+  };
 
   //Error to console
   $this.error = function() {

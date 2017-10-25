@@ -50,10 +50,10 @@ module.exports = new (function() {
 
   //Get retweets
   $this.getRetweets = function(num) {
-    var _url = 'https://api.twitter.com/1.1/statuses/retweets_of_me.json';
+    var _url = 'https://api.twitter.com/1.1/statuses/retweets_of_me.json?stringify_ids=true';
 
     if(num) {
-      _url += '?count=' + num;
+      _url += '&count=' + num;
     }
 
     //Retweets cache: 75 each 15 min
@@ -62,7 +62,7 @@ module.exports = new (function() {
 
   //Get tweet retweets from the specified retweet
   $this.getTweetRetweeters = function(tweetId) {
-    var _url = util.format('https://api.twitter.com/1.1/statuses/retweeters/ids.json?id=', tweetId);
+    var _url = util.format('https://api.twitter.com/1.1/statuses/retweeters/ids.json?stringify_ids=true&id=', tweetId);
 
     //Retweets cache: 75 each 15 min
     return _oauth_get(_url, 1000 * 12);
@@ -168,6 +168,7 @@ module.exports = new (function() {
               colors.red(_limitRemaining),
               colors.cyan(_limitResetDate.format('HH:mm:SS')));
         }
+
 
         var _entry = JSON.parse(data);
 
