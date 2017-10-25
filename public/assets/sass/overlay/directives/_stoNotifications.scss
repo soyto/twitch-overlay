@@ -82,6 +82,16 @@
       }
     }
 
+    //New retweet on twitter
+    &.sto-twitter-new-mention-notification {
+      color: $stoNotification_twitter_new_retweet_color;
+      background-color: $stoNotification_twitter_new_retweet_bgBody;
+
+      .sto-notification-header, .sto-notification-header-media {
+        background-color: $stoNotification_twitter_new_retweet_bgHeader;
+      }
+    }
+
   }
 }
 

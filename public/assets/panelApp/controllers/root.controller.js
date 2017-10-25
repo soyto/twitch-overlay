@@ -144,6 +144,10 @@
       $twitterService.simulate.newMention();
     };
 
+    $sc.onClick_twitterNewRetweet = function() {
+      $twitterService.simulate.newRetweet();
+    };
+
     /* ----------------------------------- PRIVATE FUNCTIONS ----------------------------------- */
 
     //Init function

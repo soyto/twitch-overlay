@@ -224,6 +224,209 @@ module.exports = (function() {
     res.end();
   });
 
+  //On simulate new retweet
+  router.post('/simulate/newRetweet', async(req, res) => {
+
+    let _data = {
+      'user': {
+        'id': 2244994945,
+        'id_str': '2244994945',
+        'name': 'TwitterDev',
+        'screen_name': 'TwitterDev',
+        'location': 'Internet',
+        'profile_location': null,
+        'description': 'Developer and Platform Relations @Twitter. We are developer advocates. We can\'t answer all your questions, but we listen to all of them!',
+        'url': 'https://t.co/66w26cua1O',
+        'entities': {
+          'url': {
+            'urls': [
+              {
+                'url': 'https://t.co/66w26cua1O',
+                'expanded_url': 'https://dev.twitter.com/',
+                'display_url': 'dev.twitter.com',
+                'indices': [
+                  0,
+                  23
+                ]
+              }
+            ]
+          },
+          'description': {
+            'urls': []
+          }
+        },
+        'protected': false,
+        'followers_count': 429831,
+        'friends_count': 1535,
+        'listed_count': 999,
+        'created_at': 'Sat Dec 14 04:35:55 +0000 2013',
+        'favourites_count': 1713,
+        'utc_offset': -25200,
+        'time_zone': 'Pacific Time (US & Canada)',
+        'geo_enabled': true,
+        'verified': true,
+        'statuses_count': 2588,
+        'lang': 'en',
+        'status': {
+          'created_at': 'Tue Aug 30 10:52:20 +0000 2016',
+          'id': 770574870841331700,
+          'id_str': '770574870841331712',
+          'text': '@lesterhan oops! Thanks for pointing that out, looks like the image is no longer available! we will fix in a future doc version! ^AP',
+          'truncated': false,
+          'entities': {
+            'hashtags': [],
+            'symbols': [],
+            'user_mentions': [
+              {
+                'screen_name': 'lesterhan',
+                'name': 'Lester Han',
+                'id': 126025266,
+                'id_str': '126025266',
+                'indices': [
+                  0,
+                  10
+                ]
+              }
+            ],
+            'urls': []
+          },
+          'source': '<a href=\'https://about.twitter.com/products/tweetdeck\' rel=\'nofollow\'>TweetDeck</a>',
+          'in_reply_to_status_id': 770332467626672100,
+          'in_reply_to_status_id_str': '770332467626672129',
+          'in_reply_to_user_id': 126025266,
+          'in_reply_to_user_id_str': '126025266',
+          'in_reply_to_screen_name': 'lesterhan',
+          'geo': null,
+          'coordinates': null,
+          'place': null,
+          'contributors': null,
+          'is_quote_status': false,
+          'retweet_count': 0,
+          'favorite_count': 0,
+          'favorited': false,
+          'retweeted': false,
+          'lang': 'en'
+        },
+        'contributors_enabled': false,
+        'is_translator': false,
+        'is_translation_enabled': false,
+        'profile_background_color': 'FFFFFF',
+        'profile_background_image_url': 'http://abs.twimg.com/images/themes/theme1/bg.png',
+        'profile_background_image_url_https': 'https://abs.twimg.com/images/themes/theme1/bg.png',
+        'profile_background_tile': false,
+        'profile_image_url': 'http://pbs.twimg.com/profile_images/530814764687949824/npQQVkq8_normal.png',
+        'profile_image_url_https': 'https://pbs.twimg.com/profile_images/530814764687949824/npQQVkq8_normal.png',
+        'profile_banner_url': 'https://pbs.twimg.com/profile_banners/2244994945/1396995246',
+        'profile_link_color': '0084B4',
+        'profile_sidebar_border_color': 'FFFFFF',
+        'profile_sidebar_fill_color': 'DDEEF6',
+        'profile_text_color': '333333',
+        'profile_use_background_image': false,
+        'has_extended_profile': false,
+        'default_profile': false,
+        'default_profile_image': false,
+        'following': false,
+        'follow_request_sent': false,
+        'notifications': false,
+        'translator_type': 'regular'
+      },
+      'tweet': {
+        'coordinates': null,
+        'truncated': false,
+        'favorited': false,
+        'created_at': 'Fri Oct 19 15:51:49 +0000 2012',
+        'id_str': '259320959964680192',
+        'entities': {
+          'urls': [
+
+          ],
+          'hashtags': [
+
+          ],
+          'user_mentions': [
+
+          ]
+        },
+        'in_reply_to_user_id_str': null,
+        'contributors': null,
+        'text': 'It\'s bring your migraine to work day today!',
+        'in_reply_to_status_id_str': null,
+        'id': 259320959964680192,
+        'retweet_count': 1,
+        'geo': null,
+        'retweeted': false,
+        'in_reply_to_user_id': null,
+        'source': 'YoruFukurou',
+        'user': {
+          'name': 'Taylor Singletary',
+          'profile_sidebar_fill_color': 'FBFBFB',
+          'profile_background_tile': false,
+          'profile_sidebar_border_color': '000000',
+          'location': 'San Francisco, CA',
+          'profile_image_url': 'http://a0.twimg.com/profile_images/2766969649/5e1a50995a9f9bfcdcdc7503e1271422_normal.jpeg',
+          'created_at': 'Wed Mar 07 22:23:19 +0000 2007',
+          'profile_link_color': 'CC1442',
+          'is_translator': false,
+          'id_str': '819797',
+          'follow_request_sent': false,
+          'entities': {
+            'url': {
+              'urls': [
+                {
+                  'expanded_url': 'http://soundcloud.com/reality-technician',
+                  'url': 'http://t.co/bKlJ80Do',
+                  'indices': [
+                    0,
+                    20
+                  ],
+                  'display_url': 'soundcloud.com/reality-techni…'
+                }
+              ]
+            },
+            'description': {
+              'urls': [
+
+              ]
+            }
+          },
+          'favourites_count': 17094,
+          'url': 'http://t.co/bKlJ80Do',
+          'contributors_enabled': false,
+          'default_profile': false,
+          'profile_image_url_https': 'https://si0.twimg.com/profile_images/2766969649/5e1a50995a9f9bfcdcdc7503e1271422_normal.jpeg',
+          'profile_banner_url': 'https://si0.twimg.com/profile_banners/819797/1351262715',
+          'utc_offset': -28800,
+          'id': 819797,
+          'profile_use_background_image': false,
+          'listed_count': 351,
+          'followers_count': 7701,
+          'profile_text_color': 'D20909',
+          'protected': false,
+          'lang': 'en',
+          'geo_enabled': true,
+          'time_zone': 'Pacific Time (US & Canada)',
+          'notifications': false,
+          'profile_background_color': '6B0F0F',
+          'description': 'Reality Technician, Twitter API team, synth enthusiast. A most excellent adventure in timelines. Through the darkness of future past, the magician longs to see.',
+          'verified': false,
+          'profile_background_image_url_https': 'https://si0.twimg.com/profile_background_images/686878932/6447abb9f83c76fb4fbd68e626c6c8c1.png',
+          'friends_count': 5549,
+          'default_profile_image': false,
+          'profile_background_image_url': 'http://a0.twimg.com/profile_background_images/686878932/6447abb9f83c76fb4fbd68e626c6c8c1.png',
+          'statuses_count': 18626,
+          'screen_name': 'episod',
+          'following': false
+        },
+        'place': null,
+        'in_reply_to_screen_name': null,
+        'in_reply_to_status_id': null
+      }
+    };
+
+    $overlaySocket.twitter.push_newRetweet(_data);
+    res.end();
+  });
+
   return router;
 
 })();

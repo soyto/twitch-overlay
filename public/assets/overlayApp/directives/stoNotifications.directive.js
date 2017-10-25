@@ -86,6 +86,17 @@
           'data': $$eventData
         })
       });
+
+      //When new mention on twitter
+      $sc.$on('socket.twitter.retweet.new', function($$event, $$eventData) {
+
+        $sc['audio'].play('twitter');
+
+        _newNotification({
+          'type': 'twitter-new-retweet',
+          'data': $$eventData
+        })
+      });
     }
 
     //Link function

@@ -57,6 +57,23 @@
       </div>
     </div><!-- /Twitter new follower notification -->
 
+    <!-- Twitter new retweet notification -->
+    <div class="sto-notification sto-twitter-new-retweet-notification"
+         data-ng-if="notification.type == 'twitter-new-retweet'">
+      <div class="sto-notification-header-media media">
+        <div class="media-left" data-ng-show="notification.data.user.profile_image_url_https.length > 0">
+          <img class="img img-thumbnail media-object"
+               data-ng-src="{{ notification.data.user.profile_image_url_https }}">
+        </div>
+        <div class="media-body">
+          <h4>Nueva mención de @{{ notification.data.user.screen_name}}</h4>
+        </div>
+      </div>
+      <div class="sto-notification-body">
+        {{ notification.data.tweet.text}}
+      </div>
+    </div><!-- /Twitter new follower notification -->
+
 
   </div>
 

@@ -30,6 +30,11 @@
       $$this.newMention = function() {
         return $http.post('/v1/panel/twitter/simulate/newMention');
       };
+
+      $$this.newRetweet = function() {
+        console.log('new retweet');
+        return $http.post('/v1/panel/twitter/simulate/newRetweet');
+      };
     })();
 
   }
