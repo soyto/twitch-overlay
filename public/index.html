@@ -66,8 +66,8 @@
             </a>
           </li>
           <li>
-            <a href="" data-ng-click="onClick_twitterLogin()">
-              <i class="fa fa-twitter"></i> <span>Twitter login</span>
+            <a href="#!/twitter">
+              <i class="fa fa-twitter"></i> <span>Twitter</span>
             </a>
           </li>
         </ul>
@@ -77,113 +77,7 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-
-      <!-- Content Header (Page header) -->
-      <section class="content-header">
-        <h1>
-          Dashboard
-          <small>Control panel</small>
-        </h1>
-        <ol class="breadcrumb">
-          <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-          <li class="active">Dashboard</li>
-        </ol>
-      </section><!-- /Content Header (Page header) -->
-
-      <!-- Main content -->
-      <section class="content">
-
-        <h3 class="text-center" data-ng-cloak>{{ data.twitch.channelInfo.status }}</h3>
-
-        <!-- Stats row -->
-        <div class="row stats-row">
-
-          <!-- Online time -->
-          <div class="col-md-3 col-xs-6">
-            <sto-dashboard-online-time-box data="data.twitch.stream.started_at"></sto-dashboard-online-time-box>
-          </div><!-- /Online time -->
-
-          <!-- Viewers -->
-          <div class="col-md-3 col-xs-6">
-            <sto-dashboard-viewers-box data="data.twitch.stream.viewer_count"></sto-dashboard-viewers-box>
-          </div><!-- /Viewers -->
-
-          <!-- Followers -->
-          <div class="col-md-3 col-xs-6">
-            <sto-dashboard-followers-box data="data.twitch.channelInfo.followers"></sto-dashboard-followers-box>
-          </div><!-- /Followers -->
-
-          <!-- Subscribers -->
-          <div class="col-md-3 col-xs-6">
-            <div class="small-box bg-red-gradient">
-
-              <div class="inner">
-                <h3>{{ data.twitch.channelInfo.views }}</h3>
-                <p>Subscribers</p>
-              </div>
-
-              <div class="icon">
-                <i class="fa fa-shopping-cart"></i>
-              </div>
-
-              <a href="" class="small-box-footer">
-
-              </a>
-
-            </div>
-          </div>
-
-        </div><!-- /Stats row -->
-
-        <!-- Iframe row -->
-        <div class="row">
-
-          <!-- Iframe box -->
-          <div class="col-md-8 col-xs-12">
-            <div class="box box-primary">
-
-              <div class="box-header">
-                <h3 class="box-title">Overlay</h3>
-              </div>
-
-              <div class="box-body">
-                <iframe style="width: 100%; height: 400px;" frameborder="0" scrolling="no" src="/overlay#scaled"></iframe>
-              </div>
-
-              <div class="box-footer">
-                <button class="btn btn-default" data-ng-click="onClick_reload()">Recargar</button>
-                <a href="/overlay" target="overlayAppWindow" class="btn btn-primary">Lanzar</a>
-              </div>
-
-            </div>
-          </div><!-- /Iframe box -->
-
-          <!-- Chat box -->
-          <div class="col-md-4">
-            <div class="box box-primary">
-
-              <div class="box-header">
-                <h3 class="box-title">Chat #{{data.twitch.userData.login}}</h3>
-              </div>
-
-              <div class="box-body">
-                <iframe
-                  frameborder="0"
-                  scrolling="true"
-                  style="width: 100%; height: 400px"
-                  data-ng-show="data.twitch.userData != null"
-                  data-ng-src="{{ 'https://www.twitch.tv/' +  data.twitch.userData.login + '/chat?darkpopout'| trust}}"></iframe>
-              </div>
-
-              <div class="box-footer"></div>
-
-            </div>
-          </div><!-- /Chat box -->
-
-        </div><!-- /Iframe row -->
-
-      </section><!-- /Main content -->
-
+      <ng-view></ng-view>
     </div><!-- /.content-wrapper -->
 
     <!-- Footer -->
@@ -200,14 +94,18 @@
 
         <!-- Settings tab -->
         <li class="active">
-          <a href="#control-sidebar-settings-tab" data-toggle="tab">
+          <a href=""
+             data-toggle="tab"
+             data-ng-click="onClick_controlSidebar_setTab('control-sidebar-settings-tab')">
             <i class="fa fa-wrench"></i>
           </a>
         </li><!-- /Settings tab -->
 
         <!-- Simulate tab -->
         <li>
-          <a href="#control-sidebar-simulate-tab" data-toggle="tab">
+          <a href=""
+             data-toggle="tab"
+             data-ng-click="onClick_controlSidebar_setTab('control-sidebar-simulate-tab')">
             <i class="fa fa-bell-o"></i>
           </a>
         </li><!--/ Simulate tab -->
@@ -218,7 +116,8 @@
       <div class="tab-content">
 
         <!-- Settings tab content -->
-        <div class="tab-pane active" id="control-sidebar-settings-tab">
+        <div class="tab-pane"
+             data-ng-class="{'active': rootData.$$state.controlSidebar.tab == 'control-sidebar-settings-tab'}">
 
           <h3 class="control-sidebar-heading">Ancho y alto del overlay</h3>
 
@@ -252,7 +151,8 @@
         </div><!-- /Settings tab content -->
 
         <!-- Simulate tab -->
-        <div class="tab-pane" id="control-sidebar-simulate-tab">
+        <div class="tab-pane"
+             data-ng-class="{'active': rootData.$$state.controlSidebar.tab == 'control-sidebar-simulate-tab'}">
 
           <h3 class="control-sidebar-heading">Twitch</h3>
 
@@ -304,6 +204,7 @@
   <script type="text/javascript" src="/assets/bower/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="/assets/bower/bootstrap/dist/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="/assets/bower/angular/angular.min.js"></script>
+  <script type="text/javascript" src="/assets/bower/angular-route/angular-route.min.js"></script>
   <script type="text/javascript" src="/assets/bower/socket.io-client/dist/socket.io.slim.js"></script>
 
   <!-- Template Scripts -->

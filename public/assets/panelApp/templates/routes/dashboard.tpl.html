@@ -1,0 +1,109 @@
+<div class="panelApp-dashboard-controller">
+
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      Dashboard
+      <small>Control panel</small>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Dashboard</li>
+    </ol>
+  </section><!-- /Content Header (Page header) -->
+
+  <!-- Main content -->
+  <section class="content">
+
+    <h3 class="text-center" data-ng-cloak>{{ rootData.twitch.channelInfo.status }}</h3>
+
+    <!-- Stats row -->
+    <div class="row stats-row">
+
+      <!-- Online time -->
+      <div class="col-md-3 col-xs-6">
+        <sto-dashboard-online-time-box data="rootData.twitch.stream.started_at"></sto-dashboard-online-time-box>
+      </div><!-- /Online time -->
+
+      <!-- Viewers -->
+      <div class="col-md-3 col-xs-6">
+        <sto-dashboard-viewers-box data="rootData.twitch.stream.viewer_count"></sto-dashboard-viewers-box>
+      </div><!-- /Viewers -->
+
+      <!-- Followers -->
+      <div class="col-md-3 col-xs-6">
+        <sto-dashboard-followers-box data="rootData.twitch.channelInfo.followers"></sto-dashboard-followers-box>
+      </div><!-- /Followers -->
+
+      <!-- Subscribers -->
+      <div class="col-md-3 col-xs-6">
+        <div class="small-box bg-red-gradient">
+
+          <div class="inner">
+            <h3>{{ rootData.twitch.channelInfo.views }}</h3>
+            <p>Subscribers</p>
+          </div>
+
+          <div class="icon">
+            <i class="fa fa-shopping-cart"></i>
+          </div>
+
+          <a href="" class="small-box-footer">
+
+          </a>
+
+        </div>
+      </div>
+
+    </div><!-- /Stats row -->
+
+    <!-- Iframe row -->
+    <div class="row">
+
+      <!-- Iframe box -->
+      <div class="col-md-8 col-xs-12">
+        <div class="box box-primary">
+
+          <div class="box-header">
+            <h3 class="box-title">Overlay</h3>
+          </div>
+
+          <div class="box-body">
+            <iframe style="width: 100%; height: 400px;" frameborder="0" scrolling="no" src="/overlay#scaled"></iframe>
+          </div>
+
+          <div class="box-footer">
+            <button class="btn btn-default" data-ng-click="onClick_reload()">Recargar</button>
+            <a href="/overlay" target="overlayAppWindow" class="btn btn-primary">Lanzar</a>
+          </div>
+
+        </div>
+      </div><!-- /Iframe box -->
+
+      <!-- Chat box -->
+      <div class="col-md-4">
+        <div class="box box-primary">
+
+          <div class="box-header">
+            <h3 class="box-title">Chat #{{rootData.twitch.userData.login}}</h3>
+          </div>
+
+          <div class="box-body">
+            <iframe
+                frameborder="0"
+                scrolling="true"
+                style="width: 100%; height: 400px"
+                data-ng-show="rootData.twitch.userData != null"
+                data-ng-src="{{ 'https://www.twitch.tv/' +  rootData.twitch.userData.login + '/chat?darkpopout'| trust}}"></iframe>
+          </div>
+
+          <div class="box-footer"></div>
+
+        </div>
+      </div><!-- /Chat box -->
+
+    </div><!-- /Iframe row -->
+
+  </section><!-- /Main content -->
+
+</div>

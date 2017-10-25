@@ -17,16 +17,12 @@
     var $twitchService = $hs.$instantiate('twitch.service');
     var $alertService = $hs.$instantiate('alert.service');
     var $twitterService = $hs.$instantiate('twitter.service');
-    var $reloadService = $hs.$instantiate('reload.service');
     var $timeout = $hs.$instantiate('$timeout');
     var $socket = $hs.$instantiate('socket.service');
 
 
     var _rootData = {
-      'title': ''
-    };
-
-    var _data = {
+      'title': '',
       'window': {
         'width':{
           'value': -1,
@@ -56,66 +52,73 @@
           'value': false
         }
       },
+      '$$state': {
+        'controlSidebar': {
+          'tab': 'control-sidebar-settings-tab'
+        }
+      }
     };
 
     _init();
 
     /* ----------------------------------- SCOPE FUNCTIONS ------------------------------------- */
 
-    //Relaod overlay
-    $sc.onClick_reload = function() {
-      $reloadService.reload();
-    };
+    //
+    // CONTROL_SIDEBAR
+    // ----------
 
+    //On click to change tab
+    $sc.onClick_controlSidebar_setTab = function(tabName) {
+      _rootData['$$state']['controlSidebar']['tab'] = tabName;
+    };
+    
+    
     //When user wants to restore server values
     $sc.onClick_window_restoreDefaults = function() {
-      _data['window']['width']['value'] =  _data['window']['width']['$$value'];
-      _data['window']['height']['value'] =  _data['window']['height']['$$value'];
+      _rootData['window']['width']['value'] =  _rootData['window']['width']['$$value'];
+      _rootData['window']['height']['value'] =  _rootData['window']['height']['$$value'];
     };
 
     //On keydown on window width
     $sc.onKeydown_window_width = function($event) {
       if($event['keyCode'] == 27) {
-        _data['window']['width']['value'] =  _data['window']['width']['$$value'];
+        _rootData['window']['width']['value'] =  _rootData['window']['width']['$$value'];
       }
     };
 
     //On keydown window height
     $sc.onKeydown_window_height = function($event) {
       if($event['keyCode'] == 27) {
-        _data['window']['height']['value'] =  _data['window']['height']['$$value'];
+        _rootData['window']['height']['value'] =  _rootData['window']['height']['$$value'];
       }
     };
 
     //When user wants to save that data
     $sc.onClick_window_saveData = function() {
 
-      _data['window']['width']['$$value'] =  _data['window']['width']['value'];
-      _data['window']['height']['$$value'] =  _data['window']['height']['value'];
+      _rootData['window']['width']['$$value'] =  _rootData['window']['width']['value'];
+      _rootData['window']['height']['$$value'] =  _rootData['window']['height']['value'];
 
-      $windowService.set(_data['window']['width']['value'], _data['window']['height']['value']);
+      $windowService.set(_rootData['window']['width']['value'], _rootData['window']['height']['value']);
     };
 
     //Alerts
     $sc.onClick_alertSend = function() {
 
-      var _title = _data['alert']['title']['value'];
-      var _body = _data['alert']['text']['value'];
-      var _type = _data['alert']['type']['value'] ? 'sto-notification-blue' : null;
+      var _title = _rootData['alert']['title']['value'];
+      var _body = _rootData['alert']['text']['value'];
+      var _type = _rootData['alert']['type']['value'] ? 'sto-notification-blue' : null;
 
       if(_title.trim().length === 0) { return; }
 
       //Send notification
       $alertService.send(_title, _body, _type);
 
-      _data['alert']['title']['value'] = '';
-      _data['alert']['text']['value'] = '';
+      _rootData['alert']['title']['value'] = '';
+      _rootData['alert']['text']['value'] = '';
     };
 
-    //Twitter login
-    $sc.onClick_twitterLogin = function() {
-      $twitterService.getRequestUrl();
-    };
+
 
     //
     // SIMULATION
@@ -155,7 +158,7 @@
       $rs['_NAME'] = 'rootScope';
       $sc['_NAME'] = CONTROLLER_NAME;
       $rs['rootData'] = _rootData;
-      $sc['data'] = _data;
+      $sc['data'] = _rootData;
 
       _rootData['title'] = 'Soyto\'s Twitch overlay panel';
 
@@ -173,10 +176,10 @@
         return $windowService.get().then(function($$response) {
           if($$response['status'] != 200) { return; }
 
-          _data['window']['width']['value'] = $$response['data']['width'];
-          _data['window']['width']['$$value'] = $$response['data']['width'];
-          _data['window']['height']['value'] = $$response['data']['height'];
-          _data['window']['height']['$$value'] = $$response['data']['height'];
+          _rootData['window']['width']['value'] = $$response['data']['width'];
+          _rootData['window']['width']['$$value'] = $$response['data']['width'];
+          _rootData['window']['height']['value'] = $$response['data']['height'];
+          _rootData['window']['height']['$$value'] = $$response['data']['height'];
         });
       });
 
@@ -185,17 +188,10 @@
         return $twitchService.get().then(function($$response) {
           if($$response['status'] != 200) { return; }
 
-          _data['twitch']['loginURI'] = $$response['data']['loginURI'];
-          _data['twitch']['userData'] = $$response['data']['user'];
-          _data['twitch']['channelInfo'] = $$response['data']['channelInfo'];
-          _data['twitch']['stream'] = $$response['data']['stream'];
-        });
-      });
-
-      //Twitter data
-      $$q = $$q.then(function() {
-        $http.get('/v1/panel/twitter/verify').then(function($$response) {
-          console.log($$response);
+          _rootData['twitch']['loginURI'] = $$response['data']['loginURI'];
+          _rootData['twitch']['userData'] = $$response['data']['user'];
+          _rootData['twitch']['channelInfo'] = $$response['data']['channelInfo'];
+          _rootData['twitch']['stream'] = $$response['data']['stream'];
         });
       });
 
@@ -206,11 +202,11 @@
     /* ----------------------------------- EVENTS HANDLERS ------------------------------------- */
 
     $sc.$on('socket.twitch.streamStatus', function($event, $$data) {
-      _data['twitch']['stream'] = $$data;
+      _rootData['twitch']['stream'] = $$data;
     });
 
     $sc.$on('socket.twitch.channelInfo', function($event, $$data) {
-      _data['twitch']['channelInfo'] = $$data;
+      _rootData['twitch']['channelInfo'] = $$data;
     });
   }
 
