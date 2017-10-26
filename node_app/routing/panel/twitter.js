@@ -10,7 +10,8 @@ module.exports = (function() {
   var $overlaySocket = require('../../sockets')['overlay'];
 
 
-  router.get('/verify', async(req, res) => {
+  //Retrieve current user twitter info
+  router.get('/', async(req, res) => {
     try {
       var _verify = await $twitterService.verifyCredentials();
       res.json(_verify);

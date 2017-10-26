@@ -4,6 +4,10 @@
 //--------------------------------------------------------
 @import 'Admin-lte/AdminLTE.scss';
 
+// Widgets
+@import 'widgets/boxEmptyContent';
+@import 'widgets/widgetTwitter';
+
 // Effects
 //--------------------------------------------------------
 @import 'effects/blink';

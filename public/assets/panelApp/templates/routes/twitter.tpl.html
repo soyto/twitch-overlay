@@ -3,8 +3,7 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Dashboard
-      <small>Twitter</small>
+      Twitter
     </h1>
     <ol class="breadcrumb">
       <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -14,7 +13,121 @@
 
   <!-- Main content -->
   <section class="content">
-    <button class="btn btn-default" data-ng-click="onClick_twitterLogin()">Twitter login</button>
+    <div class="row">
+
+      <div class="col-md-4">
+
+        <!-- Login button -->
+        <button class="btn btn-info btn-block"
+                data-ng-show="data.userAccount == null"
+                data-ng-click="onClick_twitterLogin()">Twitter login</button>
+
+        <!-- User widget -->
+        <div class="box box-widget widget-twitter" data-ng-show="data.userAccount != null">
+
+          <div class="overlay" data-ng-show="data.$$state.loading"><i class="fa fa-refresh fa-spin"></i></div>
+
+          <!-- Header -->
+          <div class="widget-header" data-ng-style="{'background-image': 'url(\'' + data.userAccount.profile_banner_url + '\')'}"></div>
+
+          <!-- Body -->
+          <div class="box-body">
+            <div class="media">
+              <div class="media-left">
+                <a href="" class="widget-image">
+                  <img class="img-circle" data-ng-src="{{ data.userAccount.profile_image_url_https }}" alt="User Avatar">
+                </a>
+              </div>
+              <div class="media-body">
+                <h3 class="widget-username">{{ data.userAccount.name }}</h3>
+                <h5 class="widget-desc">@{{ data.userAccount.screen_name }}</h5>
+              </div>
+            </div>
+          </div><!-- /Body -->
+
+          <!-- Box footer -->
+          <div class="box-footer">
+            <div class="row">
+
+              <div class="col-sm-4 border-right">
+                <div class="description-block">
+                  <h5 class="description-header">{{data.userAccount.statuses_count}}</h5>
+                  <span class="description-text text-sm">Tweets</span>
+                </div>
+                <!-- /.description-block -->
+              </div>
+
+              <div class="col-sm-4 border-right">
+                <div class="description-block">
+                  <h5 class="description-header">{{ data.userAccount.friends_count}}</h5>
+                  <span class="description-text text-sm">Siguiendo</span>
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <div class="description-block">
+                  <h5 class="description-header">{{ data.userAccount.followers_count }}</h5>
+                  <span class="description-text text-sm">Seguidores</span>
+                </div>
+              </div>
+
+              <!-- Logout button -->
+              <div class="col-sm-12">
+                <button class="btn btn-xs btn-info btn-block">Logout</button>
+              </div>
+
+            </div>
+          </div><!-- /Box footer -->
+
+        </div><!-- /User widget -->
+
+
+
+      </div>
+
+      <div class="col-md-8">
+        <div class="box box-info">
+
+          <div class="overlay" data-ng-show="data.$$state.loading"><i class="fa fa-refresh fa-spin"></i></div>
+
+          <div class="box-header">
+            <h3 class="box-title">Tweets programados</h3>
+            <div class="box-tools pull-right">
+              <div class="btn-group">
+                <button class="btn btn-info bg-aqua-gradient" title="Programar un tweet"><i class="fa fa-clock-o"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="box-body table-responsive no-padding" data-ng-show="false">
+            <table class="table table-hover table-stripped">
+              <thead>
+              <tr>
+                <th>Remaining</th>
+                <th>Text</th>
+              </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+          </div>
+
+          <div class="box-body box-empty">
+            <div class="box-empty-content">
+              <div class="box-empty-icon"><i class="fa fa-twitter"></i></div>
+              <p class="lead">No existe ningún tweet programado</p>
+              <p>Programa uno!</p>
+              <button class="btn btn-lg btn-info bg-aqua-gradient"><i class="fa fa-pencil"></i> <span>Programar un tweet</span></button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+
   </section><!-- /Main content -->
 
 </div>

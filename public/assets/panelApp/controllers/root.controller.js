@@ -11,6 +11,7 @@
     var $log = $hs.$instantiate('$log');
     var $q = $hs.$instantiate('$q');
     var $rs = $hs.$instantiate('$rootScope');
+    var $location = $hs.$instantiate('$location');
     var $interval = $hs.$instantiate('$interval');
     var $http = $hs.$instantiate('$http');
     var $windowService = $hs.$instantiate('window.service');
@@ -53,6 +54,7 @@
         }
       },
       '$$state': {
+        'url': null,
         'controlSidebar': {
           'tab': 'control-sidebar-settings-tab'
         }
@@ -207,6 +209,10 @@
 
     $sc.$on('socket.twitch.channelInfo', function($event, $$data) {
       _rootData['twitch']['channelInfo'] = $$data;
+    });
+
+    $sc.$on('$routeChangeSuccess', function($event, $$data) {
+      _rootData['$$state']['url'] = $location.url();
     });
   }
 

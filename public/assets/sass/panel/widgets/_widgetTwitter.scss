@@ -1,0 +1,57 @@
+//Twitter widget
+.widget-twitter {
+
+  //User name container
+  .widget-header {
+    padding: 20px;
+    height: 95px;
+    @include border-top-radius($box-border-radius);
+    background-size: 100%;
+  }
+
+  .box-body {
+
+    margin-bottom: 0;
+    padding-bottom: 0;
+
+    .media {
+      margin-bottom: -20px;
+      overflow: visible;
+
+      //Image
+      .widget-image {
+        background-color: #fff;
+        border-radius: 50px;
+        position: relative;
+        top: -30px;
+        padding: 1px;
+        vertical-align: bottom;
+        > img {
+          width: 72px;
+          height: 72px;
+          border: 2px solid #fff;
+        }
+      }
+
+      //User name
+      .widget-username {
+        margin-top: 0;
+        margin-bottom: 5px;
+        font-size: 25px;
+        font-weight: 300;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+      }
+
+      //User single line description
+      .widget-desc {
+        margin-top: 0;
+      }
+    }
+
+  }
+
+  .box-footer {
+    margin-top: 0;
+    padding-top: 0;
+  }
+}

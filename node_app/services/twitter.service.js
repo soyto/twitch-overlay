@@ -52,9 +52,7 @@ module.exports = new (function() {
   $this.getRetweets = function(num) {
     var _url = 'https://api.twitter.com/1.1/statuses/retweets_of_me.json?stringify_ids=true';
 
-    if(num) {
-      _url += '&count=' + num;
-    }
+    if(num) { _url += '&count=' + num; }
 
     //Retweets cache: 75 each 15 min
     return _oauth_get(_url, 1000 * 12);
@@ -69,14 +67,8 @@ module.exports = new (function() {
   };
 
   //verify user credentials
-  $this.verifyCredentials = async function() {
-
-    try {
-      return await _oauth_get('https://api.twitter.com/1.1/account/verify_credentials.json');
-    } catch($$error) {
-      console.error($$error);
-      return null;
-    }
+  $this.verifyCredentials = function() {
+    return _oauth_get('https://api.twitter.com/1.1/account/verify_credentials.json');
   };
 
   //
