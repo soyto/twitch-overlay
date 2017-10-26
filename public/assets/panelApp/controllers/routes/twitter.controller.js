@@ -33,6 +33,7 @@
     //When user attempts to schdule
     $sc.onClick_schedule = function() {
       var _instance = $uibModal.open({
+        'backdrop': 'static',
         'controller': 'panelApp.twitter.schedule.modal.controller',
         'templateUrl': '/assets/panelApp/templates/modals/twitter/schedule.modal.tpl.html'
       });
