@@ -6,6 +6,8 @@ module.exports = new (function() {
   const REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token';
   const ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token';
   const PRINT_TWITTER_LIMITS = false;
+  const BASE_URL = 'https://api.twitter.com/1.1/';
+
 
   var colors = require('colors');
   var OAuth = require('oauth')['OAuth'];
@@ -30,7 +32,7 @@ module.exports = new (function() {
   /* ------------------------------------------- PUBLIC FUNCTIONS --------------------------------------------------- */
   //Gets an user
   $this.getUser = function(userId) {
-    var _url = 'https://api.twitter.com/1.1/users/show.json?user_id=' + userId;
+    var _url = 'users/show.json?user_id=' + userId;
 
     //store items in cache about 1 min
     return _oauth_get(_url, 1000 * 60);
@@ -39,18 +41,18 @@ module.exports = new (function() {
   //Get followers
   $this.getFollowers = function() {
     //Followers cache: 15 each 15 min
-    return _oauth_get('https://api.twitter.com/1.1/followers/list.json', 1000 * 60);
+    return _oauth_get('followers/list.json', 1000 * 60);
   };
 
   //Get mentions
   $this.getMentions = function() {
     //Mentions cache: 75 each 15 min
-    return _oauth_get('https://api.twitter.com/1.1/statuses/mentions_timeline.json', 1000 * 12);
+    return _oauth_get('statuses/mentions_timeline.json', 1000 * 12);
   };
 
   //Get retweets
   $this.getRetweets = function(num) {
-    var _url = 'https://api.twitter.com/1.1/statuses/retweets_of_me.json?stringify_ids=true';
+    var _url = 'statuses/retweets_of_me.json?stringify_ids=true';
 
     if(num) { _url += '&count=' + num; }
 
@@ -60,7 +62,7 @@ module.exports = new (function() {
 
   //Get tweet retweets from the specified retweet
   $this.getTweetRetweeters = function(tweetId) {
-    var _url = util.format('https://api.twitter.com/1.1/statuses/retweeters/ids.json?stringify_ids=true&id=', tweetId);
+    var _url = util.format('statuses/retweeters/ids.json?stringify_ids=true&id=', tweetId);
 
     //Retweets cache: 75 each 15 min
     return _oauth_get(_url, 1000 * 12);
@@ -68,7 +70,7 @@ module.exports = new (function() {
 
   //verify user credentials
   $this.verifyCredentials = function() {
-    return _oauth_get('https://api.twitter.com/1.1/account/verify_credentials.json');
+    return _oauth_get('account/verify_credentials.json');
   };
 
   //
@@ -134,7 +136,7 @@ module.exports = new (function() {
   //GET from Oauth
   async function _oauth_get(url, cacheTime = 60000) {
 
-    var _entry = $cache.get(url);
+    var _entry = $cache.get(BASE_URL + url);
 
     //If we have cache
     if(_entry) { return _entry; }
@@ -143,7 +145,7 @@ module.exports = new (function() {
     if(!_data['token']['token'] || !_data['token']['secret']) { return null; }
 
     return new Promise((resolve, reject) => {
-      _oa.get(url, _data['token']['token'], _data['token']['secret'], (error, data, response) => {
+      _oa.get(BASE_URL +  url, _data['token']['token'], _data['token']['secret'], (error, data, response) => {
 
         if(error) {
           reject(error);
