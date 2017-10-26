@@ -8,6 +8,7 @@ module.exports = (function() {
   var $persistence = require('../../persistence/jsonSorage');
   var $twitterService = require('./../../services')['twitter'];
   var $overlaySocket = require('../../sockets')['overlay'];
+  var $panelSocket = require('../../sockets')['panel'];
 
 
   //Retrieve current user twitter info
@@ -99,6 +100,7 @@ module.exports = (function() {
     };
     
     $overlaySocket.twitter.push_newFollower(_followerInfo);
+    $panelSocket.twitter.push_newFollower(_followerInfo);
     res.end();
   });
 
@@ -222,6 +224,7 @@ module.exports = (function() {
     };
 
     $overlaySocket.twitter.push_newMention(_mentionInfo);
+    $panelSocket.twitter.push_newMention(_mentionInfo);
     res.end();
   });
 
@@ -425,6 +428,7 @@ module.exports = (function() {
     };
 
     $overlaySocket.twitter.push_newRetweet(_data);
+    $panelSocket.twitter.push_newRetweet(_data);
     res.end();
   });
 

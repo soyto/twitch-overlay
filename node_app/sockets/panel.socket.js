@@ -40,6 +40,38 @@ module.exports = (function() {
       _io.emit('twitch.streamStatus', streamData);
     };
 
+    //Twitter
+    $this.twitter = new (function() {
+      var $$this = this;
+
+      //Sends a message with the new follower
+      $$this.push_newFollower = function(followerData) {
+        _io.emit('twitter.follower.new', followerData);
+      };
+
+      //Sends an alart to the overlay that there is a new mention
+      $$this.push_newMention = function(mentionData) {
+        _io.emit('twitter.mention.new', mentionData);
+      };
+
+      //On a new retweet
+      $$this.push_newRetweet = function(retweetData) {
+        _io.emit('twitter.retweet.new', retweetData);
+      };
+
+    })();
+
+    //Twitch
+    $this.twitch = new (function() {
+      var $$this = this;
+
+      //Sends an alert to the overlay that there is a new follower
+      $$this.push_newFollower = function(followerData) {
+        _io.emit('twitch.follower.new', followerData);
+      };
+
+    })();
+
     //On client connection
     function _onConnection(socket) {
       _sockets.push(socket);

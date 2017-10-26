@@ -29,7 +29,7 @@ module.exports = new (function () {
           return;
         }
 
-        $log.debug('Panel sass executed');
+        //$log.debug('Panel sass executed');
         grunt.file.write('public/assets/dist/panel.min.css', result.css);
       });
 
@@ -47,7 +47,7 @@ module.exports = new (function () {
         return;
       }
 
-      $log.debug('Overlay sass executed');
+      //$log.debug('Overlay sass executed');
       grunt.file.write('public/assets/dist/overlay.min.css', result.css);
     });
 

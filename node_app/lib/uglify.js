@@ -27,7 +27,7 @@ module.exports = new (function () {
     var _uglifyResult = uglify.minify(_uglifyOpts, { 'mangle': false });
     grunt.file.write('public/assets/dist/panelApp.min.js', _uglifyResult.code);
 
-    $log.debug('Panel files uglified');
+    //$log.debug('Panel files uglified');
 
     return $this;
   };
@@ -44,7 +44,7 @@ module.exports = new (function () {
     var _uglifyResult = uglify.minify(_uglifyOpts, { 'mangle': false });
     grunt.file.write('public/assets/dist/overlayApp.min.js', _uglifyResult.code);
 
-    $log.debug('Overlay files uglified');
+    //$log.debug('Overlay files uglified');
     
     return $this;
   };

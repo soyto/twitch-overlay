@@ -18,7 +18,31 @@
     $this.init = function() {
       var _socket = $io.connect('/panel');
 
-      //On new follower
+      _socket.on('twitch.follower.new', function($$data) {
+        $rs.$apply(function() {
+          $rs.$broadcast('socket.twitch.follower.new', $$data);
+        });
+      });
+
+      _socket.on('twitter.follower.new', function($$data) {
+        $rs.$apply(function() {
+          $rs.$broadcast('socket.twitter.follower.new', $$data);
+        });
+      });
+
+      _socket.on('twitter.mention.new', function($$data) {
+        $rs.$apply(function() {
+          $rs.$broadcast('socket.twitter.mention.new', $$data);
+        });
+      });
+
+      _socket.on('twitter.retweet.new', function($$data) {
+        $rs.$apply(function() {
+          $rs.$broadcast('socket.twitter.retweet.new', $$data);
+        });
+      });
+
+      //On last follower change
       _socket.on('twitch.lastFollower', function($$data) {
         $rs.$apply(function() {
           $rs.$broadcast('socket.twitch.lastFollower', $$data);

@@ -203,6 +203,23 @@
 
     /* ----------------------------------- EVENTS HANDLERS ------------------------------------- */
 
+    //Notify new follower on twitch
+    $sc.$on('socket.twitch.follower.new', function($event, $$data) {
+      $hs.notify.info('<b class="text-purple">Twitch</b> Nuevo seguidor: <b>@' + $$data['display_name'] + '</b>');
+    });
+
+    $sc.$on('socket.twitter.follower.new', function($event, $$data) {
+      $hs.notify.info('<b class="text-blue">Twitter</b> Nuevo seguidor: <b>@' + $$data['screen_name'] + '</b>');
+    });
+
+    $sc.$on('socket.twitter.mention.new', function($event, $$data) {
+      $hs.notify.info('<b class="text-blue">Twitter</b> Nuevo mención de : <b>@' + $$data['user']['screen_name'] + '</b>');
+    });
+
+    $sc.$on('socket.twitter.retweet.new', function($event, $$data) {
+      $hs.notify.info('<b class="text-blue">Twitter</b> Nuevo mención de : <b>@' + $$data['user']['screen_name'] + '</b>');
+    });
+
     $sc.$on('socket.twitch.streamStatus', function($event, $$data) {
       _rootData['twitch']['stream'] = $$data;
     });

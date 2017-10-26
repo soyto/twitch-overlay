@@ -44,7 +44,6 @@
 
       _socket.on('twitter.retweet.new', function($$data) {
         $rs.$apply(function() {
-          console.log($$data);
           $rs.$broadcast('socket.twitter.retweet.new', $$data);
         });
       });

@@ -12,6 +12,9 @@
     var $this = this;
 
 
+    $this.notify = $injector.get('helper.service.notify').$setParent($this);
+
+
     //instantiates a angular element
     $this.$instantiate = function (elementName) {
       return $injector.get(elementName);

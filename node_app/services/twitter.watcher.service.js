@@ -5,6 +5,7 @@ module.exports = new (function() {
   var $log = require('../lib/log');
   var $twitterService = require('./twitter.service');
   var $overlaySocket = require('../sockets')['overlay'];
+  var $panelSocket = require('../sockets')['panel'];
 
   var _data = {
     'user': null,
@@ -129,6 +130,7 @@ module.exports = new (function() {
       _followers['users'].slice(0, _idxFirstId).forEach(($$newFollower) => {
         $log.debug('new follower @[%s]', $$newFollower['screen_name']);
         $overlaySocket.twitter.push_newFollower($$newFollower);
+        $panelSocket.twitter.push_newFollower($$newFollower);
       });
     }
 
@@ -162,6 +164,7 @@ module.exports = new (function() {
       _mentions.slice(0, _idxFirstId).forEach(($$newMention) => {
         $log.debug('new mention from @%s -> %s', $$newMention['user']['screen_name'], $$newMention['text']);
         $overlaySocket.twitter.push_newMention($$newMention);
+        $panelSocket.twitter.push_newMention($$newMention);
       });
     }
 
@@ -220,6 +223,11 @@ module.exports = new (function() {
             'user': $$retweeter['user'],
             'tweet': _entry['tweet']
           });
+
+          $panelSocket.twitter.push_newRetweet({
+            'user': $$retweeter['user'],
+            'tweet': _entry['tweet']
+          });
         }
 
       }
@@ -257,6 +265,10 @@ module.exports = new (function() {
             'tweet': _storedTweet['tweet']
           });
 
+          $panelSocket.twitter.push_newRetweet({
+            'user': _user,
+            'tweet': _storedTweet['tweet']
+          });
         }
       }
     }

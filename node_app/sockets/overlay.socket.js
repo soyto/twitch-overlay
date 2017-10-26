@@ -66,7 +66,7 @@ module.exports = (function() {
       var $$this = this;
 
       //Sends an alert to the overlay that there is a new follower
-      $$this.newFollower = function(followerData) {
+      $$this.push_newFollower = function(followerData) {
         _io.emit('twitch.follower.new', followerData);
       };
 

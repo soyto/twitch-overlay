@@ -9,6 +9,7 @@ module.exports = (function() {
   var $twitchService = require('./../../services')['twitch'];
   var $twitchWatcherService = require('./../../services')['twitch.watcher'];
   var $overlaySocket = require('../../sockets/')['overlay'];
+  var $panelSocket = require('../../sockets/')['panel'];
 
   //Get window data
   router.get('/', async (req, res) => {
@@ -74,7 +75,8 @@ module.exports = (function() {
 
   //Simulate that we have a new follower
   router.post('/simulate/newFollower', (req, res) => {
-    $overlaySocket.twitch.newFollower(req['body']);
+    $overlaySocket.twitch.push_newFollower(req['body']);
+    $panelSocket.twitch.push_newFollower(req['body']);
     res.end();
   });
 

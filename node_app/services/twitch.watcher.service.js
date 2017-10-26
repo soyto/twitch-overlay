@@ -131,7 +131,8 @@ module.exports = new (function() {
 
     _users['data'].forEach(($$newFollower) => {
       $log.debug('Twitch API: new follower %s', $$newFollower['display_name']);
-      $overlaySocket.twitch.newFollower($$newFollower);
+      $overlaySocket.twitch.push_newFollower($$newFollower);
+      $panelSocket.twitch.push_newFollower($$newFollower);
     });
   }
 
