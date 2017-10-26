@@ -8,8 +8,9 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
   <!-- Bower sources -->
-  <link rel="stylesheet" href="/assets/bower/bootstrap/dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="/assets/bower/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="/assets/bower/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/bower/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/assets/bower/angular-bootstrap/ui-bootstrap-csp.css">
 
   <!-- Panel sources -->
   <link rel="stylesheet" href="/assets/dist/panel.min.css" />
@@ -156,14 +157,14 @@
 
           <h3 class="control-sidebar-heading">Twitch</h3>
 
-          <div>
-            <button class="btn btn-primary text-sm btn-sm"
+          <div class="btn-group-vertical btn-block">
+            <button class="btn bg-purple"
                     data-ng-click="onClick_twitchNewFollower()" >Seguidor Twitch</button>
-            <button class="btn btn-primary text-sm btn-sm"
+            <button class="btn btn-info"
                     data-ng-click="onClick_twitterNewFollower()" >Seguidor Twitter</button>
-            <button class="btn btn-primary text-sm btn-sm"
+            <button class="btn btn-info "
                     data-ng-click="onClick_twitterNewMention()" >Mención Twitter</button>
-            <button class="btn btn-primary text-sm btn-sm"
+            <button class="btn btn-info"
                     data-ng-click="onClick_twitterNewRetweet()" >Retweet</button>
           </div>
 
@@ -205,6 +206,7 @@
   <script type="text/javascript" src="/assets/bower/bootstrap/dist/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="/assets/bower/angular/angular.min.js"></script>
   <script type="text/javascript" src="/assets/bower/angular-route/angular-route.min.js"></script>
+  <script type="text/javascript" src="assets/bower/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
   <script type="text/javascript" src="/assets/bower/socket.io-client/dist/socket.io.slim.js"></script>
 
   <!-- Template Scripts -->

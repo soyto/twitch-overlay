@@ -30,15 +30,15 @@
       var $$this = this;
 
       $$this.newFollower = function() {
-        return $http.post(BASE_URL + '/newFollower');
+        return $http.post(BASE_URL + '/simulate/newFollower');
       };
 
       $$this.newMention = function() {
-        return $http.post(BASE_URL + '/newMention');
+        return $http.post(BASE_URL + '/simulate/newMention');
       };
 
       $$this.newRetweet = function() {
-        return $http.post(BASE_URL + '/newRetweet');
+        return $http.post(BASE_URL + '/simulate/newRetweet');
       };
     })();
 

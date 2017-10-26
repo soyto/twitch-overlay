@@ -98,7 +98,7 @@ module.exports = (function() {
       'muting': false
     };
     
-    $overlaySocket.twitter.newFollower(_followerInfo);
+    $overlaySocket.twitter.push_newFollower(_followerInfo);
     res.end();
   });
 
@@ -221,7 +221,7 @@ module.exports = (function() {
       'in_reply_to_status_id': null
     };
 
-    $overlaySocket.twitter.newMention(_mentionInfo);
+    $overlaySocket.twitter.push_newMention(_mentionInfo);
     res.end();
   });
 
