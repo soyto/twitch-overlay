@@ -10,6 +10,7 @@
     var $log = $hs.$instantiate('$log');
     var $q = $hs.$instantiate('$q');
     var $rs = $hs.$instantiate('$rootScope');
+    var $uibModal = $hs.$instantiate('$uibModal');
     var $twitterService = $hs.$instantiate('twitter.service');
 
     var _rootData = $rs['rootData'];
@@ -27,6 +28,20 @@
     //Twitter login
     $sc.onClick_twitterLogin = function() {
       $twitterService.getRequestUrl();
+    };
+
+    //When user attempts to schdule
+    $sc.onClick_schedule = function() {
+      var _instance = $uibModal.open({
+        'controller': 'panelApp.twitter.schedule.modal.controller',
+        'templateUrl': '/assets/panelApp/templates/modals/twitter/schedule.modal.tpl.html'
+      });
+
+      _instance['result'].then(function(){
+        console.log('called when closed');
+      }).catch(function() {
+        console.log('called when canceled');
+      });
     };
 
     /* ----------------------------------- PRIVATE FUNCTIONS ------------------------------------- */

@@ -81,8 +81,6 @@
 
         </div><!-- /User widget -->
 
-
-
       </div>
 
       <div class="col-md-8">
@@ -94,7 +92,9 @@
             <h3 class="box-title">Tweets programados</h3>
             <div class="box-tools pull-right">
               <div class="btn-group btn-group-sm">
-                <button class="btn btn-box-tool" title="Programar un tweet"><i class="fa fa-plus"></i></button>
+                <button class="btn btn-box-tool"
+                        data-ng-click="onClick_schedule()"
+                        title="Programar un tweet"><i class="fa fa-plus"></i></button>
               </div>
             </div>
           </div>
@@ -118,7 +118,9 @@
               <div class="box-empty-icon"><i class="fa fa-twitter"></i></div>
               <p class="lead">No existe ningún tweet programado</p>
               <p>Programa uno!</p>
-              <button class="btn btn-lg btn-info bg-aqua-gradient"><i class="fa fa-clock-o"></i> <span>Programar un tweet</span></button>
+              <button class="btn btn-lg btn-info bg-aqua-gradient" data-ng-click="onClick_schedule()">
+                <i class="fa fa-clock-o"></i> <span>Programar un tweet</span>
+              </button>
             </div>
           </div>
 

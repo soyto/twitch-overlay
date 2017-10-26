@@ -1,9 +1,10 @@
-/* global */
+/* global moment:false, io:false */
 (function (ng) {
   'use strict';
 
   ng.module('panelApp', [
-    'ngRoute'
+    'ngRoute',
+    'ui.bootstrap'
   ]);
 
   ng.module('panelApp')
