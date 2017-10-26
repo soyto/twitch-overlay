@@ -136,7 +136,7 @@ module.exports = new (function() {
   //GET from Oauth
   async function _oauth_get(url, cacheTime = 60000) {
 
-    var _entry = $cache.get(BASE_URL + url);
+    var _entry = $cache.get(url);
 
     //If we have cache
     if(_entry) { return _entry; }
