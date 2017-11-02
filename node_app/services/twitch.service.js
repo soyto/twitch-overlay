@@ -19,7 +19,7 @@ module.exports = new (function() {
   var $persistence = require('../persistence/jsonSorage');
   var $overlaySocket = require('../sockets/')['overlay'];
   var $panelSocket = require('../sockets/')['panel'];
-  var $cache = new (require('../util')['cache'])();
+  var $cache = new (require('../util')['cache'])('services/twitch.service');
 
   var _data = {
     'clientID': $config['twitch']['clientID'],

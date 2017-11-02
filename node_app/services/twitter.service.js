@@ -17,7 +17,7 @@ module.exports = new (function() {
   var $log = require('../lib/log');
   var $config = require('../config');
   var $persistence = require('../persistence/jsonSorage');
-  var $cache = new (require('../util')['cache']);
+  var $cache = new (require('../util')['cache'])('services/twitter.service');
 
   var _data = {
     'token': {
