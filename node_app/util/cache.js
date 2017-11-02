@@ -22,8 +22,6 @@
 
     if(grunt.file.exists(_fileName)) {
       _entries = grunt.file.readJSON(_fileName);
-
-      console.log(_entries);
     }
 
     //Adds an item to cache
