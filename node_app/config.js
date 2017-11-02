@@ -4,7 +4,7 @@ module.exports = (function() {
 
   let _result = {
     'server': {
-      'port': 8080
+      'port': 80
     },
     'twitch': {
       'clientID': 'eplbp72ytgf9g6f1h7td2q1fm1c6dl',
