@@ -13,6 +13,7 @@
   function Cache(cacheName) {
     var $this = this;
 
+    //We must have a cache name
     if(!$is.existy(cacheName) || $is.empty(cacheName)) {
       throw new Error('Usage is new Cache(cacheName)');
     }
@@ -20,6 +21,7 @@
     var _fileName = CACHE_FOLDER + $md5(cacheName) + '.json';
     var _entries = {};
 
+    //If cache file already exists.. load it
     if(grunt.file.exists(_fileName)) {
       _entries = grunt.file.readJSON(_fileName);
     }
