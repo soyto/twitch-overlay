@@ -13,6 +13,11 @@ module.exports = (function() {
     'twitter': {
       'CONSUMER_KEY': 'pEB31grzFFwxotNME9FlZqFRF',
       'CONSUMER_SECRET': 'CGWGvVATToP8zFxH9p1nQH4ySB4aH8aVeGRIR9VGvHpre46QHy'
+    },
+    'debug': {
+    },
+    'persist': {
+      'pretty_print': false
     }
   };
 

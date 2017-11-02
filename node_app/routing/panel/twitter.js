@@ -36,6 +36,9 @@ module.exports = (function() {
 
     await $twitterService.verifyRequestToken(_request_token, _token['secret'], _request_verify);
 
+    //Start twitter watcher
+    require('./../../services')['twitter.watcher'].start();
+
     res.redirect('/');
   });
 

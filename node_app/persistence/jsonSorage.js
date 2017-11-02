@@ -2,10 +2,11 @@
 module.exports = new (function() {
   var $this = this;
 
-  const PRETTY_PRINT = true;
   const FILE = './data/profile.json';
 
   var grunt = require('grunt');
+
+  var $config = require('../config');
 
   var _data = {
     'twitch': {
@@ -111,7 +112,7 @@ module.exports = new (function() {
 
   //Persists data on storage
   function _persist() {
-    var _txt = PRETTY_PRINT ? JSON.stringify(_data, null, 1) : JSON.stringify(_data);
+    var _txt = $config['persist']['pretty_print'] ? JSON.stringify(_data, null, 1) : JSON.stringify(_data);
     grunt.file.write(FILE, _txt);
   }
 

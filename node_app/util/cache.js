@@ -1,7 +1,6 @@
 (function() {
 
   const CACHE_FOLDER = 'data/cache/';
-  const PRETTY_PRINT = false;
 
   var $moment = require('moment');
   var $is = require('is_js');
@@ -9,6 +8,7 @@
   var $md5 = require('md5');
 
   var $log = require('../lib/log');
+  var $config = require('../config');
 
   function Cache(cacheName) {
     var $this = this;
@@ -68,7 +68,7 @@
 
     //Persist cache
     function _persistCache() {
-      var _txt = PRETTY_PRINT ? JSON.stringify(_entries, null, 1) : JSON.stringify(_entries);
+      var _txt = $config['persist']['pretty_print'] ? JSON.stringify(_entries, null, 1) : JSON.stringify(_entries);
       grunt.file.write(_fileName, _txt);
     }
   }
