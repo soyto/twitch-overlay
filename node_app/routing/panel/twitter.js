@@ -27,7 +27,7 @@ module.exports = (function() {
     var _request_token = req.query.oauth_token;
     var _request_verify = req.query.oauth_verifier;
 
-    var _token = $persistence.getOAuthTwitterRequestToken();
+    var _token = $persistence.twitter.getOAuthRequestToken();
 
     if(_request_token != _token['token']) {
       res.redirect('/');

@@ -76,7 +76,6 @@
 
     $sc.onClick_save = function() {
 
-
       //Not valid, dont do nothing
       if(!_validate()) { return; }
 

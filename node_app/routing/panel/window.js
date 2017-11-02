@@ -9,12 +9,12 @@ module.exports = (function() {
 
   //Get window data
   router.get('/', (req, res) => {
-    res.json($persistence.getWindowData());
+    res.json($persistence.window.get());
   });
 
   //Sets data
   router.post('/', (req, res) => {
-    $persistence.setWindowData(req['body']['width'], req['body']['height']);
+    $persistence.window.set(req['body']['width'], req['body']['height']);
     $overlaySocket.setWindow(req['body']['width'], req['body']['height']);
     res.end();
   });

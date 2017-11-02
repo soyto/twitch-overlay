@@ -23,7 +23,7 @@ module.exports = new (function() {
 
   var _data = {
     'clientID': $config['twitch']['clientID'],
-    'access_token': $persistence.getTwitchAccessToken(),
+    'access_token': $persistence.twitch.getAccessToken(),
     'watcher': {
       'started': false,
       'followers': null,
@@ -42,7 +42,7 @@ module.exports = new (function() {
     //Clear cache...
     $cache.clear();
 
-    $persistence.setTwitchAccessToken(access_token);
+    $persistence.twitch.setAccessToken(access_token);
     _data['access_token'] = access_token;
   };
 

@@ -17,7 +17,7 @@ module.exports = new (function() {
       'fns': [
         _iteration_alertRetweets,
         _iteration_alertNewFollower,
-        _iteration_alertMention
+        _iteration_alertMention,
       ]
     },
     '$$state': {

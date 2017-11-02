@@ -14,7 +14,7 @@ module.exports = (function() {
   router.get('/', async (req, res) => {
 
     var _responseData = {
-      'window': $persistence.getProfile()['window'],
+      'window': $persistence.window.get(),
       'twitch': {
         'last_follower': null,
         'user': null

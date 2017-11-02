@@ -9,7 +9,7 @@ module.exports = (function() {
 
   //Get window data
   router.get('/', (req, res) => {
-    res.json($persistence.getWindowData());
+    res.json($persistence.window.get());
   });
 
   //Sets data

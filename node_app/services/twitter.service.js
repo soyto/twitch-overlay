@@ -82,7 +82,7 @@ module.exports = new (function() {
     return new Promise((resolve, reject) => {
       _oa.getOAuthRequestToken({'x_auth_access_type': 'write'}, (error, oauthToken, oauthTokenSecret, result) => {
 
-        $persistence.storeOAuthTwitterRequestToken({
+        $persistence.twitter.setOAuthRequestToken({
           'token': oauthToken,
           'secret': oauthTokenSecret
         });
@@ -96,12 +96,12 @@ module.exports = new (function() {
   $this.verifyRequestToken = function(requestToken, requestSecret, requestVerify) {
     return new Promise((resolve, reject) => {
       _oa.getOAuthAccessToken(requestToken, requestSecret, requestVerify, function (error, oAuthToken, oAuthSecretToken) {
-        $persistence.storeOAuthTwitterRequestToken(null);
+        $persistence.twitter.setOAuthRequestToken(null);
 
         _data['token']['token'] = oAuthToken;
         _data['token']['secret'] = oAuthSecretToken;
 
-        $persistence.storeOauthTwitterToken({
+        $persistence.twitter.setOAuthToken({
           'token': oAuthToken,
           'secret': oAuthSecretToken
         });
@@ -116,8 +116,8 @@ module.exports = new (function() {
   //nit function
   function _init() {
 
-    if($persistence.getOauthTwitterToken() != null) {
-      let _token = $persistence.getOauthTwitterToken();
+    if($persistence.twitter.getOAuthToken() != null) {
+      let _token = $persistence.twitter.getOAuthToken();
       _data['token']['token'] = _token['token'];
       _data['token']['secret'] = _token['secret'];
     }

@@ -68,9 +68,7 @@
 
     //Persist cache
     function _persistCache() {
-
       var _txt = PRETTY_PRINT ? JSON.stringify(_entries, null, 1) : JSON.stringify(_entries);
-
       grunt.file.write(_fileName, _txt);
     }
   }

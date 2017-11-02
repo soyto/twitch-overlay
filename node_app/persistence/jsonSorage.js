@@ -2,6 +2,7 @@
 module.exports = new (function() {
   var $this = this;
 
+  const PRETTY_PRINT = true;
   const FILE = './data/profile.json';
 
   var grunt = require('grunt');
@@ -26,80 +27,92 @@ module.exports = new (function() {
     }
   };
 
-
   if(grunt.file.exists(FILE)) {
     _data = Object.assign(_data, grunt.file.readJSON(FILE));
   }
 
-  //Returns whole profile
-  $this.getProfile = function() {
-    return _data;
-  };
 
-  //Gets window data
-  $this.getWindowData = function() {
-    return _data['window'];
-  };
+  //Window
+  $this.window = new (function() {
+    var $$this = this;
 
-  //Stores window data
-  $this.setWindowData = function(width, height) {
-    _data['window']['width'] = width;
-    _data['window']['height'] = height;
+    //Gets window data
+    $$this.get = function() {
+      return _data['window'];
+    };
 
-    _persist();
-  };
+    //Sets window data
+    $$this.set = function(width, height) {
+      _data['window']['width'] = width;
+      _data['window']['height'] = height;
 
-  //Retrieves twitch access token
-  $this.getTwitchAccessToken = function() {
-    return _data['twitch']['access_token'];
-  };
+      _persist();
+    };
 
-  //Sets wich is twitch access token
-  $this.setTwitchAccessToken = function(token) {
-    _data['twitch']['access_token'] = token;
+  })();
 
-    _persist();
-  };
+  //Twitch
+  $this.twitch = new (function() {
+    var $$this = this;
 
-  //Gets oauth request token
-  $this.getOAuthTwitterRequestToken = function() {
-    return _data['twitter']['request_token'];
-  };
+    //Get access token
+    $$this.getAccessToken = function() {
+      return _data['twitch']['access_token'];
+    };
 
-  //Stores OAuthr Request token
-  $this.storeOAuthTwitterRequestToken = function(token) {
+    //Set access token
+    $$this.setAccessToken = function(token) {
+      _data['twitch']['access_token'] = token;
 
-    if(token == null) {
-      _data['twitter']['request_token']['token'] = null;
-      _data['twitter']['request_token']['secret'] = null;
-    }
-    else {
-      _data['twitter']['request_token']['token'] = token['token'];
-      _data['twitter']['request_token']['secret'] = token['secret'];
-    }
+      _persist();
+    };
 
+  })();
 
+  //Twitter
+  $this.twitter = new (function() {
+    var $$this = this;
 
-    _persist();
-  };
+    $$this.getOAuthRequestToken = function() {
+      return _data['twitter']['request_token'];
+    };
 
-  //Gets oauth twitter token
-  $this.getOauthTwitterToken = function() {
-    return _data['twitter']['access_token'];
-  };
+    $$this.setOAuthRequestToken = function(token) {
+      if(token == null) {
+        _data['twitter']['request_token']['token'] = null;
+        _data['twitter']['request_token']['secret'] = null;
+      }
+      else {
+        _data['twitter']['request_token']['token'] = token['token'];
+        _data['twitter']['request_token']['secret'] = token['secret'];
+      }
 
-  //Stores oauth twitter token
-  $this.storeOauthTwitterToken = function(token) {
-    _data['twitter']['access_token']['token'] = token['token'];
-    _data['twitter']['access_token']['secret'] = token['secret'];
+      _persist();
+    };
 
-    _persist();
-  };
+    $$this.getOAuthToken = function() {
+      return _data['twitter']['access_token'];
+    };
 
+    $$this.setOAuthToken = function(token) {
+      if(token == null) {
+        _data['twitter']['request_token']['token'] = null;
+        _data['twitter']['request_token']['secret'] = null;
+      }
+      else {
+        _data['twitter']['request_token']['token'] = token['token'];
+        _data['twitter']['request_token']['secret'] = token['secret'];
+      }
+
+      _persist();
+    };
+
+  })();
 
   //Persists data on storage
   function _persist() {
-    grunt.file.write(FILE, JSON.stringify(_data));
+    var _txt = PRETTY_PRINT ? JSON.stringify(_data, null, 1) : JSON.stringify(_data);
+    grunt.file.write(FILE, _txt);
   }
 
 })();
