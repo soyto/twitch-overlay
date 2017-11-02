@@ -5,7 +5,6 @@ module.exports = new (function() {
 
   const REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token';
   const ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token';
-  const PRINT_TWITTER_LIMITS = false;
   const BASE_URL = 'https://api.twitter.com/1.1/';
 
 
@@ -156,13 +155,10 @@ module.exports = new (function() {
         var _limitReset = response['headers']['x-rate-limit-reset'];
         var _limitResetDate = $moment(_limitReset * 1000);
 
-        if(PRINT_TWITTER_LIMITS) {
-          $log.debug('Twitter API: Endpoint [%s]: %s until %s',
-              colors.cyan(url),
-              colors.red(_limitRemaining),
-              colors.cyan(_limitResetDate.format('HH:mm:SS')));
-        }
-
+        _log('Twitter API: Endpoint [%s]: %s until %s',
+          colors.cyan(url),
+          colors.red(_limitRemaining),
+          colors.cyan(_limitResetDate.format('HH:mm:SS')));
 
         var _entry = JSON.parse(data);
 
@@ -170,6 +166,21 @@ module.exports = new (function() {
         resolve(_entry);
       });
     });
+  }
+
+  function _log() {
+
+    if(!$config['debug']['twitter.service']) { return; }
+
+    var msg = arguments[0];
+    var args = [];
+    if (arguments.length > 1) {
+      for (var i = 1; i < arguments.length; i++) {
+        args.push(arguments[i]);
+      }
+    }
+
+    $log.debug.apply($log, [msg].concat(args));
   }
 
 })();

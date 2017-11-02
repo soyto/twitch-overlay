@@ -97,12 +97,12 @@ module.exports = new (function() {
 
     $$this.setOAuthToken = function(token) {
       if(token == null) {
-        _data['twitter']['request_token']['token'] = null;
-        _data['twitter']['request_token']['secret'] = null;
+        _data['twitter']['access_token']['token'] = null;
+        _data['twitter']['access_token']['secret'] = null;
       }
       else {
-        _data['twitter']['request_token']['token'] = token['token'];
-        _data['twitter']['request_token']['secret'] = token['secret'];
+        _data['twitter']['access_token']['token'] = token['token'];
+        _data['twitter']['access_token']['secret'] = token['secret'];
       }
 
       _persist();
