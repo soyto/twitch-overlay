@@ -4,6 +4,8 @@ module.exports = (function() {
 
   var express = require('express');
   var router = express.Router();
+  var $is = require('is_js');
+
   var $log = require('../../lib/log');
   var $persistence = require('../../persistence/jsonSorage');
   var $twitterService = require('./../../services')['twitter'];
@@ -51,6 +53,111 @@ module.exports = (function() {
     });
   });
 
+  //
+  // SCHEDULING
+  // ----------
+
+  //Get all scheduled tweets
+  router.get('/schedule', async(req, res) => {
+    try {
+      res.json({
+        'result': 'OK',
+        'data': $twitterService.schedule.getAll()
+      });
+    } catch(error) {
+      res.json({
+        'result': 'ERROR',
+        'data': error
+      });
+    }
+  });
+
+  router.post('/schedule', async(req, res) => {
+
+    var _hours = req.body.hours;
+    var _minutes = req.body.minutes;
+    var _seconds = req.body.seconds;
+    var _text = req.body.text;
+
+    var _error = {
+      'has_error': false,
+      'errors': []
+    };
+
+    //Validate houres
+    if(!$is.number(_hours)) {
+      _error['has_error'] = true;
+      _error['errors'].push({
+        'field': 'hours',
+        'message': 'No es un valor númerico válido'
+      });
+    }
+    else if(parseInt(_hours) < 0 ) {
+      _error['has_error'] = true;
+      _error['errors'].push({
+        'field': 'hours',
+        'message': 'Debe ser un valor numerico superior o igual a cero'
+      });
+    }
+
+    //Validate minutes
+    if(!$is.number(_minutes)) {
+      _error['has_error'] = true;
+      _error['errors'].push({
+        'field': 'minutes',
+        'message': 'No es un valor númerico válido'
+      });
+    }
+    else if(parseInt(_minutes) < 0 || parseInt(_minutes) >= 60) {
+      _error['has_error'] = true;
+      _error['errors'].push({
+        'field': 'minutes',
+        'message': 'Debe ser un valor comprendido entre 0 y 59'
+      });
+    }
+
+    //Validate seconds
+    if(!$is.number(_seconds)) {
+      _error['has_error'] = true;
+      _error['errors'].push({
+        'field': 'seconds',
+        'message': 'No es un valor númerico válido'
+      });
+    }
+    else if(parseInt(_seconds) < 0 || parseInt(_seconds) >= 60) {
+      _error['has_error'] = true;
+      _error['errors'].push({
+        'field': 'seconds',
+        'message': 'Debe ser un valor comprendido entre 0 y 59'
+      });
+    }
+
+
+    try {
+
+      if(_error['has_error']) {
+       res.json({
+         'result': 'VALIDATION_ERROR',
+         'data': _error['errors']
+       })
+      }
+      else {
+        var _entry = $twitterService.schedule.add(_hours, _minutes, _seconds, _text);
+
+        res.json({
+          'result': 'OK',
+          'data': _entry
+        });
+      }
+    }
+    catch ($$error) {
+      res.json({
+        'result': 'ERROR',
+        'data': $$error
+      })
+    }
+
+  });
 
   //
   // SIMULATION

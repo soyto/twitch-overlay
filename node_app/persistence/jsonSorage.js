@@ -20,7 +20,8 @@ module.exports = new (function() {
       'access_token': {
         'token': null,
         'secret': null
-      }
+      },
+      'scheduled_tweets': []
     },
     'window': {
       'width': 1920,
@@ -74,10 +75,12 @@ module.exports = new (function() {
   $this.twitter = new (function() {
     var $$this = this;
 
+    //Get oauthRequest token
     $$this.getOAuthRequestToken = function() {
       return _data['twitter']['request_token'];
     };
 
+    //Set oauth request token
     $$this.setOAuthRequestToken = function(token) {
       if(token == null) {
         _data['twitter']['request_token']['token'] = null;
@@ -91,10 +94,12 @@ module.exports = new (function() {
       _persist();
     };
 
+    //Get oauht token
     $$this.getOAuthToken = function() {
       return _data['twitter']['access_token'];
     };
 
+    //Set oauth token
     $$this.setOAuthToken = function(token) {
       if(token == null) {
         _data['twitter']['access_token']['token'] = null;
@@ -105,6 +110,18 @@ module.exports = new (function() {
         _data['twitter']['access_token']['secret'] = token['secret'];
       }
 
+      _persist();
+    };
+
+    //Get scheduled tweets
+    $$this.getScheduledTweets = function() {
+      //Shallow copy of info that we have stored
+      return Object.assign([], _data['twitter']['scheduled_tweets']);
+    };
+
+    //Set what are the scheduled tweets
+    $$this.setScheduledTweets = function(scheduledTweets) {
+      _data['twitter']['scheduled_tweets'] = Object.assign([], scheduledTweets);
       _persist();
     };
 

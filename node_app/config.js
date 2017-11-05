@@ -19,7 +19,7 @@ module.exports = (function() {
   };
 
   _result['debug'] = {
-    'twitter.service': true
+    'twitter.service': false
   };
 
   _result['persist'] = {

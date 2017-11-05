@@ -10,6 +10,7 @@
 
     var $log = $hs.$instantiate('$log');
     var $q = $hs.$instantiate('$q');
+    var $timeout = $hs.$instantiate('$timeout');
 
     var $twitterService = $hs.$instantiate('twitter.service');
 
@@ -43,6 +44,9 @@
         'pristine': true,
       },
 
+      '$$state': {
+        'savingData': false,
+      }
     };
 
     _init();
@@ -74,10 +78,40 @@
       _close();
     };
 
+    //On click on save
     $sc.onClick_save = function() {
 
       //Not valid, dont do nothing
       if(!_validate()) { return; }
+
+      _data['$$state']['savingData'] = true;
+
+      //Add the scheduled item
+      $twitterService.schedule.add(_data['hours']['value'], _data['minutes']['value'],
+          _data['seconds']['value'], _data['tweetText']['value'])
+          .then(function($$responseData) {
+
+            if($$responseData['status'] != 200) {
+              //TODO on method error
+            }
+
+            var _resultData = $$responseData['data'];
+
+            if(_resultData['result'] == 'OK') {
+
+              var _entry = _resultData['data'];
+              _data['$$state']['savingData'] = false;
+
+              $hs.notify.info('Tweet programado con éxito');
+              $uibModalInstance.close(_entry);
+            }
+            else {
+              //TODO validation error, or another kind of errors
+            }
+
+      }).catch(function() {
+        //TODO on connection error
+      });
 
     };
 

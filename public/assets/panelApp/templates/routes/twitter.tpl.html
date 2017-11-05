@@ -99,21 +99,24 @@
             </div>
           </div>
 
-          <div class="box-body table-responsive no-padding" data-ng-show="false">
+          <div class="box-body table-responsive no-padding" data-ng-show="data.scheduledTweets.length > 0">
             <table class="table table-hover table-stripped">
               <thead>
               <tr>
-                <th>Remaining</th>
-                <th>Text</th>
+                <th>Tiempo restante</th>
+                <th>Texto</th>
               </tr>
               </thead>
               <tbody>
-
+              <tr data-ng-repeat="scheduledTweet in data.scheduledTweets">
+                <td>{{ scheduledTweet.hours  }}:{{ scheduledTweet.minutes }}:{{ scheduledTweet.seconds }}</td>
+                <td>{{ scheduledTweet.text }}</td>
+              </tr>
               </tbody>
             </table>
           </div>
 
-          <div class="box-body box-empty">
+          <div class="box-body box-empty" data-ng-show="data.scheduledTweets.length === 0">
             <div class="box-empty-content">
               <div class="box-empty-icon"><i class="fa fa-twitter"></i></div>
               <p class="lead">No existe ningún tweet programado</p>

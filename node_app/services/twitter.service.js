@@ -17,12 +17,14 @@ module.exports = new (function() {
   var $config = require('../config');
   var $persistence = require('../persistence/jsonSorage');
   var $cache = new (require('../util')['cache'])('services/twitter.service');
+  var $generators = require('../util')['generators'];
 
   var _data = {
     'token': {
       'token': null,
       'secret': null
-    }
+    },
+    'scheduled': []
   };
   var _oa = null;
 
@@ -73,6 +75,52 @@ module.exports = new (function() {
   };
 
   //
+  // Scheduling
+  // ----------------------
+
+  //Schedule tweets
+  $this.schedule = new (function() {
+    var $$this = this;
+
+    //Get all scheduled tweets
+    $$this.getAll = function() {
+      return Object.assign([], _data['scheduled']);
+    };
+
+    //Add a new schedule tweet
+    $$this.add = function(hours, minutes, seconds, text) {
+
+      var _id = $generators.randomText();
+
+      var _entry = {
+        '$$id': _id,
+        'hours': hours,
+        'minutes': minutes,
+        'seconds': seconds,
+        'text': text
+      };
+
+      _data['scheduled'].push(_entry);
+
+      $persistence.twitter.setScheduledTweets(_data['scheduled']);
+
+      return _entry;
+    };
+
+    //Remove a schedule tweet
+    $$this.remove = function(entry) {
+
+      var _idx = _data['scheduled'].map(x => x['$$id']).indexOf(entry['$$id']);
+
+      if(_idx >= 0) {
+        _data['scheduled'].splice(_idx, 1);
+        $persistence.twitter.setScheduledTweets(_data['scheduled']);
+      }
+    };
+
+  })();
+
+  //
   // AUTHORIZATION
   // ----------------------
 
@@ -119,6 +167,10 @@ module.exports = new (function() {
       let _token = $persistence.twitter.getOAuthToken();
       _data['token']['token'] = _token['token'];
       _data['token']['secret'] = _token['secret'];
+    }
+
+    if($persistence.twitter.getScheduledTweets() != null) {
+      _data['scheduled'] = $persistence.twitter.getScheduledTweets();
     }
 
     _oa = new OAuth(

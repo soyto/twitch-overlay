@@ -16,6 +16,7 @@
     var _rootData = $rs['rootData'];
     var _data = {
       'userAccount': null,
+      'scheduledTweets': [],
       '$$state': {
         'loading': true
       }
@@ -32,17 +33,17 @@
 
     //When user attempts to schdule
     $sc.onClick_schedule = function() {
+
       var _instance = $uibModal.open({
         'backdrop': 'static',
         'controller': 'panelApp.twitter.schedule.modal.controller',
         'templateUrl': '/assets/panelApp/templates/modals/twitter/schedule.modal.tpl.html'
       });
 
-      _instance['result'].then(function(){
-        console.log('called when closed');
-      }).catch(function() {
-        console.log('called when canceled');
-      });
+
+      _instance['result'].then(function($$entry){
+        _data['scheduledTweets'].push($$entry);
+      })
     };
 
     /* ----------------------------------- PRIVATE FUNCTIONS ------------------------------------- */
@@ -67,6 +68,16 @@
           if($$response['status'] != 200) {}
 
           _data['userAccount'] = $$response['data'];
+        });
+      });
+
+      $$q = $$q.then(function() {
+        return $twitterService.schedule.getAll().then(function($$response) {
+          if($$response['status'] != 200) {};
+          if($$response['data']['result'] != 'OK') {}
+
+          console.log($$response);
+          _data['scheduledTweets'] = $$response['data']['data'];
         });
       });
 

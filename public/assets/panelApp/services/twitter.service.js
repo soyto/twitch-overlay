@@ -25,7 +25,31 @@
       });
     };
 
+    $this.schedule = new (function() {
+      var $$this = this;
 
+
+      $$this.getAll = function() {
+        return $http.get(BASE_URL + '/schedule');
+      };
+
+      //Adds a new scheduled tweet
+      $$this.add = function(hours, minutes, seconds, text) {
+        return $http.post(BASE_URL + '/schedule', {
+          'hours': hours,
+          'minutes': minutes,
+          'seconds': seconds,
+          'text': text
+        });
+      };
+
+      $$this.remove = function($$id) {
+
+      };
+
+    })();
+
+    //Simulate some tweets
     $this.simulate = new (function() {
       var $$this = this;
 

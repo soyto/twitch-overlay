@@ -62,7 +62,9 @@
 <div class="modal-footer">
   <div class="row">
     <div class="col-md-12">
-      <button class="btn btn-primary pull-right" data-ng-click="onClick_save()">Programar</button>
+      <button class="btn btn-primary pull-right"
+              data-ng-disabled="data.$$state.savingData"
+              data-ng-click="onClick_save()"><i class="fa fa-spinner fa-spin" data-ng-show="data.$$state.savingData"></i> Programar</button>
       <button class="btn btn-link pull-right" data-ng-click="onClick_close()">Cancelar</button>
     </div>
   </div>
